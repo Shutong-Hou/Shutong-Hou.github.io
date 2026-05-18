@@ -25,7 +25,6 @@
             --card-shadow: 0 4px 12px rgba(0,0,0,0.04);
             --updating-color: #9ca3af;
         }
-
         body.dark-mode {
             --bg: #0f172a;
             --card-bg: #1e293b;
@@ -46,7 +45,6 @@
             --card-shadow: 0 4px 12px rgba(0,0,0,0.3);
             --updating-color: #64748b;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -108,7 +106,6 @@
             display: inline-block; background: var(--tag-bg); color: var(--tag-text);
             font-size: 0.8rem; padding: 4px 12px; border-radius: 50px; margin-right: 6px; margin-bottom: 6px;
         }
-        /* 研究成果列表 */
         .output-list { margin-top: 24px; }
         .output-item {
             background: var(--card-bg); border-radius: 12px; padding: 20px;
@@ -136,13 +133,10 @@
         }
         .contact-info a:hover { color: white; text-decoration: underline; }
         footer { text-align: center; padding: 24px; color: var(--footer-text); font-size: 0.9rem; }
-
-        /* 双语切换显示/隐藏 */
         .zh { display: block; }
         .en { display: none; }
         body.en-mode .zh { display: none; }
         body.en-mode .en { display: block; }
-
         @media (max-width: 600px) {
             .nav-links { gap: 16px; }
             .hero h1 { font-size: 2.2rem; }
@@ -167,14 +161,12 @@
             </div>
         </div>
     </nav>
-
     <section class="hero">
         <h1 class="zh">侯抒彤</h1>
         <h1 class="en">Shutong Hou</h1>
         <p class="zh">人工智能 · 交叉学科<br>山西农业大学 大一</p>
         <p class="en">Artificial Intelligence · Interdisciplinary Research<br>Shanxi Agricultural University, Freshman</p>
     </section>
-
     <section id="about">
         <h2 class="zh">关于</h2>
         <h2 class="en">About</h2>
@@ -191,7 +183,6 @@
             </ul>
         </div>
     </section>
-
     <section id="research">
         <h2 class="zh">研究方向</h2>
         <h2 class="en">Research</h2>
@@ -213,7 +204,6 @@
             </div>
         </div>
     </section>
-
     <section id="outputs">
         <h2 class="zh">研究成果</h2>
         <h2 class="en">Research Outputs</h2>
@@ -234,7 +224,6 @@
             </div>
         </div>
     </section>
-
     <section class="contact" id="contact">
         <h2 class="zh">联系</h2>
         <h2 class="en">Contact</h2>
@@ -243,25 +232,20 @@
             <p>📞 <span class="zh">电话：</span><span class="en">Phone: </span><a href="tel:+8617535419198">+86 17535419198</a></p>
             <p>💬 <span class="zh">微信：</span><span class="en">WeChat: </span>hstpraxel <span class="zh">（请备注来意）</span><span class="en">(please note purpose)</span></p>
             <p>🔬 ORCID: <a href="https://orcid.org/0009-0006-0643-1225" target="_blank">0009-0006-0643-1225</a></p>
-            <p>💻 GitHub: <a href="https://github.com/你的用户名" target="_blank">github.com/你的用户名</a></p>
+            <p>💻 GitHub: <a href="https://github.com/Shutong-Hou" target="_blank">github.com/Shutong-Hou</a></p>
         </div>
     </section>
-
     <footer>
         <p class="zh">© 2026 侯抒彤</p>
         <p class="en">© 2026 Shutong Hou</p>
     </footer>
-
     <script>
-        // 语言切换
         const langToggle = document.getElementById('langToggle');
         const body = document.body;
         langToggle.addEventListener('click', () => {
             body.classList.toggle('en-mode');
             langToggle.textContent = body.classList.contains('en-mode') ? '中' : 'EN';
         });
-
-        // 暗色模式切换
         const themeToggle = document.getElementById('themeToggle');
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-mode');
