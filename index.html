@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>侯抒彤 | Shutong Hou</title>
+    <style>
+        :root {
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #334155;
+            --text-secondary: #475569;
+            --heading: #1e293b;
+            --nav-bg: #ffffff;
+            --nav-shadow: 0 1px 3px rgba(0,0,0,0.06);
+            --hero-bg: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+            --accent: #4f46e5;
+            --accent-hover: #4338ca;
+            --tag-bg: #eef2ff;
+            --tag-text: #4f46e5;
+            --contact-bg: #1e293b;
+            --contact-text: white;
+            --contact-link: #a5b4fc;
+            --footer-text: #94a3b8;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            --updating-color: #9ca3af;
+        }
+
+        body.dark-mode {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #cbd5e1;
+            --text-secondary: #94a3b8;
+            --heading: #e2e8f0;
+            --nav-bg: #1e293b;
+            --nav-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            --hero-bg: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            --accent: #818cf8;
+            --accent-hover: #6366f1;
+            --tag-bg: #312e81;
+            --tag-text: #c7d2fe;
+            --contact-bg: #020617;
+            --contact-text: #e2e8f0;
+            --contact-link: #818cf8;
+            --footer-text: #64748b;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            --updating-color: #64748b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg); color: var(--text); line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+        nav {
+            background: var(--nav-bg); box-shadow: var(--nav-shadow);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .nav-container {
+            max-width: 900px; margin: 0 auto; padding: 16px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-size: 1.4rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+        .nav-right { display: flex; gap: 16px; align-items: center; }
+        .nav-links { display: flex; gap: 24px; list-style: none; }
+        .nav-links a { text-decoration: none; color: var(--text-secondary); font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--accent); }
+        .lang-btn, .theme-btn {
+            background: var(--accent); color: white; border: none;
+            padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; cursor: pointer;
+            transition: background 0.2s; margin-left: 4px;
+        }
+        .lang-btn:hover, .theme-btn:hover { background: var(--accent-hover); }
+        section { max-width: 900px; margin: 0 auto; padding: 80px 24px; }
+        h2 {
+            font-size: 2rem; margin-bottom: 32px; color: var(--heading);
+            position: relative; display: inline-block;
+        }
+        h2::after {
+            content: ''; position: absolute; bottom: -8px; left: 0;
+            width: 60%; height: 4px; background: var(--accent); border-radius: 2px;
+        }
+        .hero {
+            text-align: center; padding-top: 100px; padding-bottom: 80px;
+            background: var(--hero-bg);
+        }
+        .hero h1 { font-size: 2.8rem; color: var(--heading); margin-bottom: 12px; }
+        .hero p { font-size: 1.25rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
+        .about-content { display: flex; gap: 48px; align-items: flex-start; flex-wrap: wrap; }
+        .about-text { flex: 2; min-width: 280px; }
+        .about-text p { margin-bottom: 16px; color: var(--text-secondary); }
+        .about-info {
+            flex: 1; min-width: 220px; background: var(--card-bg);
+            padding: 24px; border-radius: 16px; box-shadow: var(--card-shadow);
+        }
+        .about-info li { list-style: none; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+        .about-info strong { color: var(--heading); }
+        .research-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; }
+        .research-card {
+            background: var(--card-bg); padding: 28px; border-radius: 16px;
+            box-shadow: var(--card-shadow); transition: transform 0.2s;
+        }
+        .research-card:hover { transform: translateY(-4px); }
+        .research-card h3 { margin-bottom: 12px; color: var(--heading); font-size: 1.3rem; }
+        .research-card p { color: var(--text-secondary); margin-bottom: 14px; }
+        .tag {
+            display: inline-block; background: var(--tag-bg); color: var(--tag-text);
+            font-size: 0.8rem; padding: 4px 12px; border-radius: 50px; margin-right: 6px; margin-bottom: 6px;
+        }
+        /* 研究成果列表 */
+        .output-list { margin-top: 24px; }
+        .output-item {
+            background: var(--card-bg); border-radius: 12px; padding: 20px;
+            box-shadow: var(--card-shadow); margin-bottom: 16px;
+        }
+        .output-item a { color: var(--accent); text-decoration: none; font-weight: 500; }
+        .output-item a:hover { text-decoration: underline; }
+        .output-item .doi { font-family: monospace; font-size: 0.9rem; color: var(--text-secondary); margin-top: 6px; }
+        .updating {
+            color: var(--updating-color); font-style: italic; font-size: 0.9rem;
+            border-top: 1px dashed var(--updating-color); padding-top: 12px; margin-top: 16px;
+        }
+        .contact {
+            background: var(--contact-bg); color: var(--contact-text); text-align: center; padding: 60px 24px;
+        }
+        .contact h2 { color: var(--contact-text); }
+        .contact h2::after { background: #818cf8; }
+        .contact-info {
+            max-width: 500px; margin: 24px auto 0; text-align: left;
+            background: rgba(255,255,255,0.05); padding: 24px; border-radius: 16px;
+        }
+        .contact-info p { margin-bottom: 12px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .contact-info a {
+            color: var(--contact-link); text-decoration: none; transition: color 0.2s;
+        }
+        .contact-info a:hover { color: white; text-decoration: underline; }
+        footer { text-align: center; padding: 24px; color: var(--footer-text); font-size: 0.9rem; }
+
+        /* 双语切换显示/隐藏 */
+        .zh { display: block; }
+        .en { display: none; }
+        body.en-mode .zh { display: none; }
+        body.en-mode .en { display: block; }
+
+        @media (max-width: 600px) {
+            .nav-links { gap: 16px; }
+            .hero h1 { font-size: 2.2rem; }
+            .about-content { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo zh">侯抒彤</a>
+            <a href="#" class="logo en">Shutong Hou</a>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="#about" class="zh">关于</a><a href="#about" class="en">About</a></li>
+                    <li><a href="#research" class="zh">研究</a><a href="#research" class="en">Research</a></li>
+                    <li><a href="#outputs" class="zh">成果</a><a href="#outputs" class="en">Outputs</a></li>
+                    <li><a href="#contact" class="zh">联系</a><a href="#contact" class="en">Contact</a></li>
+                </ul>
+                <button class="theme-btn" id="themeToggle">🌙</button>
+                <button class="lang-btn" id="langToggle">EN</button>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1 class="zh">侯抒彤</h1>
+        <h1 class="en">Shutong Hou</h1>
+        <p class="zh">人工智能 · 交叉学科<br>山西农业大学 大一</p>
+        <p class="en">Artificial Intelligence · Interdisciplinary Research<br>Shanxi Agricultural University, Freshman</p>
+    </section>
+
+    <section id="about">
+        <h2 class="zh">关于</h2>
+        <h2 class="en">About</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p class="zh">山西太原人，现就读于山西农业大学本科，2006年生。</p>
+                <p class="en">From Taiyuan, Shanxi. Undergraduate at Shanxi Agricultural University, born in 2006.</p>
+            </div>
+            <ul class="about-info">
+                <li><strong>📍</strong> <span class="zh">山西·太谷</span><span class="en">Taigu, Shanxi</span></li>
+                <li><strong>🎓</strong> <span class="zh">山西农业大学</span><span class="en">Shanxi Agricultural University</span></li>
+                <li><strong>🔬</strong> ORCID: <a href="https://orcid.org/0009-0006-0643-1225" target="_blank" style="color:var(--accent);">0009-0006-0643-1225</a></li>
+                <li><strong>📧</strong> praxel.cn@gmail.com</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="research">
+        <h2 class="zh">研究方向</h2>
+        <h2 class="en">Research</h2>
+        <div class="research-grid">
+            <div class="research-card">
+                <h3 class="zh">人工智能</h3>
+                <h3 class="en">Artificial Intelligence</h3>
+                <p class="zh">底层架构创新</p>
+                <p class="en">Fundamental Architecture Innovation</p>
+                <span class="tag">AI</span>
+                <span class="tag" class="zh">底层架构</span><span class="tag en">Architecture</span>
+            </div>
+            <div class="research-card">
+                <h3 class="zh">交叉学科</h3>
+                <h3 class="en">Interdisciplinary</h3>
+                <p class="zh">物理·化学·生物 + 计算机</p>
+                <p class="en">Physics, Chemistry, Biology + CS</p>
+                <span class="tag" class="zh">物化生+CS</span><span class="tag en">Phys/Chem/Bio+CS</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="outputs">
+        <h2 class="zh">研究成果</h2>
+        <h2 class="en">Research Outputs</h2>
+        <div class="output-list">
+            <div class="output-item">
+                <h3>
+                    <a href="https://zenodo.org/records/20120983" target="_blank">
+                        CTP-Hybrid: From Hybrid Architecture to Native Spiking Foundation — A Two-Phase Report on Consumer-GPU Spiking LLMs
+                    </a>
+                </h3>
+                <div class="doi">
+                    DOI: <a href="https://doi.org/10.5281/zenodo.20120983" target="_blank">10.5281/zenodo.20120983</a>
+                </div>
+            </div>
+            <div class="updating">
+                <span class="zh">更新中...</span>
+                <span class="en">Updating...</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2 class="zh">联系</h2>
+        <h2 class="en">Contact</h2>
+        <div class="contact-info">
+            <p>📧 <span class="zh">邮箱：</span><span class="en">Email: </span><a href="mailto:praxel.cn@gmail.com">praxel.cn@gmail.com</a> / <a href="mailto:20251600903@stu.sxau.edu.cn">20251600903@stu.sxau.edu.cn</a></p>
+            <p>📞 <span class="zh">电话：</span><span class="en">Phone: </span><a href="tel:+8617535419198">+86 17535419198</a></p>
+            <p>💬 <span class="zh">微信：</span><span class="en">WeChat: </span>hstpraxel <span class="zh">（请备注来意）</span><span class="en">(please note purpose)</span></p>
+            <p>🔬 ORCID: <a href="https://orcid.org/0009-0006-0643-1225" target="_blank">0009-0006-0643-1225</a></p>
+            <p>💻 GitHub: <a href="https://github.com/你的用户名" target="_blank">github.com/你的用户名</a></p>
+        </div>
+    </section>
+
+    <footer>
+        <p class="zh">© 2026 侯抒彤</p>
+        <p class="en">© 2026 Shutong Hou</p>
+    </footer>
+
+    <script>
+        // 语言切换
+        const langToggle = document.getElementById('langToggle');
+        const body = document.body;
+        langToggle.addEventListener('click', () => {
+            body.classList.toggle('en-mode');
+            langToggle.textContent = body.classList.contains('en-mode') ? '中' : 'EN';
+        });
+
+        // 暗色模式切换
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            themeToggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+    </script>
+</body>
+</html>
