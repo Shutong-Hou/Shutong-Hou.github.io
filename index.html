@@ -1,257 +1,1183 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>侯抒彤 | Shutong Hou</title>
-    <style>
-        :root {
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #334155;
-            --text-secondary: #475569;
-            --heading: #1e293b;
-            --nav-bg: #ffffff;
-            --nav-shadow: 0 1px 3px rgba(0,0,0,0.06);
-            --hero-bg: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
-            --accent: #4f46e5;
-            --accent-hover: #4338ca;
-            --tag-bg: #eef2ff;
-            --tag-text: #4f46e5;
-            --contact-bg: #1e293b;
-            --contact-text: white;
-            --contact-link: #a5b4fc;
-            --footer-text: #94a3b8;
-            --card-shadow: 0 4px 12px rgba(0,0,0,0.04);
-            --updating-color: #9ca3af;
-        }
-        body.dark-mode {
-            --bg: #0f172a;
-            --card-bg: #1e293b;
-            --text: #cbd5e1;
-            --text-secondary: #94a3b8;
-            --heading: #e2e8f0;
-            --nav-bg: #1e293b;
-            --nav-shadow: 0 1px 3px rgba(0,0,0,0.3);
-            --hero-bg: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-            --accent: #818cf8;
-            --accent-hover: #6366f1;
-            --tag-bg: #312e81;
-            --tag-text: #c7d2fe;
-            --contact-bg: #020617;
-            --contact-text: #e2e8f0;
-            --contact-link: #818cf8;
-            --footer-text: #64748b;
-            --card-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            --updating-color: #64748b;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background: var(--bg); color: var(--text); line-height: 1.6;
-            transition: background 0.3s, color 0.3s;
-        }
-        nav {
-            background: var(--nav-bg); box-shadow: var(--nav-shadow);
-            position: sticky; top: 0; z-index: 100;
-        }
-        .nav-container {
-            max-width: 900px; margin: 0 auto; padding: 16px 24px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .logo { font-size: 1.4rem; font-weight: 700; color: var(--accent); text-decoration: none; }
-        .nav-right { display: flex; gap: 16px; align-items: center; }
-        .nav-links { display: flex; gap: 24px; list-style: none; }
-        .nav-links a { text-decoration: none; color: var(--text-secondary); font-weight: 500; transition: color 0.2s; }
-        .nav-links a:hover { color: var(--accent); }
-        .lang-btn, .theme-btn {
-            background: var(--accent); color: white; border: none;
-            padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; cursor: pointer;
-            transition: background 0.2s; margin-left: 4px;
-        }
-        .lang-btn:hover, .theme-btn:hover { background: var(--accent-hover); }
-        section { max-width: 900px; margin: 0 auto; padding: 80px 24px; }
-        h2 {
-            font-size: 2rem; margin-bottom: 32px; color: var(--heading);
-            position: relative; display: inline-block;
-        }
-        h2::after {
-            content: ''; position: absolute; bottom: -8px; left: 0;
-            width: 60%; height: 4px; background: var(--accent); border-radius: 2px;
-        }
-        .hero {
-            text-align: center; padding-top: 100px; padding-bottom: 80px;
-            background: var(--hero-bg);
-        }
-        .hero h1 { font-size: 2.8rem; color: var(--heading); margin-bottom: 12px; }
-        .hero p { font-size: 1.25rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; }
-        .about-content { display: flex; gap: 48px; align-items: flex-start; flex-wrap: wrap; }
-        .about-text { flex: 2; min-width: 280px; }
-        .about-text p { margin-bottom: 16px; color: var(--text-secondary); }
-        .about-info {
-            flex: 1; min-width: 220px; background: var(--card-bg);
-            padding: 24px; border-radius: 16px; box-shadow: var(--card-shadow);
-        }
-        .about-info li { list-style: none; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
-        .about-info strong { color: var(--heading); }
-        .research-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; }
-        .research-card {
-            background: var(--card-bg); padding: 28px; border-radius: 16px;
-            box-shadow: var(--card-shadow); transition: transform 0.2s;
-        }
-        .research-card:hover { transform: translateY(-4px); }
-        .research-card h3 { margin-bottom: 12px; color: var(--heading); font-size: 1.3rem; }
-        .research-card p { color: var(--text-secondary); margin-bottom: 14px; }
-        .tag {
-            display: inline-block; background: var(--tag-bg); color: var(--tag-text);
-            font-size: 0.8rem; padding: 4px 12px; border-radius: 50px; margin-right: 6px; margin-bottom: 6px;
-        }
-        .output-list { margin-top: 24px; }
-        .output-item {
-            background: var(--card-bg); border-radius: 12px; padding: 20px;
-            box-shadow: var(--card-shadow); margin-bottom: 16px;
-        }
-        .output-item a { color: var(--accent); text-decoration: none; font-weight: 500; }
-        .output-item a:hover { text-decoration: underline; }
-        .output-item .doi { font-family: monospace; font-size: 0.9rem; color: var(--text-secondary); margin-top: 6px; }
-        .updating {
-            color: var(--updating-color); font-style: italic; font-size: 0.9rem;
-            border-top: 1px dashed var(--updating-color); padding-top: 12px; margin-top: 16px;
-        }
-        .contact {
-            background: var(--contact-bg); color: var(--contact-text); text-align: center; padding: 60px 24px;
-        }
-        .contact h2 { color: var(--contact-text); }
-        .contact h2::after { background: #818cf8; }
-        .contact-info {
-            max-width: 500px; margin: 24px auto 0; text-align: left;
-            background: rgba(255,255,255,0.05); padding: 24px; border-radius: 16px;
-        }
-        .contact-info p { margin-bottom: 12px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .contact-info a {
-            color: var(--contact-link); text-decoration: none; transition: color 0.2s;
-        }
-        .contact-info a:hover { color: white; text-decoration: underline; }
-        footer { text-align: center; padding: 24px; color: var(--footer-text); font-size: 0.9rem; }
-        .zh { display: block; }
-        .en { display: none; }
-        body.en-mode .zh { display: none; }
-        body.en-mode .en { display: block; }
-        @media (max-width: 600px) {
-            .nav-links { gap: 16px; }
-            .hero h1 { font-size: 2.2rem; }
-            .about-content { flex-direction: column; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>侯抒彤 | Shutong Hou</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #0f1117;
+      --bg-card: #13151c;
+      --bg-hover: #1a1d26;
+      --text-primary: #f0f0f5;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --accent: #d4a853;
+      --accent-dim: rgba(212, 168, 83, 0.15);
+      --border: rgba(255, 255, 255, 0.06);
+      --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      --radius: 16px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Serif SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-primary);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2d2d3a;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3d3d4a;
+    }
+
+    /* Navigation */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      background: rgba(10, 10, 15, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: var(--transition);
+    }
+
+    .navbar.scrolled {
+      padding: 0.75rem 2rem;
+      background: rgba(10, 10, 15, 0.9);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-logo span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      align-items: center;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .lang-switch {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .lang-switch:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 8rem 2rem 4rem;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(212, 168, 83, 0.12), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(100, 120, 200, 0.06), transparent);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--accent-dim);
+      border: 1px solid rgba(212, 168, 83, 0.2);
+      border-radius: 100px;
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards 0.2s;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.03em;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards 0.4s;
+    }
+
+    .hero-title .name-cn {
+      font-family: 'Noto Serif SC', serif;
+      background: linear-gradient(135deg, #f0f0f5 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      font-weight: 400;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards 0.6s;
+      text-align: center;
+      letter-spacing: 0.02em;
+      word-break: keep-all;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 3rem;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards 0.8s;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards 1s;
+    }
+
+    .scroll-indicator i {
+      animation: bounce 2s infinite;
+    }
+
+    /* Sections */
+    .section {
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      margin-bottom: 3rem;
+    }
+
+    .section-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    .section-title {
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .section-desc {
+      color: var(--text-secondary);
+      max-width: 600px;
+      font-size: 1.05rem;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      border-color: rgba(212, 168, 83, 0.2);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* About */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .about-info h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .about-info p {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .info-list {
+      list-style: none;
+    }
+
+    .info-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 0.875rem;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .info-list i {
+      color: var(--accent);
+      margin-top: 0.25rem;
+      width: 16px;
+      text-align: center;
+    }
+
+    .info-list a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: var(--transition);
+      word-break: break-all;
+    }
+
+    .info-list a:hover {
+      color: var(--accent);
+    }
+
+    .badge-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.85rem;
+      background: var(--bg-hover);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      transition: var(--transition);
+    }
+
+    .badge:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Research */
+    .research-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .research-tag {
+      padding: 1rem 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .research-tag:hover {
+      border-color: var(--accent);
+      background: var(--accent-dim);
+      transform: translateY(-2px);
+    }
+
+    .research-tag i {
+      color: var(--accent);
+      font-size: 0.9rem;
+    }
+
+    /* Publications Tabs */
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      background: var(--bg-card);
+      padding: 0.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      width: fit-content;
+    }
+
+    .tab-btn {
+      padding: 0.65rem 1.25rem;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: inherit;
+    }
+
+    .tab-btn.active {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(212, 168, 83, 0.25);
+    }
+
+    .tab-btn:hover:not(.active) {
+      color: var(--text-primary);
+      background: var(--bg-hover);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Paper Card */
+    .paper-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 1.25rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .paper-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .paper-card:hover {
+      border-color: rgba(212, 168, 83, 0.2);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .paper-card:hover::before {
+      opacity: 1;
+    }
+
+    .paper-type {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+
+    .paper-type.preprint {
+      background: rgba(59, 130, 246, 0.12);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .paper-type.conference {
+      background: rgba(16, 185, 129, 0.12);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .paper-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .paper-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .paper-meta a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .paper-meta a:hover {
+      text-decoration: underline;
+    }
+
+    .paper-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.2rem 0.6rem;
+      background: rgba(245, 158, 11, 0.12);
+      color: #fbbf24;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--text-muted);
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    .empty-state p {
+      font-size: 1.1rem;
+    }
+
+    /* Contact */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1.25rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: var(--transition);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .contact-item:hover {
+      border-color: rgba(212, 168, 83, 0.2);
+      background: var(--bg-hover);
+    }
+
+    .contact-icon {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-dim);
+      border-radius: 10px;
+      color: var(--accent);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .contact-info h4 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+    }
+
+    .contact-info p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .footer p {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-8px);
+      }
+      60% {
+        transform: translateY(-4px);
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .hero-stats {
+        gap: 1.5rem;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs {
+        width: 100%;
+        overflow-x: auto;
+      }
+
+      .section {
+        padding: 4rem 1.5rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
-<body class="en-mode dark-mode">
-    <nav>
-        <div class="nav-container">
-            <a href="#" class="logo zh">侯抒彤</a>
-            <a href="#" class="logo en">Shutong Hou</a>
-            <div class="nav-right">
-                <ul class="nav-links">
-                    <li><a href="#about" class="zh">关于</a><a href="#about" class="en">About</a></li>
-                    <li><a href="#research" class="zh">研究</a><a href="#research" class="en">Research</a></li>
-                    <li><a href="#outputs" class="zh">成果</a><a href="#outputs" class="en">Outputs</a></li>
-                    <li><a href="#contact" class="zh">联系</a><a href="#contact" class="en">Contact</a></li>
-                </ul>
-                <button class="theme-btn" id="themeToggle">☀️</button>
-                <button class="lang-btn" id="langToggle">中</button>
-            </div>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo"><span>P</span>raxel</a>
+      <ul class="nav-links">
+        <li><a href="#about" data-i18n="nav_about">关于</a></li>
+        <li><a href="#research" data-i18n="nav_research">研究</a></li>
+        <li><a href="#publications" data-i18n="nav_publications">成果</a></li>
+        <li><a href="#contact" data-i18n="nav_contact">联系</a></li>
+        <li><button class="lang-switch" onclick="toggleLang()">
+          <i class="fa-solid fa-globe"></i>
+          <span id="lang-text">中</span>
+        </button></li>
+      </ul>
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span data-i18n="hero_badge">山西农业大学 · 软件学院</span>
+      </div>
+      <h1 class="hero-title">
+        <span class="name-cn" data-i18n="hero_name">侯抒彤</span>
+      </h1>
+      <p class="hero-subtitle" data-i18n="hero_subtitle">
+        本科生在读 · 人工智能研究者 · 致力于通用大语言模型与交叉科学探索
+      </p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-value">2</span>
+          <span class="stat-label" data-i18n="stat_papers">学术论文</span>
         </div>
-    </nav>
-    <section class="hero">
-        <h1 class="zh">侯抒彤</h1>
-        <h1 class="en">Shutong Hou</h1>
-        <p class="zh">人工智能 · 交叉学科<br>山西农业大学 大一</p>
-        <p class="en">Artificial Intelligence · Interdisciplinary Research<br>Shanxi Agricultural University, Freshman</p>
-    </section>
-    <section id="about">
-        <h2 class="zh">关于</h2>
-        <h2 class="en">About</h2>
-        <div class="about-content">
-            <div class="about-text">
-                <p class="zh">山西太原人，现就读于山西农业大学本科，生于2006年。</p>
-                <p class="en">From Taiyuan, Shanxi. Undergraduate at Shanxi Agricultural University, born 2006.</p>
-            </div>
-            <ul class="about-info">
-                <li><strong>📍</strong> <span class="zh">山西·太谷</span><span class="en">Taigu, Shanxi</span></li>
-                <li><strong>🎓</strong> <span class="zh">山西农业大学</span><span class="en">Shanxi Agricultural University</span></li>
-                <li><strong>🔬</strong> ORCID: <a href="https://orcid.org/0009-0006-0643-1225" target="_blank" style="color:var(--accent);">0009-0006-0643-1225</a></li>
-                <li><strong>📧</strong> praxel.cn@gmail.com</li>
-            </ul>
+        <div class="stat-item">
+          <span class="stat-value">2</span>
+          <span class="stat-label" data-i18n="stat_memberships">学术会员</span>
         </div>
-    </section>
-    <section id="research">
-        <h2 class="zh">研究方向</h2>
-        <h2 class="en">Research</h2>
-        <div class="research-grid">
-            <div class="research-card">
-                <h3 class="zh">人工智能</h3>
-                <h3 class="en">Artificial Intelligence</h3>
-                <p class="zh">脉冲神经网络与类脑计算架构</p>
-                <p class="en">Spiking Neural Networks & Neuromorphic Architecture</p>
-                <span class="tag">AI</span>
-                <span class="tag zh">脉冲神经网络</span><span class="tag en">SNNs</span>
-                <span class="tag zh">类脑架构</span><span class="tag en">Neuromorphic</span>
-            </div>
-            <div class="research-card">
-                <h3 class="zh">交叉学科</h3>
-                <h3 class="en">Interdisciplinary</h3>
-                <p class="zh">物理·化学·生物 + 计算机</p>
-                <p class="en">Physics, Chemistry, Biology + CS</p>
-                <span class="tag zh">物化生+CS</span><span class="tag en">Phys/Chem/Bio+CS</span>
-            </div>
+        <div class="stat-item">
+          <span class="stat-value">4+</span>
+          <span class="stat-label" data-i18n="stat_fields">研究领域</span>
         </div>
-    </section>
-    <section id="outputs">
-        <h2 class="zh">研究成果</h2>
-        <h2 class="en">Research Outputs</h2>
-        <div class="output-list">
-            <div class="output-item">
-                <h3>
-                    <a href="https://zenodo.org/records/20120983" target="_blank">
-                        CTP-Hybrid: From Hybrid Architecture to Native Spiking Foundation — A Two-Phase Report on Consumer-GPU Spiking LLMs
-                    </a>
-                </h3>
-                <div class="doi">
-                    DOI: <a href="https://doi.org/10.5281/zenodo.20120983" target="_blank">10.5281/zenodo.20120983</a>
-                </div>
-            </div>
-            <div class="updating">
-                <span class="zh">更新中...</span>
-                <span class="en">Updating...</span>
-            </div>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span data-i18n="scroll_down">向下滚动</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section reveal" id="about">
+    <div class="section-header">
+      <div class="section-label" data-i18n="section_about_label">关于</div>
+      <h2 class="section-title" data-i18n="section_about_title">个人简介</h2>
+      <p class="section-desc" data-i18n="section_about_desc">我是侯抒彤，一名来自山西太原的青年研究者，现就读于山西农业大学软件学院。</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-info card">
+        <h3 data-i18n="about_info_title">基本信息</h3>
+        <ul class="info-list">
+          <li><i class="fa-solid fa-cake-candles"></i> <span data-i18n="info_birth">2006年生</span></li>
+          <li><i class="fa-solid fa-location-dot"></i> <span data-i18n="info_location">山西太原</span></li>
+          <li><i class="fa-solid fa-building-columns"></i> <span data-i18n="info_university">山西农业大学软件学院</span></li>
+          <li><i class="fa-solid fa-envelope"></i> <a href="mailto:praxel.cn@gmail.com">praxel.cn@gmail.com</a></li>
+          <li><i class="fa-solid fa-envelope"></i> <a href="mailto:20251600903@stu.sxau.edu.cn">20251600903@stu.sxau.edu.cn</a></li>
+          <li><i class="fa-solid fa-phone"></i> <span>+86 17535419198</span></li>
+          <li><i class="fa-brands fa-weixin"></i> <span data-i18n="info_wechat">hstpraxel（备注来意）</span></li>
+          <li><i class="fa-brands fa-github"></i> <a href="https://github.com/Shutong-Hou" target="_blank">github.com/Shutong-Hou</a></li>
+          <li><i class="fa-solid fa-fingerprint"></i> <a href="https://orcid.org/0009-0006-0643-1225" target="_blank">ORCID: 0009-0006-0643-1225</a></li>
+        </ul>
+      </div>
+      <div class="about-info card">
+        <h3 data-i18n="about_honors_title">学术身份与荣誉</h3>
+        <p data-i18n="about_honors_desc">积极参与学术共同体，关注前沿技术发展，并在国际学术会议中分享研究成果。</p>
+        <div class="badge-list">
+          <span class="badge"><i class="fa-solid fa-id-card"></i> <span data-i18n="badge_caai">CAAI 学生会员</span></span>
+          <span class="badge"><i class="fa-solid fa-id-card"></i> <span data-i18n="badge_ccf">CCF 学生会员</span></span>
+          <span class="badge"><i class="fa-solid fa-microphone"></i> <span data-i18n="badge_caibda">CAIBDA 2026 Oral Speaker</span></span>
         </div>
-    </section>
-    <section class="contact" id="contact">
-        <h2 class="zh">联系</h2>
-        <h2 class="en">Contact</h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research -->
+  <section class="section reveal" id="research">
+    <div class="section-header">
+      <div class="section-label" data-i18n="section_research_label">研究</div>
+      <h2 class="section-title" data-i18n="section_research_title">研究方向</h2>
+      <p class="section-desc" data-i18n="section_research_desc">致力于探索人工智能的边界，关注计算理论与生物智能的交叉融合。</p>
+    </div>
+    <div class="research-tags">
+      <div class="research-tag">
+        <i class="fa-solid fa-brain"></i>
+        <span data-i18n="research_ai">人工智能</span>
+      </div>
+      <div class="research-tag">
+        <i class="fa-solid fa-language"></i>
+        <span data-i18n="research_llm">通用大语言模型</span>
+      </div>
+      <div class="research-tag">
+        <i class="fa-solid fa-network-wired"></i>
+        <span data-i18n="research_neuro">神经科学</span>
+      </div>
+      <div class="research-tag">
+        <i class="fa-solid fa-flask"></i>
+        <span data-i18n="research_inter">交叉科学</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Publications -->
+  <section class="section reveal" id="publications">
+    <div class="section-header">
+      <div class="section-label" data-i18n="section_pub_label">成果</div>
+      <h2 class="section-title" data-i18n="section_pub_title">学术成果</h2>
+      <p class="section-desc" data-i18n="section_pub_desc">涵盖预印本论文、会议论文、开源软件与学术竞赛等方面的成果汇总。</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('papers', this)" data-i18n="tab_papers">论文</button>
+      <button class="tab-btn" onclick="switchTab('software', this)" data-i18n="tab_software">软件</button>
+      <button class="tab-btn" onclick="switchTab('competitions', this)" data-i18n="tab_competitions">竞赛与荣誉</button>
+    </div>
+
+    <!-- Papers Tab -->
+    <div id="papers" class="tab-content active">
+      <div class="paper-card">
+        <div class="paper-type preprint" data-i18n="type_preprint">预印本</div>
+        <div class="paper-title">
+          <a href="https://doi.org/10.5281/zenodo.20120983" target="_blank" style="color: inherit; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.3s;">
+            CTP-Hybrid: From Hybrid Architecture to Native Spiking Foundation — A Two-Phase Report on Consumer-GPU Spiking LLMs
+          </a>
+        </div>
+        <div class="paper-meta">
+          <span><i class="fa-solid fa-link"></i> DOI: <a href="https://doi.org/10.5281/zenodo.20120983" target="_blank">10.5281/zenodo.20120983</a></span>
+          <span><i class="fa-solid fa-calendar"></i> <span data-i18n="paper_date">2026</span></span>
+        </div>
+      </div>
+
+      <div class="paper-card">
+        <div class="paper-type conference" data-i18n="type_conference">会议论文</div>
+        <div class="paper-title">Hybrid Feature-Aligned Knowledge Distillation for Lightweight Image Classification</div>
+        <div class="paper-meta">
+          <span><i class="fa-solid fa-building-columns"></i> CAIBDA</span>
+          <span class="paper-status" data-i18n="paper_status">已录用 · 待检索</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Software Tab -->
+    <div id="software" class="tab-content">
+      <div class="empty-state">
+        <i class="fa-solid fa-code"></i>
+        <p data-i18n="empty_software">软件项目整理中，敬请期待更新。</p>
+      </div>
+    </div>
+
+    <!-- Competitions Tab -->
+    <div id="competitions" class="tab-content">
+      <div class="empty-state">
+        <i class="fa-solid fa-trophy"></i>
+        <p data-i18n="empty_competitions">竞赛与荣誉信息整理中，敬请期待更新。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section reveal" id="contact">
+    <div class="section-header">
+      <div class="section-label" data-i18n="section_contact_label">联系</div>
+      <h2 class="section-title" data-i18n="section_contact_title">联系方式</h2>
+      <p class="section-desc" data-i18n="section_contact_desc">欢迎学术交流与合作洽谈。</p>
+    </div>
+    <div class="contact-grid">
+      <a href="mailto:praxel.cn@gmail.com" class="contact-item">
+        <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
         <div class="contact-info">
-            <p>📧 <span class="zh">邮箱：</span><span class="en">Email: </span><a href="mailto:praxel.cn@gmail.com">praxel.cn@gmail.com</a> / <a href="mailto:20251600903@stu.sxau.edu.cn">20251600903@stu.sxau.edu.cn</a></p>
-            <p>📞 <span class="zh">电话：</span><span class="en">Phone: </span><a href="tel:+8617535419198">+86 17535419198</a></p>
-            <p>💬 <span class="zh">微信：</span><span class="en">WeChat: </span>hstpraxel <span class="zh">（请备注来意）</span><span class="en">(please note purpose)</span></p>
-            <p>🔬 ORCID: <a href="https://orcid.org/0009-0006-0643-1225" target="_blank">0009-0006-0643-1225</a></p>
-            <p>💻 GitHub: <a href="https://github.com/Shutong-Hou" target="_blank">github.com/Shutong-Hou</a></p>
+          <h4>Email</h4>
+          <p>praxel.cn@gmail.com</p>
         </div>
-    </section>
-    <footer>
-        <p class="zh">© 2026 侯抒彤</p>
-        <p class="en">© 2026 Shutong Hou</p>
-    </footer>
-    <script>
-        const langToggle = document.getElementById('langToggle');
-        const body = document.body;
-        langToggle.addEventListener('click', () => {
-            body.classList.toggle('en-mode');
-            langToggle.textContent = body.classList.contains('en-mode') ? '中' : 'EN';
-        });
-        const themeToggle = document.getElementById('themeToggle');
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            themeToggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
-        });
-    </script>
+      </a>
+      <a href="mailto:20251600903@stu.sxau.edu.cn" class="contact-item">
+        <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+        <div class="contact-info">
+          <h4 data-i18n="contact_school_email">学校邮箱</h4>
+          <p>20251600903@stu.sxau.edu.cn</p>
+        </div>
+      </a>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fa-brands fa-weixin"></i></div>
+        <div class="contact-info">
+          <h4>WeChat</h4>
+          <p data-i18n="contact_wechat">hstpraxel（备注来意）</p>
+        </div>
+      </div>
+      <a href="tel:+8617535419198" class="contact-item">
+        <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+        <div class="contact-info">
+          <h4 data-i18n="contact_phone">电话</h4>
+          <p>+86 17535419198</p>
+        </div>
+      </a>
+      <a href="https://orcid.org/0009-0006-0643-1225" target="_blank" class="contact-item">
+        <div class="contact-icon"><i class="fa-solid fa-fingerprint"></i></div>
+        <div class="contact-info">
+          <h4>ORCID</h4>
+          <p>0009-0006-0643-1225</p>
+        </div>
+      </a>
+      <a href="https://github.com/Shutong-Hou" target="_blank" class="contact-item">
+        <div class="contact-icon"><i class="fa-brands fa-github"></i></div>
+        <div class="contact-info">
+          <h4>GitHub</h4>
+          <p>github.com/Shutong-Hou</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© <span id="year"></span> Shutong Hou (侯抒彤). <span data-i18n="footer_rights">保留所有权利。</span></p>
+  </footer>
+
+  <script>
+    // Translations
+    const translations = {
+      zh: {
+        nav_about: '关于',
+        nav_research: '研究',
+        nav_publications: '成果',
+        nav_contact: '联系',
+        hero_badge: '山西农业大学 · 软件学院',
+        hero_name: '侯抒彤',
+        hero_subtitle: '本科生在读 · 人工智能研究者 · 致力于通用大语言模型与交叉科学探索',
+        stat_papers: '学术论文',
+        stat_memberships: '学术会员',
+        stat_fields: '研究领域',
+        scroll_down: '向下滚动',
+        section_about_label: '关于',
+        section_about_title: '个人简介',
+        section_about_desc: '我是侯抒彤，一名来自山西太原的青年研究者，现就读于山西农业大学软件学院。',
+        about_info_title: '基本信息',
+        about_honors_title: '学术身份与荣誉',
+        about_honors_desc: '积极参与学术共同体，关注前沿技术发展，并在国际学术会议中分享研究成果。',
+        info_birth: '2006年生',
+        info_location: '山西太原',
+        info_university: '山西农业大学软件学院',
+        info_wechat: 'hstpraxel（备注来意）',
+        badge_caai: 'CAAI 学生会员',
+        badge_ccf: 'CCF 学生会员',
+        badge_caibda: 'CAIBDA 2026 Oral Speaker',
+        section_research_label: '研究',
+        section_research_title: '研究方向',
+        section_research_desc: '致力于探索人工智能的边界，关注计算理论与生物智能的交叉融合。',
+        research_ai: '人工智能',
+        research_llm: '通用大语言模型',
+        research_neuro: '神经科学',
+        research_inter: '交叉科学',
+        research_detail: '神经科学（Neuroscience）是一门研究神经系统的结构、功能、发育与演化，以及病理机制的正式学科方向，涵盖分子神经科学、认知神经科学、计算神经科学等多个分支。它与人工智能领域具有深度的学科交叉，为理解智能本质与设计新一代计算模型提供了重要的生物学启发。',
+        section_pub_label: '成果',
+        section_pub_title: '学术成果',
+        section_pub_desc: '涵盖预印本论文、会议论文、开源软件与学术竞赛等方面的成果汇总。',
+        tab_papers: '论文',
+        tab_software: '软件',
+        tab_competitions: '竞赛与荣誉',
+        type_preprint: '预印本',
+        type_conference: '会议论文',
+        paper_date: '2026',
+        paper_status: '已录用 · 待检索',
+        empty_software: '软件项目整理中，敬请期待更新。',
+        empty_competitions: '竞赛与荣誉信息整理中，敬请期待更新。',
+        section_contact_label: '联系',
+        section_contact_title: '联系方式',
+        section_contact_desc: '欢迎学术交流与合作洽谈。',
+        contact_school_email: '学校邮箱',
+        contact_wechat: 'hstpraxel（备注来意）',
+        contact_phone: '电话',
+        footer_rights: '保留所有权利。',
+        footer_made: '精心设计与构建。'
+      },
+      en: {
+        nav_about: 'About',
+        nav_research: 'Research',
+        nav_publications: 'Publications',
+        nav_contact: 'Contact',
+        hero_badge: 'Shanxi Agricultural University · College of Software',
+        hero_name: 'Shutong Hou',
+        hero_subtitle: 'Undergraduate · AI Researcher · Exploring General Large Language Models and Interdisciplinary Science',
+        stat_papers: 'Publications',
+        stat_memberships: 'Memberships',
+        stat_fields: 'Research Fields',
+        scroll_down: 'Scroll Down',
+        section_about_label: 'About',
+        section_about_title: 'Profile',
+        section_about_desc: 'I am Shutong Hou, a young researcher from Taiyuan, Shanxi, currently studying at the College of Software, Shanxi Agricultural University.',
+        about_info_title: 'Basic Information',
+        about_honors_title: 'Affiliations & Honors',
+        about_honors_desc: 'Actively participating in academic communities, focusing on frontier technology development, and presenting research at international conferences.',
+        info_birth: 'Born in 2006',
+        info_location: 'Taiyuan, Shanxi',
+        info_university: 'College of Software, Shanxi Agricultural University',
+        info_wechat: 'hstpraxel (please state your purpose)',
+        badge_caai: 'CAAI Student Member',
+        badge_ccf: 'CCF Student Member',
+        badge_caibda: 'CAIBDA 2026 Oral Speaker',
+        section_research_label: 'Research',
+        section_research_title: 'Research Interests',
+        section_research_desc: 'Dedicated to exploring the frontiers of artificial intelligence, with a focus on the intersection of computational theory and biological intelligence.',
+        research_ai: 'Artificial Intelligence',
+        research_llm: 'General Large Language Models',
+        research_neuro: 'Neuroscience',
+        research_inter: 'Interdisciplinary Science',
+        research_detail: 'Neuroscience is a formal academic discipline dedicated to the study of the structure, function, development, and evolution of the nervous system, as well as its pathological mechanisms. It encompasses multiple branches, including molecular neuroscience, cognitive neuroscience, and computational neuroscience. The field maintains deep interdisciplinary connections with artificial intelligence, providing crucial biological inspiration for understanding the nature of intelligence and designing next-generation computational models.',
+        section_pub_label: 'Publications',
+        section_pub_title: 'Academic Output',
+        section_pub_desc: 'A collection of preprints, conference papers, open-source software, and academic competition results.',
+        tab_papers: 'Papers',
+        tab_software: 'Software',
+        tab_competitions: 'Competitions & Honors',
+        type_preprint: 'Preprint',
+        type_conference: 'Conference Paper',
+        paper_date: '2026',
+        paper_status: 'Accepted · Awaiting Indexing',
+        empty_software: 'Software projects are being organized. Stay tuned for updates.',
+        empty_competitions: 'Competition and honor records are being organized. Stay tuned for updates.',
+        section_contact_label: 'Contact',
+        section_contact_title: 'Get in Touch',
+        section_contact_desc: 'Open to academic collaborations and research discussions.',
+        contact_school_email: 'School Email',
+        contact_wechat: 'hstpraxel (please state your purpose)',
+        contact_phone: 'Phone',
+        footer_rights: 'All rights reserved.',
+        footer_made: 'Designed and built with care.'
+      }
+    };
+
+    let currentLang = 'en';
+
+    function toggleLang() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      document.getElementById('lang-text').textContent = currentLang === 'zh' ? 'EN' : '中';
+      document.documentElement.lang = currentLang === 'zh' ? 'zh' : 'en';
+      applyTranslations();
+    }
+
+    function applyTranslations() {
+      const texts = translations[currentLang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (texts[key]) {
+          el.textContent = texts[key];
+        }
+      });
+    }
+
+    // Tabs
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    // Scroll animation
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Update year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Apply initial translations
+    applyTranslations();
+
+    // Mobile menu
+    function toggleMobileMenu() {
+      const navLinks = document.querySelector('.nav-links');
+      if (navLinks.style.display === 'flex') {
+        navLinks.style.display = 'none';
+      } else {
+        navLinks.style.display = 'flex';
+        navLinks.style.flexDirection = 'column';
+        navLinks.style.position = 'absolute';
+        navLinks.style.top = '100%';
+        navLinks.style.left = '0';
+        navLinks.style.right = '0';
+        navLinks.style.background = 'rgba(10, 10, 15, 0.95)';
+        navLinks.style.padding = '1.5rem';
+        navLinks.style.borderBottom = '1px solid var(--border)';
+        navLinks.style.backdropFilter = 'blur(20px)';
+      }
+    }
+  </script>
 </body>
 </html>
