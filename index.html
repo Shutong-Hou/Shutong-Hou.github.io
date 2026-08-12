@@ -478,7 +478,7 @@
       font-size: 0.9rem;
       font-weight: 500;
       border-radius: 8px;
-      cursor: pointer;
+      cursor: button;
       transition: var(--transition);
       font-family: inherit;
     }
@@ -595,6 +595,18 @@
       padding: 0.2rem 0.6rem;
       background: rgba(245, 158, 11, 0.12);
       color: #fbbf24;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .paper-oral {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.2rem 0.6rem;
+      background: rgba(212, 168, 83, 0.15);
+      color: var(--accent);
       border-radius: 4px;
       font-size: 0.75rem;
       font-weight: 500;
@@ -890,6 +902,7 @@
 
     <!-- Papers Tab -->
     <div id="papers" class="tab-content active">
+      <!-- 预印本 -->
       <div class="paper-card">
         <div class="paper-type preprint" data-i18n="type_preprint">预印本</div>
         <div class="paper-title">
@@ -903,12 +916,27 @@
         </div>
       </div>
 
+      <!-- CAIBDA 2026 会议论文 -->
       <div class="paper-card">
         <div class="paper-type conference" data-i18n="type_conference">会议论文</div>
-        <div class="paper-title">Hybrid Feature-Aligned Knowledge Distillation for Lightweight Image Classification</div>
+        <div class="paper-title">
+          Hybrid Feature-Aligned Knowledge Distillation for Lightweight Image Classification
+        </div>
         <div class="paper-meta">
-          <span><i class="fa-solid fa-building-columns"></i> CAIBDA</span>
+          <span>
+            <i class="fa-solid fa-building-columns"></i>
+            2026 6th International Conference on Artificial Intelligence, Big Data and Algorithms (CAIBDA), Tianjin, China
+          </span>
+          <span><i class="fa-solid fa-calendar"></i> 2026</span>
+          <span><i class="fa-solid fa-file-lines"></i> pp. 174-178</span>
+          <span>
+            <i class="fa-solid fa-link"></i>
+            DOI: <a href="https://doi.org/10.1109/CAIBDA70336.2026.11621665" target="_blank">10.1109/CAIBDA70336.2026.11621665</a>
+          </span>
+        </div>
+        <div class="paper-meta" style="margin-top: 0.5rem; gap: 0.5rem;">
           <span class="paper-status" data-i18n="paper_status">已录用 · 待检索</span>
+          <span class="paper-oral" data-i18n="paper_oral">Oral</span>
         </div>
       </div>
     </div>
@@ -1034,6 +1062,7 @@
         type_conference: '会议论文',
         paper_date: '2026',
         paper_status: '已录用 · 待检索',
+        paper_oral: 'Oral',
         empty_software: '软件项目整理中，敬请期待更新。',
         empty_competitions: '竞赛与荣誉信息整理中，敬请期待更新。',
         section_contact_label: '联系',
@@ -1088,6 +1117,7 @@
         type_conference: 'Conference Paper',
         paper_date: '2026',
         paper_status: 'Accepted · Awaiting Indexing',
+        paper_oral: 'Oral',
         empty_software: 'Software projects are being organized. Stay tuned for updates.',
         empty_competitions: 'Competition and honor records are being organized. Stay tuned for updates.',
         section_contact_label: 'Contact',
