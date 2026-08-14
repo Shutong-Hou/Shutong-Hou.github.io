@@ -48,7 +48,6 @@
       color: var(--accent);
     }
 
-    /* Scrollbar */
     ::-webkit-scrollbar {
       width: 8px;
     }
@@ -63,7 +62,6 @@
       background: #3d3d4a;
     }
 
-    /* Navigation */
     .navbar {
       position: fixed;
       top: 0;
@@ -167,7 +165,6 @@
       cursor: pointer;
     }
 
-    /* Hero Section */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -285,7 +282,6 @@
       animation: bounce 2s infinite;
     }
 
-    /* Sections */
     .section {
       padding: 6rem 2rem;
       max-width: 1100px;
@@ -329,7 +325,6 @@
       font-size: 1.05rem;
     }
 
-    /* Cards */
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -344,13 +339,6 @@
       box-shadow: var(--shadow);
     }
 
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-
-    /* About */
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -425,7 +413,6 @@
       color: var(--accent);
     }
 
-    /* Research */
     .research-tags {
       display: flex;
       flex-wrap: wrap;
@@ -458,7 +445,6 @@
       font-size: 0.9rem;
     }
 
-    /* Publications Tabs */
     .tabs {
       display: flex;
       gap: 0.5rem;
@@ -478,7 +464,7 @@
       font-size: 0.9rem;
       font-weight: 500;
       border-radius: 8px;
-      cursor: button;
+      cursor: pointer;
       transition: var(--transition);
       font-family: inherit;
     }
@@ -503,7 +489,6 @@
       display: block;
     }
 
-    /* Paper Card */
     .paper-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -588,18 +573,6 @@
       text-decoration: underline;
     }
 
-    .paper-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.2rem 0.6rem;
-      background: rgba(245, 158, 11, 0.12);
-      color: #fbbf24;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      font-weight: 500;
-    }
-
     .paper-oral {
       display: inline-flex;
       align-items: center;
@@ -610,6 +583,157 @@
       border-radius: 4px;
       font-size: 0.75rem;
       font-weight: 500;
+    }
+
+    .software-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 1.25rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .software-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .software-card:hover {
+      border-color: rgba(212, 168, 83, 0.2);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .software-card:hover::before {
+      opacity: 1;
+    }
+
+    .software-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .software-icon {
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--accent-dim), rgba(34, 197, 94, 0.1));
+      border-radius: 16px;
+      color: var(--accent);
+      font-size: 1.75rem;
+      flex-shrink: 0;
+      border: 1px solid rgba(212, 168, 83, 0.15);
+    }
+
+    .software-info {
+      flex: 1;
+    }
+
+    .software-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .software-subtitle {
+      font-size: 0.95rem;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .software-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+
+    .software-highlight {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.75rem;
+      background: rgba(245, 158, 11, 0.12);
+      color: #fbbf24;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .software-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.6rem 0.9rem;
+      background: var(--bg-hover);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      transition: var(--transition);
+    }
+
+    .feature-item:hover {
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    .feature-item i {
+      color: var(--accent);
+      font-size: 0.9rem;
+      width: 16px;
+      text-align: center;
+    }
+
+    .feature-item .feature-new {
+      font-size: 0.65rem;
+      padding: 0.15rem 0.4rem;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border-radius: 4px;
+      font-weight: 600;
+      margin-left: 0.25rem;
+    }
+
+    .software-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .software-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .software-meta i {
+      color: var(--accent);
     }
 
     .empty-state {
@@ -628,7 +752,6 @@
       font-size: 1.1rem;
     }
 
-    /* Contact */
     .contact-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -678,7 +801,6 @@
       color: var(--text-secondary);
     }
 
-    /* Footer */
     .footer {
       border-top: 1px solid var(--border);
       padding: 3rem 2rem;
@@ -691,7 +813,6 @@
       margin-bottom: 0.5rem;
     }
 
-    /* Animations */
     @keyframes fadeInUp {
       from {
         opacity: 0;
@@ -731,7 +852,6 @@
       transform: translateY(0);
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
       .nav-links {
         display: none;
@@ -756,6 +876,15 @@
 
       .section {
         padding: 4rem 1.5rem;
+      }
+
+      .software-header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .software-features {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -902,7 +1031,6 @@
 
     <!-- Papers Tab -->
     <div id="papers" class="tab-content active">
-      <!-- 预印本 -->
       <div class="paper-card">
         <div class="paper-type preprint" data-i18n="type_preprint">预印本</div>
         <div class="paper-title">
@@ -916,12 +1044,9 @@
         </div>
       </div>
 
-      <!-- CAIBDA 2026 会议论文 -->
       <div class="paper-card">
         <div class="paper-type conference" data-i18n="type_conference">会议论文</div>
-        <div class="paper-title">
-          Hybrid Feature-Aligned Knowledge Distillation for Lightweight Image Classification
-        </div>
+        <div class="paper-title">Hybrid Feature-Aligned Knowledge Distillation for Lightweight Image Classification</div>
         <div class="paper-meta">
           <span>
             <i class="fa-solid fa-building-columns"></i>
@@ -934,8 +1059,7 @@
             DOI: <a href="https://doi.org/10.1109/CAIBDA70336.2026.11621665" target="_blank">10.1109/CAIBDA70336.2026.11621665</a>
           </span>
         </div>
-        <div class="paper-meta" style="margin-top: 0.5rem; gap: 0.5rem;">
-          <span class="paper-status" data-i18n="paper_status">已录用 · 待检索</span>
+        <div class="paper-meta" style="margin-top: 0.5rem;">
           <span class="paper-oral" data-i18n="paper_oral">Oral</span>
         </div>
       </div>
@@ -943,9 +1067,50 @@
 
     <!-- Software Tab -->
     <div id="software" class="tab-content">
-      <div class="empty-state">
-        <i class="fa-solid fa-code"></i>
-        <p data-i18n="empty_software">软件项目整理中，敬请期待更新。</p>
+      <div class="software-card">
+        <div class="software-header">
+          <div class="software-icon">
+            <i class="fa-solid fa-seedling"></i>
+          </div>
+          <div class="software-info">
+            <h3 class="software-title">仓衡大模型 1.0 <span class="software-highlight"><i class="fa-solid fa-star"></i> 首创</span></h3>
+            <span class="software-subtitle">Canbal v1.0 — Agricultural Intelligence System</span>
+          </div>
+        </div>
+        <p class="software-desc" data-i18n="software_canbal_desc">
+          面向智慧农业的垂直领域大语言模型系统。以 Qwen3-8B 为基座模型，经过大规模农业领域指令数据深度优化，构建了多源感知与智能决策融合系统。创新性地引入元认知机制，使模型具备自我审视与策略调优能力，集成实时信息检索、气象数据融合、多 Agent 协同推理、领域知识图谱及 RAG 增强检索等技术模块，为农业生产、科研与管理提供全方位智能化支持。
+        </p>
+        <div class="software-features">
+          <div class="feature-item">
+            <i class="fa-solid fa-globe"></i>
+            <span data-i18n="feat_web">实时信息检索</span>
+          </div>
+          <div class="feature-item">
+            <i class="fa-solid fa-cloud-sun"></i>
+            <span data-i18n="feat_weather">气象数据融合</span>
+          </div>
+          <div class="feature-item">
+            <i class="fa-solid fa-robot"></i>
+            <span data-i18n="feat_agent">多 Agent 协同推理</span>
+          </div>
+          <div class="feature-item">
+            <i class="fa-solid fa-brain"></i>
+            <span data-i18n="feat_metacog">元认知自反思</span>
+            <span class="feature-new">首创</span>
+          </div>
+          <div class="feature-item">
+            <i class="fa-solid fa-diagram-project"></i>
+            <span data-i18n="feat_kg">领域知识图谱</span>
+          </div>
+          <div class="feature-item">
+            <i class="fa-solid fa-database"></i>
+            <span data-i18n="feat_rag">RAG 增强检索</span>
+          </div>
+        </div>
+        <div class="software-meta">
+          <span><i class="fa-solid fa-microchip"></i> Qwen3-8B + 大规模 SFT</span>
+          <span><i class="fa-solid fa-leaf"></i> 智慧农业垂直领域</span>
+        </div>
       </div>
     </div>
 
@@ -1017,7 +1182,6 @@
   </footer>
 
   <script>
-    // Translations
     const translations = {
       zh: {
         nav_about: '关于',
@@ -1051,7 +1215,6 @@
         research_llm: '通用大语言模型',
         research_neuro: '神经科学',
         research_inter: '交叉科学',
-        research_detail: '神经科学（Neuroscience）是一门研究神经系统的结构、功能、发育与演化，以及病理机制的正式学科方向，涵盖分子神经科学、认知神经科学、计算神经科学等多个分支。它与人工智能领域具有深度的学科交叉，为理解智能本质与设计新一代计算模型提供了重要的生物学启发。',
         section_pub_label: '成果',
         section_pub_title: '学术成果',
         section_pub_desc: '涵盖预印本论文、会议论文、开源软件与学术竞赛等方面的成果汇总。',
@@ -1061,9 +1224,14 @@
         type_preprint: '预印本',
         type_conference: '会议论文',
         paper_date: '2026',
-        paper_status: '已录用 · 待检索',
         paper_oral: 'Oral',
-        empty_software: '软件项目整理中，敬请期待更新。',
+        software_canbal_desc: '面向智慧农业的垂直领域大语言模型系统。以 Qwen3-8B 为基座模型，经过大规模农业领域指令数据深度优化，构建了多源感知与智能决策融合系统。创新性地引入元认知机制，使模型具备自我审视与策略调优能力，集成实时信息检索、气象数据融合、多 Agent 协同推理、领域知识图谱及 RAG 增强检索等技术模块，为农业生产、科研与管理提供全方位智能化支持。',
+        feat_web: '实时信息检索',
+        feat_weather: '气象数据融合',
+        feat_agent: '多 Agent 协同推理',
+        feat_metacog: '元认知自反思',
+        feat_kg: '领域知识图谱',
+        feat_rag: 'RAG 增强检索',
         empty_competitions: '竞赛与荣誉信息整理中，敬请期待更新。',
         section_contact_label: '联系',
         section_contact_title: '联系方式',
@@ -1071,8 +1239,7 @@
         contact_school_email: '学校邮箱',
         contact_wechat: 'hstpraxel（备注来意）',
         contact_phone: '电话',
-        footer_rights: '保留所有权利。',
-        footer_made: '精心设计与构建。'
+        footer_rights: '保留所有权利。'
       },
       en: {
         nav_about: 'About',
@@ -1106,7 +1273,6 @@
         research_llm: 'General Large Language Models',
         research_neuro: 'Neuroscience',
         research_inter: 'Interdisciplinary Science',
-        research_detail: 'Neuroscience is a formal academic discipline dedicated to the study of the structure, function, development, and evolution of the nervous system, as well as its pathological mechanisms. It encompasses multiple branches, including molecular neuroscience, cognitive neuroscience, and computational neuroscience. The field maintains deep interdisciplinary connections with artificial intelligence, providing crucial biological inspiration for understanding the nature of intelligence and designing next-generation computational models.',
         section_pub_label: 'Publications',
         section_pub_title: 'Academic Output',
         section_pub_desc: 'A collection of preprints, conference papers, open-source software, and academic competition results.',
@@ -1116,9 +1282,14 @@
         type_preprint: 'Preprint',
         type_conference: 'Conference Paper',
         paper_date: '2026',
-        paper_status: 'Accepted · Awaiting Indexing',
         paper_oral: 'Oral',
-        empty_software: 'Software projects are being organized. Stay tuned for updates.',
+        software_canbal_desc: 'A vertical-domain large language model system designed for smart agriculture. Built upon Qwen3-8B with extensive agricultural instruction tuning, the system integrates multi-source perception with intelligent decision-making. Pioneering the introduction of metacognitive mechanisms, the model achieves self-reflection and strategy optimization capabilities. It incorporates real-time information retrieval, meteorological data fusion, multi-agent collaborative reasoning, domain knowledge graph, and RAG-enhanced retrieval modules, providing comprehensive intelligent support for agricultural production, research, and management.',
+        feat_web: 'Real-time Information Retrieval',
+        feat_weather: 'Meteorological Data Fusion',
+        feat_agent: 'Multi-Agent Collaborative Reasoning',
+        feat_metacog: 'Metacognitive Self-reflection',
+        feat_kg: 'Domain Knowledge Graph',
+        feat_rag: 'RAG-enhanced Retrieval',
         empty_competitions: 'Competition and honor records are being organized. Stay tuned for updates.',
         section_contact_label: 'Contact',
         section_contact_title: 'Get in Touch',
@@ -1126,8 +1297,7 @@
         contact_school_email: 'School Email',
         contact_wechat: 'hstpraxel (please state your purpose)',
         contact_phone: 'Phone',
-        footer_rights: 'All rights reserved.',
-        footer_made: 'Designed and built with care.'
+        footer_rights: 'All rights reserved.'
       }
     };
 
@@ -1150,7 +1320,6 @@
       });
     }
 
-    // Tabs
     function switchTab(tabId, btn) {
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
@@ -1158,7 +1327,6 @@
       btn.classList.add('active');
     }
 
-    // Scroll animation
     const observerOptions = {
       threshold: 0.1,
       rootMargin: '0px 0px -50px 0px'
@@ -1174,7 +1342,6 @@
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // Navbar scroll effect
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 50) {
@@ -1184,13 +1351,10 @@
       }
     });
 
-    // Update year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Apply initial translations
     applyTranslations();
 
-    // Mobile menu
     function toggleMobileMenu() {
       const navLinks = document.querySelector('.nav-links');
       if (navLinks.style.display === 'flex') {
