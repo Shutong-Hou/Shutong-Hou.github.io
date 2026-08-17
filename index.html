@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh">
-<head><base href="autoclaw-local-html://509aca94-11ef-45b5-bfe0-d747ea89db1d/C%3A/Users/Administrator/.openclaw-autoclaw/workspace/hou-homepage-static.html">
+<head><base href="autoclaw-local-html://529f2a29-da1b-4c50-869c-d004022e2ee2/C%3A/Users/Administrator/.openclaw-autoclaw/workspace/hou-homepage.html">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>侯抒彤 · Shutong Hou</title>
@@ -9,27 +9,25 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
 <!--
-  纯静态单页版：零 JavaScript。
-  所有内容直接写在 HTML 里，模块上下铺开，导航用锚点跳转（#about / #research / #publications / #contact）。
-  不依赖任何脚本，任何浏览器、内置预览器、GitHub Pages 都能完整显示。
-  改文案：直接编辑对应 HTML 文本；改配色：修改 :root 里的变量；加论文：复制一个 .pub-item 块。
+  简洁大气版：单页滚动 + 中英切换。
+  - 内容默认全部以中文直接写在 HTML 里：即使脚本被禁用，页面依然完整显示，不会白屏。
+  - JavaScript 只做三件事：语言切换（data-i18n 换文本）、导航高亮（滚动监听）、页脚年份。
+  - 语言偏好存入 localStorage；URL 带 #en 打开直接进入英文版（方便分享）。
+  改文案：改 HTML 里的中文文本 + 文件底部 I18N 字典里对应的英文；
+  改配色：改 :root 变量；加论文：复制一个 .pub 块。
 -->
 <style>
 :root{
   --bg:#faf8f3;
-  --bg-soft:rgba(250,248,243,.9);
   --ink:#221f1a;
   --ink-2:#5a564c;
-  --ink-3:#7a7568;
-  --line:rgba(34,31,26,.10);
-  --line-2:rgba(34,31,26,.18);
+  --ink-3:#8a8578;
+  --line:rgba(34,31,26,.12);
   --gold:#8c6d2f;
   --gold-bright:#6e551e;
-  --gold-dim:rgba(140,109,47,.10);
   --serif:"EB Garamond","Noto Serif SC","Songti SC",serif;
   --serif-cjk:"Noto Serif SC","Songti SC","SimSun",serif;
   --sans:"IBM Plex Sans","PingFang SC","Microsoft YaHei",sans-serif;
-  --side-w:272px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -41,479 +39,531 @@ body{
   font-size:16px;
   -webkit-font-smoothing:antialiased;
 }
-body::after{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:2;
-  opacity:.5;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch' /><feColorMatrix type='saturate' values='0' /></filter><rect width='160' height='160' filter='url(%23n)' opacity='0.045' /></svg>");
-}
-::selection{background:var(--gold-dim);color:var(--gold-bright)}
+::selection{background:rgba(140,109,47,.16);color:var(--gold-bright)}
 a{color:inherit;text-decoration:none}
-a:focus-visible,button:focus-visible{outline:1px solid var(--gold);outline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 .skip-link{
   position:absolute;left:16px;top:-48px;z-index:200;
-  background:var(--bg-soft);border:1px solid var(--line-2);
+  background:var(--bg);border:1px solid var(--line);
   padding:8px 16px;font-size:14px;transition:top .2s ease;
 }
 .skip-link:focus{top:16px}
-/* ---------- layout ---------- */
-.layout{display:grid;grid-template-columns:var(--side-w) 1fr;min-height:100vh}
-/* ---------- sidebar ---------- */
-.sidebar{
-  position:sticky;top:0;height:100vh;
-  display:flex;flex-direction:column;
-  border-right:1px solid var(--line);
-  padding:44px 40px 36px;
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+/* ---------- nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(250,248,243,.92);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
 }
-.side-brand{
-  font-family:var(--serif-cjk);font-size:21px;font-weight:600;letter-spacing:.02em;
-  display:flex;flex-direction:column;gap:2px;
+.nav-inner{
+  max-width:1080px;margin:0 auto;padding:0 28px;
+  height:64px;display:flex;align-items:center;justify-content:space-between;gap:20px;
 }
-.side-brand .brand-en{
-  font-family:var(--serif);font-size:13.5px;font-weight:400;
-  color:var(--ink-3);letter-spacing:.06em;
+.brand{
+  font-family:var(--serif-cjk);font-size:19px;font-weight:600;letter-spacing:.02em;
+  display:flex;align-items:baseline;gap:10px;white-space:nowrap;
 }
-.side-nav{
-  margin-top:52px;display:flex;flex-direction:column;gap:2px;list-style:none;
-}
-.side-link{
-  position:relative;display:block;
+.brand .en{font-family:var(--serif);font-size:13px;font-weight:400;color:var(--ink-3);letter-spacing:.05em}
+.nav-links{display:flex;gap:34px}
+.nav-links a{
   font-size:15px;color:var(--ink-2);letter-spacing:.04em;
-  padding:11px 0 11px 26px;
-  transition:color .2s ease;
-}
-.side-link::before{
-  content:"";position:absolute;left:0;top:50%;
-  width:0;height:1.5px;background:var(--gold);
-  transition:width .25s ease;
-}
-.side-link:hover{color:var(--ink)}
-.side-link:hover::before{width:8px}
-.side-foot{
-  margin-top:auto;padding-top:22px;border-top:1px solid var(--line);
-  display:flex;align-items:center;justify-content:space-between;
-}
-.side-note{font-size:12px;color:var(--ink-3);letter-spacing:.05em}
-/* ---------- main column ---------- */
-.main-col{min-width:0}
-.topbar{
-  display:none;position:sticky;top:0;z-index:100;
-  background:var(--bg-soft);
-  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--line);
-  height:58px;align-items:center;justify-content:space-between;padding:0 24px;
-}
-.top-brand{
-  font-family:var(--serif-cjk);font-size:17px;font-weight:600;
-  display:flex;align-items:baseline;gap:8px;
-}
-.top-brand .brand-en{font-family:var(--serif);font-size:12px;color:var(--ink-3)}
-.tabs{
-  display:none;position:sticky;top:58px;z-index:99;
-  background:var(--bg-soft);
-  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--line);
-  overflow-x:auto;padding:0 14px;white-space:nowrap;
-  -ms-overflow-style:none;scrollbar-width:none;
-}
-.tabs::-webkit-scrollbar{display:none}
-.tabs a{
-  display:inline-block;font-size:14px;color:var(--ink-2);letter-spacing:.03em;
-  padding:13px 14px;border-bottom:2px solid transparent;
+  padding:6px 0;border-bottom:1px solid transparent;
   transition:color .2s ease,border-color .2s ease;
 }
-.tabs a:hover{color:var(--ink)}
-.tabs a:hover{border-bottom-color:var(--gold)}
-.content{
-  max-width:920px;
-  padding:56px 72px 48px;
+.nav-links a:hover{color:var(--ink)}
+.nav-links a.active{color:var(--gold-bright);border-bottom-color:var(--gold)}
+.lang-btn{
+  font-family:var(--sans);font-size:13px;color:var(--ink-2);
+  border:1px solid var(--line);border-radius:999px;background:none;
+  padding:5px 16px;cursor:pointer;white-space:nowrap;
+  transition:color .2s ease,border-color .2s ease;
 }
-/* ---------- sections (all visible, stacked) ---------- */
-.panel{display:block;margin-bottom:84px}
-.panel:target .panel-title{color:var(--gold-bright)}
-.panel-head{
-  margin-bottom:32px;padding-bottom:22px;border-bottom:1px solid var(--line-2);
-  display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;
+.lang-btn:hover{color:var(--gold-bright);border-color:var(--gold)}
+/* ---------- hero ---------- */
+.hero{
+  text-align:center;
+  padding:132px 0 96px;
 }
-.panel-title{
+.hero .overline{
+  font-size:12px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:28px;
+}
+.hero h1{
   font-family:var(--serif-cjk);font-weight:500;
-  font-size:clamp(28px,3vw,36px);letter-spacing:.01em;color:var(--ink);
-  transition:color .2s ease;
+  font-size:clamp(54px,8vw,92px);
+  line-height:1.12;letter-spacing:.02em;
 }
-.panel-title .en{
+.hero .name-en{
   font-family:var(--serif);font-style:italic;font-weight:400;
-  color:var(--ink-3);font-size:.6em;margin-left:14px;
+  font-size:clamp(19px,2.4vw,26px);color:var(--ink-2);margin-top:14px;
 }
-.panel-desc{color:var(--ink-2);font-size:15px;max-width:560px;margin-bottom:40px}
-/* ---------- intro (about section) ---------- */
-.intro{margin-bottom:56px}
-.intro .overline{
-  font-size:12px;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:24px;
+.hero .sub{
+  color:var(--ink-2);font-size:16px;max-width:560px;margin:34px auto 0;
 }
-.intro-name{
+.hero .links{
+  margin-top:36px;display:flex;justify-content:center;flex-wrap:wrap;
+  gap:10px 22px;font-size:14.5px;color:var(--ink-2);
+}
+.hero .links a{transition:color .2s ease}
+.hero .links a:hover{color:var(--gold-bright)}
+.hero .links .dot{color:var(--ink-3)}
+/* ---------- sections ---------- */
+.sec{
+  padding:88px 0;
+  border-top:1px solid var(--line);
+  scroll-margin-top:80px;
+}
+.sec-head{text-align:center;margin-bottom:56px}
+.sec-title{
   font-family:var(--serif-cjk);font-weight:500;
-  font-size:clamp(44px,6vw,72px);
-  line-height:1.14;letter-spacing:.01em;color:var(--ink);
+  font-size:clamp(30px,4vw,40px);letter-spacing:.02em;
+  display:inline-block;
 }
-.intro-name .en{
-  display:block;font-family:var(--serif);font-weight:400;
-  font-size:.42em;font-style:italic;color:var(--ink-2);margin-top:12px;
+.sec-title::after{
+  content:"";display:block;width:44px;height:2px;background:var(--gold);
+  margin:18px auto 0;
 }
-.intro .subline{
-  margin-top:26px;color:var(--ink-2);font-size:16px;max-width:520px;
-}
-.intro .quick{
-  margin-top:32px;display:flex;flex-wrap:wrap;gap:10px 28px;
-  padding-top:20px;border-top:1px solid var(--line);max-width:560px;
-}
-.intro .quick a{
-  font-size:14px;color:var(--ink-2);letter-spacing:.02em;
-  transition:color .2s ease;
-}
-.intro .quick a:hover{color:var(--gold-bright)}
-.intro .quick .label{color:var(--ink-3);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-right:8px}
+.sec:target .sec-title{color:var(--gold-bright)}
 /* about */
-.about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px}
-.about-col{border-top:1px solid var(--line-2);padding-top:26px}
-.col-label{
-  font-size:12px;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:22px;
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;max-width:880px;margin:0 auto}
+.about-col .label{
+  font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:26px;
 }
-.about-col dl dt{
-  font-size:13px;color:var(--ink-3);letter-spacing:.06em;margin-top:18px;
-}
-.about-col dl dd{font-size:16px;color:var(--ink);margin-top:2px}
-.about-col dl dd a{border-bottom:1px solid var(--line-2);transition:border-color .2s ease}
-.about-col dl dd a:hover{border-color:var(--gold);color:var(--gold-bright)}
-.about-col dl dd:first-of-type{margin-top:0}
-.honor-note{color:var(--ink-2);font-size:15px;margin-bottom:20px;max-width:44ch}
-.honor-list{display:flex;flex-wrap:wrap;gap:10px}
+.about-col dl dt{font-size:13px;color:var(--ink-3);letter-spacing:.06em;margin-top:22px}
+.about-col dl dd{font-size:16.5px;margin-top:2px}
+.about-col .note{color:var(--ink-2);font-size:15px;margin-bottom:26px}
+.honor-list{display:flex;flex-wrap:wrap;gap:10px;list-style:none}
 .honor-list li{
-  list-style:none;font-size:13.5px;color:var(--ink);
-  border:1px solid var(--line);padding:6px 14px;letter-spacing:.03em;
+  font-size:13.5px;letter-spacing:.03em;
+  border:1px solid var(--line);border-radius:999px;padding:7px 18px;
   transition:border-color .2s ease;
 }
 .honor-list li:hover{border-color:var(--gold)}
 /* research */
-.research-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:36px 48px}
-.research-item{border-top:1px solid var(--line-2);padding-top:18px}
-.research-item .zh{
-  font-family:var(--serif-cjk);font-size:21px;font-weight:500;color:var(--ink);
+.research-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:40px 48px;max-width:1000px;margin:0 auto;
 }
-.research-item .en{
-  font-size:12px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--ink-3);margin-top:8px;display:block;
+.r-item{border-top:1px solid var(--line);padding-top:20px}
+.r-item h3{
+  font-family:var(--serif-cjk);font-size:21px;font-weight:500;
+}
+.r-item p{
+  font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);margin-top:8px;
 }
 /* publications */
-.pub-group{margin-bottom:56px}
+.pub-group{max-width:880px;margin:0 auto 64px}
 .pub-group:last-child{margin-bottom:0}
-.group-head{
-  display:flex;align-items:baseline;gap:14px;
-  padding-bottom:16px;border-bottom:1px solid var(--line-2);margin-bottom:8px;
-}
+.group-head{text-align:center;margin-bottom:36px}
 .group-head h3{
-  font-family:var(--serif-cjk);font-size:23px;font-weight:500;color:var(--ink);
+  font-family:var(--serif-cjk);font-size:22px;font-weight:500;
 }
 .group-head .en{
-  font-family:var(--serif);font-style:italic;font-size:16px;color:var(--ink-3);
+  font-family:var(--serif);font-style:italic;font-size:14px;color:var(--ink-3);
 }
-.pub-item{padding:28px 20px;margin:0 -20px;border-bottom:1px solid var(--line);transition:background .25s ease}
-.pub-item:hover{background:rgba(140,109,47,.05)}
-.pub-item:last-child{border-bottom:none;padding-bottom:0}
-.pub-tags{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.pub{
+  border-top:1px solid var(--line);
+  padding:30px 0 34px;
+}
+.pub:last-of-type{border-bottom:1px solid var(--line)}
+.pub-tags{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
 .pub-badge{
   font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
-  padding:4px 10px;border:1px solid var(--line-2);color:var(--ink-2);
+  border:1px solid var(--line);border-radius:999px;
+  padding:4px 14px;color:var(--ink-2);
 }
-.pub-badge.peer{border-color:rgba(140,109,47,.45);color:var(--gold-bright)}
-.pub-badge.oral{
-  border:1px solid rgba(140,109,47,.45);color:var(--gold-bright);
-}
+.pub-badge.gold{border-color:rgba(140,109,47,.5);color:var(--gold-bright)}
 .pub-title{
-  font-family:var(--serif);font-size:21px;font-weight:500;line-height:1.45;color:var(--ink);
+  font-family:var(--serif);font-size:21px;font-weight:500;line-height:1.45;
 }
-.pub-title a{
-  border-bottom:1px solid transparent;transition:border-color .2s ease;
-}
-.pub-title a:hover{border-color:var(--gold);color:var(--gold-bright)}
-.pub-meta{margin-top:10px;font-size:14px;color:var(--ink-2)}
-.pub-meta .row{display:flex;flex-wrap:wrap;column-gap:20px;row-gap:4px}
-.pub-meta .row + .row{margin-top:6px}
+.pub-title a{border-bottom:1px solid transparent;transition:border-color .2s ease}
+.pub-title a:hover{color:var(--gold-bright);border-color:var(--gold)}
+.pub-meta{margin-top:10px;font-size:14px;color:var(--ink-2);display:flex;flex-wrap:wrap;column-gap:18px;row-gap:2px}
 .pub-meta .sep{color:var(--ink-3)}
 .pub-meta .doi{color:var(--gold-bright);word-break:break-all}
 .pub-meta .doi:hover{border-bottom:1px solid var(--gold)}
-.ext-link::after{
-  content:"↗";font-size:.72em;margin-left:4px;color:var(--gold);
-  display:inline-block;transform:translateY(-1px);
-}
+.ext::after{content:"↗";font-size:.72em;margin-left:4px;color:var(--gold);display:inline-block;transform:translateY(-1px)}
 /* software */
-.soft-item{border-top:1px solid var(--line-2);padding-top:32px}
-.soft-head{display:flex;align-items:baseline;flex-wrap:wrap;gap:14px;margin-bottom:10px}
-.soft-head h3{
-  font-family:var(--serif-cjk);font-size:25px;font-weight:500;color:var(--ink);
+.soft{max-width:880px;margin:0 auto;text-align:center}
+.soft-head{display:flex;align-items:baseline;justify-content:center;flex-wrap:wrap;gap:14px}
+.soft-head h3{font-family:var(--serif-cjk);font-size:26px;font-weight:500}
+.pioneer{
+  font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold-bright);border:1px solid rgba(140,109,47,.5);border-radius:999px;
+  padding:3px 12px;
 }
-.soft-head .pioneer{
-  font-size:11.5px;letter-spacing:.14em;color:var(--gold-bright);
-  border:1px solid rgba(140,109,47,.45);padding:3px 10px;text-transform:uppercase;
-}
-.soft-sub{font-family:var(--serif);font-style:italic;font-size:16px;color:var(--ink-3)}
-.soft-desc{color:var(--ink-2);font-size:15px;max-width:72ch;margin-top:16px}
-.soft-features{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.soft-sub{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-3);margin-top:8px}
+.soft-desc{color:var(--ink-2);font-size:15px;max-width:72ch;margin:24px auto 0;text-align:left}
+.soft-features{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:28px;list-style:none}
 .soft-features li{
-  list-style:none;font-size:13.5px;color:var(--ink);
-  border:1px solid var(--line);padding:6px 14px;
+  font-size:13.5px;border:1px solid var(--line);border-radius:999px;padding:7px 18px;
   transition:border-color .2s ease,color .2s ease;
 }
 .soft-features li:hover{border-color:var(--gold);color:var(--gold-bright)}
-.soft-features li .new-tag{
-  font-size:11px;color:var(--gold-bright);margin-left:6px;letter-spacing:.08em;
-}
-.soft-meta{margin-top:20px;display:flex;flex-wrap:wrap;gap:24px;font-size:13.5px;color:var(--ink-3)}
+.soft-features li .new{font-size:11px;color:var(--gold-bright);margin-left:6px}
+.soft-meta{margin-top:26px;display:flex;flex-wrap:wrap;justify-content:center;gap:28px;font-size:13.5px;color:var(--ink-3)}
 /* contact */
-.contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:40px 48px}
+.contact-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:48px 40px;max-width:920px;margin:0 auto;text-align:center;
+}
 .contact-item .label{
-  font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);
-  display:block;margin-bottom:6px;
+  font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);
+  display:block;margin-bottom:8px;
 }
-.contact-item .value{font-size:16px;color:var(--ink);word-break:break-all}
-.contact-item a.value{
-  border-bottom:1px solid transparent;transition:border-color .2s ease,color .2s ease;
-}
-.contact-item a.value:hover{border-color:var(--gold);color:var(--gold-bright)}
+.contact-item .value{font-size:15.5px;word-break:break-all}
+.contact-item a.value{border-bottom:1px solid transparent;transition:border-color .2s ease,color .2s ease}
+.contact-item a.value:hover{color:var(--gold-bright);border-color:var(--gold)}
 /* footer */
-.footer{border-top:1px solid var(--line);margin-top:0;padding-top:28px}
+.footer{border-top:1px solid var(--line);padding:36px 0 44px;text-align:center}
 .footer p{font-size:13px;color:var(--ink-3);letter-spacing:.03em}
+/* lang-en tweaks */
+body.lang-en .brand .en{display:none}
 /* motion */
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *{transition:none!important;animation:none!important}
+  *{transition:none!important}
 }
 /* responsive */
 @media (max-width:1024px){
-  .content{padding:44px 48px 40px}
+  .research-grid{grid-template-columns:repeat(2,1fr)}
+  .contact-grid{grid-template-columns:repeat(2,1fr)}
 }
-@media (max-width:900px){
-  .layout{display:block}
-  .sidebar{display:none}
-  .topbar{display:flex}
-  .tabs{display:flex}
-  .content{padding:36px 24px 40px}
-  .about-grid{grid-template-columns:1fr;gap:40px}
+@media (max-width:720px){
+  .nav-inner{height:auto;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
+  .nav-links{order:3;width:100%;justify-content:space-between;gap:8px;overflow-x:auto}
+  .nav-links a{font-size:14px;white-space:nowrap}
+  .hero{padding:96px 0 72px}
+  .sec{padding:64px 0;scroll-margin-top:118px}
+  .about-grid{grid-template-columns:1fr;gap:48px}
+  .research-grid{grid-template-columns:1fr 1fr;gap:32px 24px}
   .contact-grid{grid-template-columns:1fr;gap:32px}
-  .research-grid{grid-template-columns:1fr 1fr}
-  .panel{scroll-margin-top:118px;margin-bottom:64px}
 }
-@media (max-width:480px){
+@media (max-width:440px){
   .research-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 <a class="skip-link" href="#main">跳到正文</a>
-<div class="layout">
-  <aside class="sidebar" aria-label="模块导航">
-    <a class="side-brand" href="#about">
-      <span>侯抒彤</span>
-      <span class="brand-en">Shutong Hou</span>
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <span data-i18n="brand">侯抒彤</span>
+      <span class="en">Shutong Hou</span>
     </a>
-    <nav class="side-nav">
-      <a class="side-link" href="#about">简介</a>
-      <a class="side-link" href="#research">研究</a>
-      <a class="side-link" href="#publications">成果</a>
-      <a class="side-link" href="#contact">联系</a>
+    <nav class="nav-links" aria-label="模块导航">
+      <a href="#about" data-i18n="nav_about">简介</a>
+      <a href="#research" data-i18n="nav_research">研究</a>
+      <a href="#publications" data-i18n="nav_publications">成果</a>
+      <a href="#contact" data-i18n="nav_contact">联系</a>
     </nav>
-    <div class="side-foot">
-      <span class="side-note">Shanxi Agricultural University</span>
-    </div>
-  </aside>
-  <div class="main-col">
-    <header class="topbar">
-      <a class="top-brand" href="#about">
-        <span>侯抒彤</span>
-        <span class="brand-en">Shutong Hou</span>
-      </a>
-    </header>
-    <nav class="tabs" aria-label="模块导航">
-      <a href="#about">简介</a>
-      <a href="#research">研究</a>
-      <a href="#publications">成果</a>
-      <a href="#contact">联系</a>
-    </nav>
-    <main class="content" id="main">
-      <!-- 简介 -->
-      <section class="panel" id="about">
-        <div class="intro">
-          <p class="overline">山西农业大学 · 软件学院</p>
-          <h1 class="intro-name">
-            侯抒彤
-            <span class="en">Shutong Hou</span>
-          </h1>
-          <p class="subline">本科生在读 · 人工智能研究者，致力于通用大语言模型与交叉科学探索</p>
-          <div class="quick">
-            <span><span class="label">联系</span><a href="mailto:praxel.cn@gmail.com">praxel.cn@gmail.com</a></span>
-            <span><span class="label">GitHub</span><a href="https://github.com/Shutong-Hou" target="_blank" rel="noopener noreferrer" class="ext-link">Shutong-Hou</a></span>
-            <span><span class="label">ORCID</span><a href="https://orcid.org/0009-0006-0643-1225" target="_blank" rel="noopener noreferrer" class="ext-link">0009-0006-0643-1225</a></span>
-          </div>
-        </div>
-        <div class="about-grid">
-          <div class="about-col">
-            <p class="col-label">基本信息</p>
-            <dl>
-              <div>
-                <dt>出生年份</dt>
-                <dd>2006 年</dd>
-              </div>
-              <div>
-                <dt>所在地</dt>
-                <dd>山西太原</dd>
-              </div>
-              <div>
-                <dt>就读院校</dt>
-                <dd>山西农业大学软件学院</dd>
-              </div>
-            </dl>
-          </div>
-          <div class="about-col">
-            <p class="col-label">学术身份</p>
-            <p class="honor-note">积极参与学术共同体，关注前沿技术发展，并在国际学术会议中分享研究成果。</p>
-            <ul class="honor-list">
-              <li>CAAI 学生会员</li>
-              <li>CCF 会员</li>
-              <li>CAIBDA 2026 Oral Speaker</li>
-              <li>NCA 审稿人</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-      <!-- 研究 -->
-      <section class="panel" id="research">
-        <div class="panel-head">
-          <h2 class="panel-title">研究方向<span class="en">Research</span></h2>
-        </div>
-        <p class="panel-desc">致力于探索人工智能的边界，关注计算理论与生物智能的交叉融合。</p>
-        <div class="research-grid">
-          <div class="research-item">
-            <p class="zh">人工智能</p>
-            <span class="en">Artificial Intelligence</span>
-          </div>
-          <div class="research-item">
-            <p class="zh">通用大语言模型</p>
-            <span class="en">General Large Language Models</span>
-          </div>
-          <div class="research-item">
-            <p class="zh">神经科学</p>
-            <span class="en">Neuroscience</span>
-          </div>
-          <div class="research-item">
-            <p class="zh">交叉科学</p>
-            <span class="en">Interdisciplinary Science</span>
-          </div>
-        </div>
-      </section>
-      <!-- 成果 -->
-      <section class="panel" id="publications">
-        <div class="panel-head">
-          <h2 class="panel-title">学术成果<span class="en">Publications</span></h2>
-        </div>
-        <div class="pub-group">
-          <div class="group-head">
-            <h3>论文</h3>
-            <span class="en">Peer-Reviewed</span>
-          </div>
-          <article class="pub-item">
-            <div class="pub-tags">
-              <span class="pub-badge peer">会议论文</span>
-              <span class="pub-badge oral">Oral 报告</span>
-            </div>
-            <h4 class="pub-title"><a class="ext-link" href="https://doi.org/10.1109/CAIBDA70336.2026.11621665" target="_blank" rel="noopener noreferrer">Hybrid Feature-Aligned Knowledge Distillation for Lightweight Image Classification</a></h4>
-            <div class="pub-meta">
-              <div class="row"><span>2026 第六届人工智能、大数据与算法国际会议（CAIBDA）· 天津</span></div>
-              <div class="row"><span>2026 年</span><span class="sep">·</span><span>pp. 174-178</span></div>
-              <div class="row"><span>DOI</span><a class="doi ext-link" href="https://doi.org/10.1109/CAIBDA70336.2026.11621665" target="_blank" rel="noopener noreferrer">10.1109/CAIBDA70336.2026.11621665</a></div>
-            </div>
-          </article>
-        </div>
-        <div class="pub-group">
-          <div class="group-head">
-            <h3>预印本</h3>
-            <span class="en">Preprints</span>
-          </div>
-          <article class="pub-item">
-            <div class="pub-tags">
-              <span class="pub-badge">预印本</span>
-            </div>
-            <h4 class="pub-title"><a class="ext-link" href="https://doi.org/10.5281/zenodo.20120983" target="_blank" rel="noopener noreferrer">CTP-Hybrid: From Hybrid Architecture to Native Spiking Foundation — A Two-Phase Report on Consumer-GPU Spiking LLMs</a></h4>
-            <div class="pub-meta">
-              <div class="row"><span>Zenodo 预印本</span></div>
-              <div class="row"><span>2026 年</span></div>
-              <div class="row"><span>DOI</span><a class="doi ext-link" href="https://doi.org/10.5281/zenodo.20120983" target="_blank" rel="noopener noreferrer">10.5281/zenodo.20120983</a></div>
-            </div>
-          </article>
-        </div>
-        <div class="pub-group">
-          <div class="group-head">
-            <h3>软件项目</h3>
-            <span class="en">Software</span>
-          </div>
-          <div class="soft-item">
-            <div class="soft-head">
-              <h3>仓衡大模型 1.0</h3>
-              <span class="pioneer">首创</span>
-            </div>
-            <p class="soft-sub">Canbal v1.0 · Agricultural Intelligence System</p>
-            <p class="soft-desc">面向智慧农业的垂直领域大语言模型系统。以 Qwen3-8B 为基座模型，经过大规模农业领域指令数据深度优化，构建了多源感知与智能决策融合系统。创新性地引入元认知机制，使模型具备自我审视与策略调优能力，集成实时信息检索、气象数据融合、多 Agent 协同推理、领域知识图谱及 RAG 增强检索等技术模块，为农业生产、科研与管理提供全方位智能化支持。</p>
-            <ul class="soft-features">
-              <li>实时信息检索</li>
-              <li>气象数据融合</li>
-              <li>多 Agent 协同推理</li>
-              <li>元认知自反思<span class="new-tag">首创</span></li>
-              <li>领域知识图谱</li>
-              <li>RAG 增强检索</li>
-            </ul>
-            <p class="soft-meta">
-              <span>Qwen3-8B + 大规模 SFT</span>
-              <span>智慧农业垂直领域</span>
-            </p>
-          </div>
-        </div>
-      </section>
-      <!-- 联系 -->
-      <section class="panel" id="contact">
-        <div class="panel-head">
-          <h2 class="panel-title">联系方式<span class="en">Contact</span></h2>
-        </div>
-        <div class="contact-grid">
-          <div class="contact-item">
-            <span class="label">Email</span>
-            <a class="value" href="mailto:praxel.cn@gmail.com">praxel.cn@gmail.com</a>
-          </div>
-          <div class="contact-item">
-            <span class="label">学校邮箱</span>
-            <a class="value" href="mailto:20251600903@stu.sxau.edu.cn">20251600903@stu.sxau.edu.cn</a>
-          </div>
-          <div class="contact-item">
-            <span class="label">WeChat</span>
-            <span class="value">hstpraxel（备注来意）</span>
-          </div>
-          <div class="contact-item">
-            <span class="label">电话</span>
-            <a class="value" href="tel:+8617535419198">+86 17535419198</a>
-          </div>
-          <div class="contact-item">
-            <span class="label">ORCID</span>
-            <a class="value ext-link" href="https://orcid.org/0009-0006-0643-1225" target="_blank" rel="noopener noreferrer">0009-0006-0643-1225</a>
-          </div>
-          <div class="contact-item">
-            <span class="label">GitHub</span>
-            <a class="value ext-link" href="https://github.com/Shutong-Hou" target="_blank" rel="noopener noreferrer">github.com/Shutong-Hou</a>
-          </div>
-        </div>
-      </section>
-      <footer class="footer">
-        <p>© 2026 Shutong Hou（侯抒彤）· 保留所有权利</p>
-      </footer>
-    </main>
+    <button class="lang-btn" id="langBtn" type="button" aria-label="切换语言">EN</button>
   </div>
-</div>
+</header>
+<main id="main">
+  <!-- 首屏 -->
+  <section class="hero" id="top">
+    <p class="overline" data-i18n="hero_over">山西农业大学 · 软件学院</p>
+    <h1 data-i18n="hero_name">侯抒彤</h1>
+    <p class="name-en" data-i18n="hero_name_en">Shutong Hou</p>
+    <p class="sub" data-i18n="hero_sub">本科生在读 · 人工智能研究者，致力于通用大语言模型与交叉科学探索</p>
+    <p class="links">
+      <a href="mailto:praxel.cn@gmail.com">praxel.cn@gmail.com</a>
+      <span class="dot">·</span>
+      <a href="https://github.com/Shutong-Hou" target="_blank" rel="noopener noreferrer" class="ext">GitHub</a>
+      <span class="dot">·</span>
+      <a href="https://orcid.org/0009-0006-0643-1225" target="_blank" rel="noopener noreferrer" class="ext">ORCID</a>
+    </p>
+  </section>
+  <!-- 简介 -->
+  <section class="sec" id="about">
+    <div class="sec-head"><h2 class="sec-title" data-i18n="about_title">个人简介</h2></div>
+    <div class="about-grid">
+      <div class="about-col">
+        <p class="label" data-i18n="about_info_label">基本信息</p>
+        <dl>
+          <div>
+            <dt data-i18n="info_birth_label">出生年份</dt>
+            <dd data-i18n="info_birth">2006 年</dd>
+          </div>
+          <div>
+            <dt data-i18n="info_loc_label">所在地</dt>
+            <dd data-i18n="info_location">山西太原</dd>
+          </div>
+          <div>
+            <dt data-i18n="info_uni_label">就读院校</dt>
+            <dd data-i18n="info_university">山西农业大学软件学院</dd>
+          </div>
+        </dl>
+      </div>
+      <div class="about-col">
+        <p class="label" data-i18n="about_honors_label">学术身份</p>
+        <p class="note" data-i18n="about_honors_desc">积极参与学术共同体，关注前沿技术发展，并在国际学术会议中分享研究成果。</p>
+        <ul class="honor-list">
+          <li data-i18n="badge_caai">CAAI 学生会员</li>
+          <li data-i18n="badge_ccf">CCF 会员</li>
+          <li data-i18n="badge_caibda">CAIBDA 2026 Oral Speaker</li>
+          <li data-i18n="badge_nca">NCA 审稿人</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <!-- 研究 -->
+  <section class="sec" id="research">
+    <div class="sec-head"><h2 class="sec-title" data-i18n="research_title">研究方向</h2></div>
+    <div class="research-grid">
+      <div class="r-item">
+        <h3 data-i18n="research_ai">人工智能</h3>
+        <p data-i18n="research_ai_en">Artificial Intelligence</p>
+      </div>
+      <div class="r-item">
+        <h3 data-i18n="research_llm">通用大语言模型</h3>
+        <p data-i18n="research_llm_en">General Large Language Models</p>
+      </div>
+      <div class="r-item">
+        <h3 data-i18n="research_neuro">神经科学</h3>
+        <p data-i18n="research_neuro_en">Neuroscience</p>
+      </div>
+      <div class="r-item">
+        <h3 data-i18n="research_inter">交叉科学</h3>
+        <p data-i18n="research_inter_en">Interdisciplinary Science</p>
+      </div>
+    </div>
+  </section>
+  <!-- 成果 -->
+  <section class="sec" id="publications">
+    <div class="sec-head"><h2 class="sec-title" data-i18n="pub_title">学术成果</h2></div>
+    <div class="pub-group">
+      <div class="group-head">
+        <h3 data-i18n="pub_peer">论文</h3>
+        <span class="en">Peer-Reviewed</span>
+      </div>
+      <article class="pub">
+        <div class="pub-tags">
+          <span class="pub-badge gold" data-i18n="badge_paper_1">会议论文</span>
+          <span class="pub-badge gold" data-i18n="meta_oral">Oral 报告</span>
+        </div>
+        <h4 class="pub-title"><a class="ext" href="https://doi.org/10.1109/CAIBDA70336.2026.11621665" target="_blank" rel="noopener noreferrer">Hybrid Feature-Aligned Knowledge Distillation for Lightweight Image Classification</a></h4>
+        <p class="pub-meta">
+          <span data-i18n="venue_1">2026 第六届人工智能、大数据与算法国际会议（CAIBDA）· 天津</span>
+          <span data-i18n="year_1">2026 年</span><span class="sep">·</span><span>pp. 174-178</span>
+        </p>
+        <p class="pub-meta">
+          <span>DOI</span>
+          <a class="doi ext" href="https://doi.org/10.1109/CAIBDA70336.2026.11621665" target="_blank" rel="noopener noreferrer">10.1109/CAIBDA70336.2026.11621665</a>
+        </p>
+      </article>
+    </div>
+    <div class="pub-group">
+      <div class="group-head">
+        <h3 data-i18n="pub_preprint">预印本</h3>
+        <span class="en">Preprints</span>
+      </div>
+      <article class="pub">
+        <div class="pub-tags">
+          <span class="pub-badge" data-i18n="badge_preprint_1">预印本</span>
+        </div>
+        <h4 class="pub-title"><a class="ext" href="https://doi.org/10.5281/zenodo.20120983" target="_blank" rel="noopener noreferrer">CTP-Hybrid: From Hybrid Architecture to Native Spiking Foundation — A Two-Phase Report on Consumer-GPU Spiking LLMs</a></h4>
+        <p class="pub-meta">
+          <span data-i18n="meta_zenodo">Zenodo 预印本</span>
+          <span data-i18n="year_2">2026 年</span>
+        </p>
+        <p class="pub-meta">
+          <span>DOI</span>
+          <a class="doi ext" href="https://doi.org/10.5281/zenodo.20120983" target="_blank" rel="noopener noreferrer">10.5281/zenodo.20120983</a>
+        </p>
+      </article>
+    </div>
+    <div class="pub-group">
+      <div class="group-head">
+        <h3 data-i18n="soft_group">软件项目</h3>
+        <span class="en">Software</span>
+      </div>
+      <div class="soft">
+        <div class="soft-head">
+          <h3>仓衡大模型 1.0</h3>
+          <span class="pioneer" data-i18n="soft_pioneer">首创</span>
+        </div>
+        <p class="soft-sub">Canbal v1.0 · Agricultural Intelligence System</p>
+        <p class="soft-desc" data-i18n="soft_desc">面向智慧农业的垂直领域大语言模型系统。以 Qwen3-8B 为基座模型，经过大规模农业领域指令数据深度优化，构建了多源感知与智能决策融合系统。创新性地引入元认知机制，使模型具备自我审视与策略调优能力，集成实时信息检索、气象数据融合、多 Agent 协同推理、领域知识图谱及 RAG 增强检索等技术模块，为农业生产、科研与管理提供全方位智能化支持。</p>
+        <ul class="soft-features">
+          <li data-i18n="feat_web">实时信息检索</li>
+          <li data-i18n="feat_weather">气象数据融合</li>
+          <li data-i18n="feat_agent">多 Agent 协同推理</li>
+          <li><span data-i18n="feat_metacog">元认知自反思</span><span class="new" data-i18n="soft_pioneer">首创</span></li>
+          <li data-i18n="feat_kg">领域知识图谱</li>
+          <li data-i18n="feat_rag">RAG 增强检索</li>
+        </ul>
+        <p class="soft-meta">
+          <span data-i18n="soft_base">Qwen3-8B + 大规模 SFT</span>
+          <span data-i18n="soft_domain">智慧农业垂直领域</span>
+        </p>
+      </div>
+    </div>
+  </section>
+  <!-- 联系 -->
+  <section class="sec" id="contact">
+    <div class="sec-head"><h2 class="sec-title" data-i18n="contact_title">联系方式</h2></div>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <span class="label">Email</span>
+        <a class="value" href="mailto:praxel.cn@gmail.com">praxel.cn@gmail.com</a>
+      </div>
+      <div class="contact-item">
+        <span class="label" data-i18n="contact_school_email">学校邮箱</span>
+        <a class="value" href="mailto:20251600903@stu.sxau.edu.cn">20251600903@stu.sxau.edu.cn</a>
+      </div>
+      <div class="contact-item">
+        <span class="label">WeChat</span>
+        <span class="value" data-i18n="contact_wechat">hstpraxel（备注来意）</span>
+      </div>
+      <div class="contact-item">
+        <span class="label" data-i18n="contact_phone">电话</span>
+        <a class="value" href="tel:+8617535419198">+86 17535419198</a>
+      </div>
+      <div class="contact-item">
+        <span class="label">ORCID</span>
+        <a class="value ext" href="https://orcid.org/0009-0006-0643-1225" target="_blank" rel="noopener noreferrer">0009-0006-0643-1225</a>
+      </div>
+      <div class="contact-item">
+        <span class="label">GitHub</span>
+        <a class="value ext" href="https://github.com/Shutong-Hou" target="_blank" rel="noopener noreferrer">github.com/Shutong-Hou</a>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <p>© <span id="year">2026</span> Shutong Hou（侯抒彤）· <span data-i18n="footer_rights">保留所有权利</span></p>
+  </footer>
+</main>
+<script>
+/* ============ 中英文字典 ============ */
+var I18N = {
+  zh: {
+    brand: "侯抒彤",
+    nav_about: "简介", nav_research: "研究", nav_publications: "成果", nav_contact: "联系",
+    hero_over: "山西农业大学 · 软件学院",
+    hero_name: "侯抒彤",
+    hero_name_en: "Shutong Hou",
+    hero_sub: "本科生在读 · 人工智能研究者，致力于通用大语言模型与交叉科学探索",
+    about_title: "个人简介",
+    about_info_label: "基本信息",
+    info_birth_label: "出生年份", info_birth: "2006 年",
+    info_loc_label: "所在地", info_location: "山西太原",
+    info_uni_label: "就读院校", info_university: "山西农业大学软件学院",
+    about_honors_label: "学术身份",
+    about_honors_desc: "积极参与学术共同体，关注前沿技术发展，并在国际学术会议中分享研究成果。",
+    badge_caai: "CAAI 学生会员", badge_ccf: "CCF 会员",
+    badge_caibda: "CAIBDA 2026 Oral Speaker", badge_nca: "NCA 审稿人",
+    research_title: "研究方向",
+    research_ai: "人工智能", research_ai_en: "Artificial Intelligence",
+    research_llm: "通用大语言模型", research_llm_en: "General Large Language Models",
+    research_neuro: "神经科学", research_neuro_en: "Neuroscience",
+    research_inter: "交叉科学", research_inter_en: "Interdisciplinary Science",
+    pub_title: "学术成果",
+    pub_peer: "论文", pub_preprint: "预印本", soft_group: "软件项目",
+    badge_paper_1: "会议论文", meta_oral: "Oral 报告",
+    venue_1: "2026 第六届人工智能、大数据与算法国际会议（CAIBDA）· 天津",
+    year_1: "2026 年", year_2: "2026 年",
+    badge_preprint_1: "预印本",
+    meta_zenodo: "Zenodo 预印本",
+    soft_pioneer: "首创",
+    soft_desc: "面向智慧农业的垂直领域大语言模型系统。以 Qwen3-8B 为基座模型，经过大规模农业领域指令数据深度优化，构建了多源感知与智能决策融合系统。创新性地引入元认知机制，使模型具备自我审视与策略调优能力，集成实时信息检索、气象数据融合、多 Agent 协同推理、领域知识图谱及 RAG 增强检索等技术模块，为农业生产、科研与管理提供全方位智能化支持。",
+    feat_web: "实时信息检索", feat_weather: "气象数据融合", feat_agent: "多 Agent 协同推理",
+    feat_metacog: "元认知自反思", feat_kg: "领域知识图谱", feat_rag: "RAG 增强检索",
+    soft_base: "Qwen3-8B + 大规模 SFT", soft_domain: "智慧农业垂直领域",
+    contact_title: "联系方式",
+    contact_school_email: "学校邮箱", contact_phone: "电话",
+    contact_wechat: "hstpraxel（备注来意）",
+    footer_rights: "保留所有权利"
+  },
+  en: {
+    brand: "Shutong Hou",
+    nav_about: "About", nav_research: "Research", nav_publications: "Publications", nav_contact: "Contact",
+    hero_over: "Shanxi Agricultural University · College of Software",
+    hero_name: "Shutong Hou",
+    hero_name_en: "侯抒彤",
+    hero_sub: "Undergraduate · AI Researcher, exploring general LLMs and interdisciplinary science",
+    about_title: "About",
+    about_info_label: "Basic Information",
+    info_birth_label: "Born", info_birth: "2006",
+    info_loc_label: "Location", info_location: "Taiyuan, Shanxi",
+    info_uni_label: "University", info_university: "College of Software, Shanxi Agricultural University",
+    about_honors_label: "Affiliations",
+    about_honors_desc: "Actively participating in academic communities, focusing on frontier technology development, and presenting research at international conferences.",
+    badge_caai: "CAAI Student Member", badge_ccf: "CCF Member",
+    badge_caibda: "CAIBDA 2026 Oral Speaker", badge_nca: "NCA Reviewer",
+    research_title: "Research Interests",
+    research_ai: "Artificial Intelligence", research_ai_en: "人工智能",
+    research_llm: "General Large Language Models", research_llm_en: "通用大语言模型",
+    research_neuro: "Neuroscience", research_neuro_en: "神经科学",
+    research_inter: "Interdisciplinary Science", research_inter_en: "交叉科学",
+    pub_title: "Publications",
+    pub_peer: "Papers", pub_preprint: "Preprints", soft_group: "Software",
+    badge_paper_1: "Conference Paper", meta_oral: "Oral",
+    venue_1: "2026 6th International Conference on Artificial Intelligence, Big Data and Algorithms (CAIBDA), Tianjin, China",
+    year_1: "2026", year_2: "2026",
+    badge_preprint_1: "Preprint",
+    meta_zenodo: "Zenodo Preprint",
+    soft_pioneer: "Pioneering",
+    soft_desc: "A vertical-domain large language model system designed for smart agriculture. Built upon Qwen3-8B with extensive agricultural instruction tuning, the system integrates multi-source perception with intelligent decision-making. Pioneering the introduction of metacognitive mechanisms, the model achieves self-reflection and strategy optimization capabilities. It incorporates real-time information retrieval, meteorological data fusion, multi-agent collaborative reasoning, domain knowledge graph, and RAG-enhanced retrieval modules, providing comprehensive intelligent support for agricultural production, research, and management.",
+    feat_web: "Real-time Information Retrieval", feat_weather: "Meteorological Data Fusion",
+    feat_agent: "Multi-Agent Collaborative Reasoning", feat_metacog: "Metacognitive Self-reflection",
+    feat_kg: "Domain Knowledge Graph", feat_rag: "RAG-enhanced Retrieval",
+    soft_base: "Qwen3-8B + Large-scale SFT", soft_domain: "Smart Agriculture Domain",
+    contact_title: "Contact",
+    contact_school_email: "School Email", contact_phone: "Phone",
+    contact_wechat: "hstpraxel (please state your purpose)",
+    footer_rights: "All rights reserved"
+  }
+};
+/* ============ 语言切换 ============ */
+var LANG_KEY = "hou-lang";
+var currentLang = "zh";
+function applyLang(lang) {
+  currentLang = lang === "en" ? "en" : "zh";
+  document.querySelectorAll("[data-i18n]").forEach(function (el) {
+    var key = el.getAttribute("data-i18n");
+    if (I18N[currentLang][key]) { el.textContent = I18N[currentLang][key]; }
+  });
+  document.documentElement.lang = currentLang;
+  document.body.classList.toggle("lang-en", currentLang === "en");
+  document.getElementById("langBtn").textContent = currentLang === "zh" ? "EN" : "中";
+  try { localStorage.setItem(LANG_KEY, currentLang); } catch (e) {}
+}
+function initLang() {
+  var saved = null;
+  try { saved = localStorage.getItem(LANG_KEY); } catch (e) {}
+  var initial = (typeof location !== "undefined" && location.hash === "#en") || saved === "en" ? "en" : "zh";
+  applyLang(initial);
+}
+/* ============ 导航高亮（滚动监听） ============ */
+function initSpy() {
+  if (!("IntersectionObserver" in window)) { return; }
+  var links = document.querySelectorAll(".nav-links a");
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) { return; }
+      var id = entry.target.id;
+      links.forEach(function (a) {
+        a.classList.toggle("active", a.getAttribute("href") === "#" + id);
+      });
+    });
+  }, { rootMargin: "-40% 0px -55% 0px" });
+  ["about", "research", "publications", "contact"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) { observer.observe(el); }
+  });
+}
+document.getElementById("langBtn").addEventListener("click", function () {
+  applyLang(currentLang === "zh" ? "en" : "zh");
+});
+document.getElementById("year").textContent = new Date().getFullYear();
+initLang();
+initSpy();
+</script>
 </body>
 </html>
