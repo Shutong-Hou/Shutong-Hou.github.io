@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>侯抒彤 · Shutong Hou</title>
-<meta name="description" content="侯抒彤的个人主页。山西农业大学软件学院本科生（2025 年至今），研究方向为人工智能与通用大语言模型。">
+<title>Shutong Hou · 侯抒彤</title>
+<meta name="description" content="Personal homepage of Shutong Hou. Undergraduate at the College of Software, Shanxi Agricultural University (2025 – Present), Embedded Systems track. Research interests: artificial intelligence and general large language models.">
 <!--
   极简双栏版：左侧常驻个人信息栏 + 右侧内容正文。
+  - 默认语言为英文：HTML 里的默认文本即英文，即使脚本被禁用也是英文页面，且不会出现中英闪烁。
+  - JavaScript 只负责语言切换、导航高亮、页脚年份；语言偏好存 localStorage，URL 带 #zh 可直接进入中文版。
   - 纯系统字体，不依赖任何外部资源（无 CDN、无 Web Font），离线可用。
-  - 内容默认以中文直接写在 HTML 里；JavaScript 只负责语言切换、导航高亮、页脚年份。
   - data-i18n 只加在纯文本元素上，不要加在含子元素的标签上，否则切换会覆盖子元素。
-  改文案：改 HTML 文本 + 文件底部 I18N 字典；改配色：改 :root 变量（含深色模式）。
+  改文案：改 HTML 英文文本 + 文件底部 I18N 字典；改配色：改 :root 变量（含深色模式）。
 -->
 <style>
 :root{
@@ -70,8 +71,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   max-width:1120px;margin:0 auto;padding:0 24px;
   height:56px;display:flex;align-items:center;justify-content:space-between;gap:20px;
 }
-.brand{display:flex;align-items:baseline;gap:8px;font-size:15px;font-weight:600;letter-spacing:.01em;white-space:nowrap}
-.brand .en{font-size:12px;font-weight:400;color:var(--ink-3);letter-spacing:.04em}
+.brand{font-size:15px;font-weight:600;letter-spacing:.01em;white-space:nowrap}
 .nav{display:flex;gap:26px}
 .nav a{font-size:14px;color:var(--ink-2);padding:4px 0;transition:color .18s ease}
 .nav a:hover{color:var(--ink)}
@@ -101,23 +101,21 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 }
 .side-block{margin-top:28px;padding-top:22px;border-top:1px solid var(--line)}
 .side-block .label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:13px}
-.rows{display:flex;flex-direction:column;gap:9px}
-.row{display:flex;gap:10px;font-size:13px;line-height:1.6;align-items:baseline}
-.row .k{color:var(--ink-3);flex:0 0 62px}
+.rows{
+  display:grid;grid-template-columns:auto minmax(0,1fr);
+  gap:9px 12px;align-items:baseline;font-size:13px;line-height:1.6;
+}
+.rows .row{display:contents}
+.row .k{color:var(--ink-3)}
 .row .v{color:var(--ink);word-break:break-all;min-width:0}
 .row a.v:hover{color:var(--accent)}
-.facts{display:flex;flex-direction:column;gap:9px}
-.facts .row .k{flex:0 0 62px}
 
 /* ---------- 正文区块 ---------- */
 .sec{margin-bottom:52px;scroll-margin-top:76px}
-.sec:last-child{margin-bottom:0}
 .sec-head{display:flex;align-items:baseline;gap:10px;padding-bottom:10px;border-bottom:1px solid var(--line-strong);margin-bottom:22px}
 .sec-head h2{font-size:17px;font-weight:650;letter-spacing:.01em}
-.sec-head .en{font-size:11.5px;color:var(--ink-3);letter-spacing:.08em;text-transform:uppercase}
 .sub-head{font-size:14px;font-weight:600;color:var(--ink);margin:26px 0 12px}
 .sub-head:first-of-type{margin-top:0}
-.sub-head .en{font-weight:400;font-size:11.5px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;margin-left:6px}
 
 .prose{font-size:14.5px;color:var(--ink-2);line-height:1.85}
 .prose + .prose{margin-top:12px}
@@ -125,7 +123,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
 /* 教育经历 */
 .edu-item{display:flex;gap:18px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line)}
-.edu-item .t{font-family:var(--mono);font-size:12.5px;color:var(--accent);flex:0 0 92px}
+.edu-item .t{font-family:var(--mono);font-size:12.5px;color:var(--accent);flex:0 0 104px}
 .edu-item .b{font-size:14.5px;color:var(--ink)}
 .edu-item .b em{font-style:normal;color:var(--ink-3);font-size:13px;margin-left:8px}
 
@@ -133,7 +131,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
 .card h3{font-size:14.5px;font-weight:600}
-.card .en{font-size:11.5px;color:var(--ink-3);letter-spacing:.05em;margin-top:3px;text-transform:uppercase}
+.card .en{font-size:11.5px;color:var(--ink-3);letter-spacing:.05em;margin-top:3px}
 .card p{font-size:13.5px;color:var(--ink-2);margin-top:9px;line-height:1.75}
 
 /* 成果条目 */
@@ -165,7 +163,6 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 /* ---------- 页脚 ---------- */
 .footer{border-top:1px solid var(--line);margin-top:0;padding:22px 0 0}
 .footer p{font-size:12.5px;color:var(--ink-3)}
-body.lang-en .brand .en{display:none}
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -188,20 +185,17 @@ body.lang-en .brand .en{display:none}
 </style>
 </head>
 <body>
-<a class="skip-link" href="#main">跳到正文</a>
+<a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
 
 <header class="topbar">
   <div class="topbar-inner">
-    <a class="brand" href="#top">
-      <span data-i18n="brand">侯抒彤</span>
-      <span class="en">Shutong Hou</span>
-    </a>
-    <nav class="nav" aria-label="模块导航">
-      <a href="#about" data-i18n="nav_about">简介</a>
-      <a href="#research" data-i18n="nav_research">研究</a>
-      <a href="#work" data-i18n="nav_work">成果</a>
+    <a class="brand" href="#top" data-i18n="brand">Shutong Hou</a>
+    <nav class="nav" aria-label="Site navigation">
+      <a href="#about" data-i18n="nav_about">About</a>
+      <a href="#research" data-i18n="nav_research">Research</a>
+      <a href="#work" data-i18n="nav_work">Work</a>
     </nav>
-    <button class="lang-btn" id="langBtn" type="button" aria-label="切换语言">EN</button>
+    <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language">中</button>
   </div>
 </header>
 
@@ -210,28 +204,28 @@ body.lang-en .brand .en{display:none}
 
     <!-- ========== 左侧：个人信息栏 ========== -->
     <aside class="side">
-      <p class="name" data-i18n="side_name">侯抒彤</p>
-      <p class="name-en" data-i18n="side_name_en">Shutong Hou</p>
-      <p class="role" data-i18n="side_role">山西农业大学软件学院<br>本科在读 · 人工智能方向</p>
-      <span class="period" data-i18n="side_period">2025 年至今</span>
+      <p class="name" data-i18n="side_name">Shutong Hou</p>
+      <p class="name-en" data-i18n="side_name_en">侯抒彤</p>
+      <p class="role" data-i18n="side_role">Shanxi Agricultural University<br>College of Software · Embedded Systems</p>
+      <span class="period" data-i18n="side_period">2025 – Present</span>
 
       <div class="side-block">
-        <p class="label" data-i18n="side_contact">联系方式</p>
+        <p class="label" data-i18n="side_contact">Contact</p>
         <div class="rows">
           <div class="row"><span class="k">Email</span><a class="v" href="mailto:praxel.cn@gmail.com">praxel.cn@gmail.com</a></div>
-          <div class="row"><span class="k" data-i18n="c_school">学校邮箱</span><a class="v" href="mailto:20251600903@stu.sxau.edu.cn">20251600903@stu.sxau.edu.cn</a></div>
+          <div class="row"><span class="k" data-i18n="c_school">School Email</span><a class="v" href="mailto:20251600903@stu.sxau.edu.cn">20251600903@stu.sxau.edu.cn</a></div>
           <div class="row"><span class="k">WeChat</span><span class="v" data-i18n="c_wechat">hstpraxel</span></div>
-          <div class="row"><span class="k" data-i18n="c_phone">电话</span><a class="v" href="tel:+8617535419198">+86 17535419198</a></div>
+          <div class="row"><span class="k" data-i18n="c_phone">Phone</span><a class="v" href="tel:+8617535419198">+86 17535419198</a></div>
           <div class="row"><span class="k">ORCID</span><a class="v ext" href="https://orcid.org/0009-0006-0643-1225" target="_blank" rel="noopener noreferrer">0009-0006-0643-1225</a></div>
           <div class="row"><span class="k">GitHub</span><a class="v ext" href="https://github.com/Shutong-Hou" target="_blank" rel="noopener noreferrer">Shutong-Hou</a></div>
         </div>
       </div>
 
       <div class="side-block">
-        <p class="label" data-i18n="side_info">基本信息</p>
-        <div class="facts">
-          <div class="row"><span class="k" data-i18n="info_birth_label">出生年份</span><span class="v" data-i18n="info_birth">2006 年</span></div>
-          <div class="row"><span class="k" data-i18n="info_loc_label">所在地</span><span class="v" data-i18n="info_location">山西太原</span></div>
+        <p class="label" data-i18n="side_info">Details</p>
+        <div class="rows">
+          <div class="row"><span class="k" data-i18n="info_birth_label">Born</span><span class="v" data-i18n="info_birth">2006</span></div>
+          <div class="row"><span class="k" data-i18n="info_loc_label">Location</span><span class="v" data-i18n="info_location">Taiyuan, Shanxi</span></div>
         </div>
       </div>
     </aside>
@@ -242,45 +236,43 @@ body.lang-en .brand .en{display:none}
       <!-- 简介 -->
       <section class="sec" id="about">
         <div class="sec-head">
-          <h2 data-i18n="about_title">简介</h2>
-          <span class="en">About</span>
+          <h2 data-i18n="about_title">About</h2>
         </div>
-        <p class="prose" data-i18n="about_p1">我是山西农业大学软件学院本科生，主要研究人工智能与通用大语言模型，同时关注神经科学与交叉科学方向的问题。目前的兴趣集中在模型架构、指令微调与推理能力的构建与优化，以及人工智能在农业等垂直领域的落地应用。</p>
-        <p class="prose" data-i18n="about_p2">学术身份方面，目前为中国计算机学会（CCF）会员；研究成果曾在 2026 年第六届人工智能、大数据与算法国际会议（CAIBDA）上进行 Oral 报告，并担任 Neural Computing and Applications 期刊审稿人。</p>
+        <p class="prose" data-i18n="about_p1">I am an undergraduate student at the College of Software, Shanxi Agricultural University, on the Embedded Systems track. My research focuses on artificial intelligence and general large language models, with additional interests in neuroscience and interdisciplinary science. I am currently interested in model architectures, instruction tuning, and the construction and optimization of reasoning capabilities, as well as applied AI in vertical domains such as agriculture.</p>
+        <p class="prose" data-i18n="about_p2">I am a member of the China Computer Federation (CCF). I presented my work as an Oral report at the 2026 6th International Conference on Artificial Intelligence, Big Data and Algorithms (CAIBDA), and I serve as a reviewer for Neural Computing and Applications.</p>
 
-        <p class="sub-head" data-i18n="edu_label">教育经历</p>
+        <p class="sub-head" data-i18n="edu_label">Education</p>
         <div class="edu-item">
-          <span class="t" data-i18n="edu_time">2025 年至今</span>
-          <span class="b"><span data-i18n="edu_body">山西农业大学软件学院 · 本科在读</span><em data-i18n="edu_note">人工智能方向</em></span>
+          <span class="t" data-i18n="edu_time">2025 – Present</span>
+          <span class="b"><span data-i18n="edu_body">College of Software, Shanxi Agricultural University</span><em data-i18n="edu_note">Embedded Systems</em></span>
         </div>
       </section>
 
       <!-- 研究方向 -->
       <section class="sec" id="research">
         <div class="sec-head">
-          <h2 data-i18n="research_title">研究方向</h2>
-          <span class="en">Research Interests</span>
+          <h2 data-i18n="research_title">Research Interests</h2>
         </div>
         <div class="grid-2">
           <div class="card">
-            <h3 data-i18n="research_ai">人工智能</h3>
-            <p class="en" data-i18n="research_ai_en">Artificial Intelligence</p>
-            <p data-i18n="research_ai_desc">围绕深度学习与智能系统的基础方法与工程实现展开探索。</p>
+            <h3 data-i18n="research_ai">Artificial Intelligence</h3>
+            <p class="en" data-i18n="research_ai_en">人工智能</p>
+            <p data-i18n="research_ai_desc">Exploring foundational methods and engineering practice of deep learning and intelligent systems.</p>
           </div>
           <div class="card">
-            <h3 data-i18n="research_llm">通用大语言模型</h3>
-            <p class="en" data-i18n="research_llm_en">General Large Language Models</p>
-            <p data-i18n="research_llm_desc">关注模型架构、指令微调与推理能力的构建与优化。</p>
+            <h3 data-i18n="research_llm">General Large Language Models</h3>
+            <p class="en" data-i18n="research_llm_en">通用大语言模型</p>
+            <p data-i18n="research_llm_desc">Focusing on model architectures, instruction tuning, and the construction and optimization of reasoning capabilities.</p>
           </div>
           <div class="card">
-            <h3 data-i18n="research_neuro">神经科学</h3>
-            <p class="en" data-i18n="research_neuro_en">Neuroscience</p>
-            <p data-i18n="research_neuro_desc">探索脑科学与智能计算交叉处的计算机制与类脑方法。</p>
+            <h3 data-i18n="research_neuro">Neuroscience</h3>
+            <p class="en" data-i18n="research_neuro_en">神经科学</p>
+            <p data-i18n="research_neuro_desc">Investigating computational mechanisms and brain-inspired methods at the intersection of brain science and intelligent computing.</p>
           </div>
           <div class="card">
-            <h3 data-i18n="research_inter">交叉科学</h3>
-            <p class="en" data-i18n="research_inter_en">Interdisciplinary Science</p>
-            <p data-i18n="research_inter_desc">推动人工智能与农业、生命科学等领域的交叉融合。</p>
+            <h3 data-i18n="research_inter">Interdisciplinary Science</h3>
+            <p class="en" data-i18n="research_inter_en">交叉科学</p>
+            <p data-i18n="research_inter_desc">Advancing the integration of AI with agriculture, life sciences, and other domains.</p>
           </div>
         </div>
       </section>
@@ -288,20 +280,19 @@ body.lang-en .brand .en{display:none}
       <!-- 成果 -->
       <section class="sec" id="work">
         <div class="sec-head">
-          <h2 data-i18n="work_title">成果</h2>
-          <span class="en">Work</span>
+          <h2 data-i18n="work_title">Work</h2>
         </div>
 
-        <p class="sub-head"><span data-i18n="papers_group">论文</span><span class="en">Papers</span></p>
+        <p class="sub-head" data-i18n="papers_group">Papers</p>
         <article class="entry">
           <div class="tags">
-            <span class="tag accent" data-i18n="badge_oral">Oral 报告</span>
-            <span class="tag" data-i18n="badge_conf">会议论文</span>
+            <span class="tag accent" data-i18n="badge_oral">Oral</span>
+            <span class="tag" data-i18n="badge_conf">Conference Paper</span>
           </div>
           <h3><a class="ext" href="https://doi.org/10.1109/CAIBDA70336.2026.11621665" target="_blank" rel="noopener noreferrer">Hybrid Feature-Aligned Knowledge Distillation for Lightweight Image Classification</a></h3>
           <p class="meta">
-            <span data-i18n="venue_1">2026 第六届人工智能、大数据与算法国际会议（CAIBDA）· 天津</span>
-            <span><span data-i18n="year_1">2026 年</span> · pp. 174-178</span>
+            <span data-i18n="venue_1">2026 6th International Conference on Artificial Intelligence, Big Data and Algorithms (CAIBDA), Tianjin, China</span>
+            <span><span data-i18n="year_1">2026</span> · pp. 174-178</span>
           </p>
           <p class="meta">
             <span class="k">DOI</span>
@@ -309,37 +300,37 @@ body.lang-en .brand .en{display:none}
           </p>
         </article>
 
-        <p class="sub-head"><span data-i18n="soft_group">软件项目</span><span class="en">Software</span></p>
+        <p class="sub-head" data-i18n="soft_group">Software</p>
         <article class="entry">
           <div class="soft-top">
             <h3>仓衡大模型 1.0</h3>
-            <span class="badge" data-i18n="soft_pioneer">首创</span>
+            <span class="badge" data-i18n="soft_pioneer">Pioneering</span>
           </div>
           <p class="soft-sub">Canbal v1.0 · Agricultural Intelligence System</p>
-          <p class="soft-desc" data-i18n="soft_desc">面向智慧农业的垂直领域大语言模型系统。以 Qwen3-8B 为基座模型，经过大规模农业领域指令数据深度优化，构建了多源感知与智能决策融合系统。创新性地引入元认知机制，使模型具备自我审视与策略调优能力，集成实时信息检索、气象数据融合、多 Agent 协同推理、领域知识图谱及 RAG 增强检索等技术模块，为农业生产、科研与管理提供全方位智能化支持。</p>
+          <p class="soft-desc" data-i18n="soft_desc">A vertical-domain large language model system designed for smart agriculture. Built upon Qwen3-8B with extensive agricultural instruction tuning, the system integrates multi-source perception with intelligent decision-making. Pioneering the introduction of metacognitive mechanisms, the model achieves self-reflection and strategy optimization capabilities. It incorporates real-time information retrieval, meteorological data fusion, multi-agent collaborative reasoning, domain knowledge graph, and RAG-enhanced retrieval modules, providing comprehensive intelligent support for agricultural production, research, and management.</p>
           <p class="soft-tech">
-            <span class="k" data-i18n="soft_tech_label">技术要点</span>
-            <span data-i18n="soft_tech">实时信息检索 · 气象数据融合 · 多 Agent 协同推理 · 元认知自反思 · 领域知识图谱 · RAG 增强检索</span>
+            <span class="k" data-i18n="soft_tech_label">Highlights</span>
+            <span data-i18n="soft_tech">Real-time retrieval · Meteorological fusion · Multi-agent reasoning · Metacognitive self-reflection · Domain knowledge graph · RAG-enhanced retrieval</span>
           </p>
           <p class="meta">
-            <span data-i18n="soft_base">Qwen3-8B + 大规模 SFT</span>
+            <span data-i18n="soft_base">Qwen3-8B + Large-scale SFT</span>
             <span class="sep">·</span>
-            <span data-i18n="soft_domain">智慧农业垂直领域</span>
+            <span data-i18n="soft_domain">Smart Agriculture Domain</span>
           </p>
         </article>
 
-        <p class="sub-head"><span data-i18n="review_group">审稿</span><span class="en">Reviewing</span></p>
+        <p class="sub-head" data-i18n="review_group">Reviewing</p>
         <article class="entry">
           <div class="tags">
-            <span class="tag accent" data-i18n="review_badge">审稿人</span>
+            <span class="tag accent" data-i18n="review_badge">Reviewer</span>
           </div>
-          <h3 data-i18n="review_nca">Neural Computing and Applications 期刊审稿人</h3>
-          <p class="meta"><span data-i18n="review_note">参与该期刊稿件评审工作。</span></p>
+          <h3 data-i18n="review_nca">Reviewer for Neural Computing and Applications</h3>
+          <p class="meta"><span data-i18n="review_note">Reviewing manuscripts for the journal.</span></p>
         </article>
       </section>
 
       <footer class="footer">
-        <p>© <span id="year">2026</span> Shutong Hou（侯抒彤）· <span data-i18n="footer_rights">保留所有权利</span></p>
+        <p>© <span id="year">2026</span> Shutong Hou（侯抒彤）· <span data-i18n="footer_rights">All rights reserved</span></p>
       </footer>
 
     </div>
@@ -347,59 +338,15 @@ body.lang-en .brand .en{display:none}
 </main>
 
 <script>
-/* ============ 中英文字典 ============ */
+/* ============ 英中文字典（默认英文，HTML 中的静态文本即英文） ============ */
 var I18N = {
-  zh: {
-    brand: "侯抒彤",
-    nav_about: "简介", nav_research: "研究", nav_work: "成果",
-    side_name: "侯抒彤",
-    side_name_en: "Shutong Hou",
-    side_role: "山西农业大学软件学院<br>本科在读 · 人工智能方向",
-    side_period: "2025 年至今",
-    side_contact: "联系方式",
-    c_school: "学校邮箱", c_phone: "电话", c_wechat: "hstpraxel",
-    side_info: "基本信息",
-    info_birth_label: "出生年份", info_birth: "2006 年",
-    info_loc_label: "所在地", info_location: "山西太原",
-    about_title: "简介",
-    about_p1: "我是山西农业大学软件学院本科生，主要研究人工智能与通用大语言模型，同时关注神经科学与交叉科学方向的问题。目前的兴趣集中在模型架构、指令微调与推理能力的构建与优化，以及人工智能在农业等垂直领域的落地应用。",
-    about_p2: "学术身份方面，目前为中国计算机学会（CCF）会员；研究成果曾在 2026 年第六届人工智能、大数据与算法国际会议（CAIBDA）上进行 Oral 报告，并担任 Neural Computing and Applications 期刊审稿人。",
-    edu_label: "教育经历",
-    edu_time: "2025 年至今",
-    edu_body: "山西农业大学软件学院 · 本科在读",
-    edu_note: "人工智能方向",
-    research_title: "研究方向",
-    research_ai: "人工智能", research_ai_en: "Artificial Intelligence",
-    research_ai_desc: "围绕深度学习与智能系统的基础方法与工程实现展开探索。",
-    research_llm: "通用大语言模型", research_llm_en: "General Large Language Models",
-    research_llm_desc: "关注模型架构、指令微调与推理能力的构建与优化。",
-    research_neuro: "神经科学", research_neuro_en: "Neuroscience",
-    research_neuro_desc: "探索脑科学与智能计算交叉处的计算机制与类脑方法。",
-    research_inter: "交叉科学", research_inter_en: "Interdisciplinary Science",
-    research_inter_desc: "推动人工智能与农业、生命科学等领域的交叉融合。",
-    work_title: "成果",
-    papers_group: "论文",
-    badge_oral: "Oral 报告", badge_conf: "会议论文",
-    venue_1: "2026 第六届人工智能、大数据与算法国际会议（CAIBDA）· 天津",
-    year_1: "2026 年",
-    soft_group: "软件项目",
-    soft_pioneer: "首创",
-    soft_desc: "面向智慧农业的垂直领域大语言模型系统。以 Qwen3-8B 为基座模型，经过大规模农业领域指令数据深度优化，构建了多源感知与智能决策融合系统。创新性地引入元认知机制，使模型具备自我审视与策略调优能力，集成实时信息检索、气象数据融合、多 Agent 协同推理、领域知识图谱及 RAG 增强检索等技术模块，为农业生产、科研与管理提供全方位智能化支持。",
-    soft_tech_label: "技术要点",
-    soft_tech: "实时信息检索 · 气象数据融合 · 多 Agent 协同推理 · 元认知自反思 · 领域知识图谱 · RAG 增强检索",
-    soft_base: "Qwen3-8B + 大规模 SFT", soft_domain: "智慧农业垂直领域",
-    review_group: "审稿",
-    review_badge: "审稿人",
-    review_nca: "Neural Computing and Applications 期刊审稿人",
-    review_note: "参与该期刊稿件评审工作。",
-    footer_rights: "保留所有权利"
-  },
   en: {
+    skip: "Skip to content",
     brand: "Shutong Hou",
     nav_about: "About", nav_research: "Research", nav_work: "Work",
     side_name: "Shutong Hou",
     side_name_en: "侯抒彤",
-    side_role: "College of Software<br>Shanxi Agricultural University",
+    side_role: "Shanxi Agricultural University<br>College of Software · Embedded Systems",
     side_period: "2025 – Present",
     side_contact: "Contact",
     c_school: "School Email", c_phone: "Phone", c_wechat: "hstpraxel",
@@ -407,12 +354,12 @@ var I18N = {
     info_birth_label: "Born", info_birth: "2006",
     info_loc_label: "Location", info_location: "Taiyuan, Shanxi",
     about_title: "About",
-    about_p1: "I am an undergraduate student at the College of Software, Shanxi Agricultural University. My research focuses on artificial intelligence and general large language models, with additional interests in neuroscience and interdisciplinary science. I am currently interested in model architectures, instruction tuning, and the construction and optimization of reasoning capabilities, as well as applied AI in vertical domains such as agriculture.",
+    about_p1: "I am an undergraduate student at the College of Software, Shanxi Agricultural University, on the Embedded Systems track. My research focuses on artificial intelligence and general large language models, with additional interests in neuroscience and interdisciplinary science. I am currently interested in model architectures, instruction tuning, and the construction and optimization of reasoning capabilities, as well as applied AI in vertical domains such as agriculture.",
     about_p2: "I am a member of the China Computer Federation (CCF). I presented my work as an Oral report at the 2026 6th International Conference on Artificial Intelligence, Big Data and Algorithms (CAIBDA), and I serve as a reviewer for Neural Computing and Applications.",
     edu_label: "Education",
     edu_time: "2025 – Present",
     edu_body: "College of Software, Shanxi Agricultural University",
-    edu_note: "B.Eng. Student",
+    edu_note: "Embedded Systems",
     research_title: "Research Interests",
     research_ai: "Artificial Intelligence", research_ai_en: "人工智能",
     research_ai_desc: "Exploring foundational methods and engineering practice of deep learning and intelligent systems.",
@@ -438,29 +385,74 @@ var I18N = {
     review_nca: "Reviewer for Neural Computing and Applications",
     review_note: "Reviewing manuscripts for the journal.",
     footer_rights: "All rights reserved"
+  },
+  zh: {
+    skip: "跳到正文",
+    brand: "侯抒彤",
+    nav_about: "简介", nav_research: "研究", nav_work: "成果",
+    side_name: "侯抒彤",
+    side_name_en: "Shutong Hou",
+    side_role: "山西农业大学<br>软件学院 · 嵌入式方向",
+    side_period: "2025 年至今",
+    side_contact: "联系方式",
+    c_school: "学校邮箱", c_phone: "电话", c_wechat: "hstpraxel",
+    side_info: "基本信息",
+    info_birth_label: "出生年份", info_birth: "2006 年",
+    info_loc_label: "所在地", info_location: "山西太原",
+    about_title: "简介",
+    about_p1: "我是山西农业大学软件学院本科生，本科方向为嵌入式系统。主要研究人工智能与通用大语言模型，同时关注神经科学与交叉科学方向的问题。目前的兴趣集中在模型架构、指令微调与推理能力的构建与优化，以及人工智能在农业等垂直领域的落地应用。",
+    about_p2: "学术身份方面，目前为中国计算机学会（CCF）会员；研究成果曾在 2026 年第六届人工智能、大数据与算法国际会议（CAIBDA）上进行 Oral 报告，并担任 Neural Computing and Applications 期刊审稿人。",
+    edu_label: "教育经历",
+    edu_time: "2025 年至今",
+    edu_body: "山西农业大学 · 软件学院",
+    edu_note: "嵌入式方向 · 本科在读",
+    research_title: "研究方向",
+    research_ai: "人工智能", research_ai_en: "Artificial Intelligence",
+    research_ai_desc: "围绕深度学习与智能系统的基础方法与工程实现展开探索。",
+    research_llm: "通用大语言模型", research_llm_en: "General Large Language Models",
+    research_llm_desc: "关注模型架构、指令微调与推理能力的构建与优化。",
+    research_neuro: "神经科学", research_neuro_en: "Neuroscience",
+    research_neuro_desc: "探索脑科学与智能计算交叉处的计算机制与类脑方法。",
+    research_inter: "交叉科学", research_inter_en: "Interdisciplinary Science",
+    research_inter_desc: "推动人工智能与农业、生命科学等领域的交叉融合。",
+    work_title: "成果",
+    papers_group: "论文",
+    badge_oral: "Oral 报告", badge_conf: "会议论文",
+    venue_1: "2026 第六届人工智能、大数据与算法国际会议（CAIBDA）· 天津",
+    year_1: "2026 年",
+    soft_group: "软件项目",
+    soft_pioneer: "首创",
+    soft_desc: "面向智慧农业的垂直领域大语言模型系统。以 Qwen3-8B 为基座模型，经过大规模农业领域指令数据深度优化，构建了多源感知与智能决策融合系统。创新性地引入元认知机制，使模型具备自我审视与策略调优能力，集成实时信息检索、气象数据融合、多 Agent 协同推理、领域知识图谱及 RAG 增强检索等技术模块，为农业生产、科研与管理提供全方位智能化支持。",
+    soft_tech_label: "技术要点",
+    soft_tech: "实时信息检索 · 气象数据融合 · 多 Agent 协同推理 · 元认知自反思 · 领域知识图谱 · RAG 增强检索",
+    soft_base: "Qwen3-8B + 大规模 SFT", soft_domain: "智慧农业垂直领域",
+    review_group: "审稿",
+    review_badge: "审稿人",
+    review_nca: "Neural Computing and Applications 期刊审稿人",
+    review_note: "参与该期刊稿件评审工作。",
+    footer_rights: "保留所有权利"
   }
 };
 
-/* ============ 语言切换 ============ */
+/* ============ 语言切换（默认英文） ============ */
 var LANG_KEY = "hou-lang";
-var currentLang = "zh";
+var currentLang = "en";
 function applyLang(lang) {
-  currentLang = lang === "en" ? "en" : "zh";
+  currentLang = lang === "zh" ? "zh" : "en";
   document.querySelectorAll("[data-i18n]").forEach(function (el) {
-    var key = el.getAttribute("data-i18n");
-    var val = I18N[currentLang][key];
+    var val = I18N[currentLang][el.getAttribute("data-i18n")];
     if (val == null) { return; }
     if (val.indexOf("<br>") > -1) { el.innerHTML = val; } else { el.textContent = val; }
   });
-  document.documentElement.lang = currentLang;
-  document.body.classList.toggle("lang-en", currentLang === "en");
-  document.getElementById("langBtn").textContent = currentLang === "zh" ? "EN" : "中";
+  document.documentElement.lang = currentLang === "zh" ? "zh" : "en";
+  document.getElementById("langBtn").textContent = currentLang === "en" ? "中" : "EN";
   try { localStorage.setItem(LANG_KEY, currentLang); } catch (e) {}
 }
 function initLang() {
   var saved = null;
   try { saved = localStorage.getItem(LANG_KEY); } catch (e) {}
-  var initial = (typeof location !== "undefined" && location.hash === "#en") || saved === "en" ? "en" : "zh";
+  var hash = (typeof location !== "undefined") ? location.hash : "";
+  var initial = (hash === "#zh" || saved === "zh") ? "zh" : "en";
   applyLang(initial);
 }
 /* ============ 导航高亮（滚动监听） ============ */
@@ -482,7 +474,7 @@ function initSpy() {
   });
 }
 document.getElementById("langBtn").addEventListener("click", function () {
-  applyLang(currentLang === "zh" ? "en" : "zh");
+  applyLang(currentLang === "en" ? "zh" : "en");
 });
 document.getElementById("year").textContent = new Date().getFullYear();
 initLang();
