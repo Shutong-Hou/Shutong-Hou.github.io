@@ -8,7 +8,7 @@
 <!--
   极简双栏版：左侧常驻个人信息栏 + 右侧内容正文。
   - 默认语言为英文：HTML 里的默认文本即英文，即使脚本被禁用也是英文页面，且不会出现中英闪烁。
-  - JavaScript 只负责语言切换、导航高亮、页脚年份；语言偏好存 localStorage，URL 带 #zh 可直接进入中文版。
+  - JavaScript 只负责语言切换、导航高亮、页脚年份；语言不写入本地存储，每次打开都是英文，URL 带 #zh 可直接进入中文版。
   - 纯系统字体，不依赖任何外部资源（无 CDN、无 Web Font），离线可用。
   - data-i18n 只加在纯文本元素上，不要加在含子元素的标签上，否则切换会覆盖子元素。
   改文案：改 HTML 英文文本 + 文件底部 I18N 字典；改配色：改 :root 变量（含深色模式）。
@@ -239,7 +239,6 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
           <h2 data-i18n="about_title">About</h2>
         </div>
         <p class="prose" data-i18n="about_p1">I am an undergraduate student at the College of Software, Shanxi Agricultural University, on the Embedded Systems track. My research focuses on artificial intelligence and general large language models, with additional interests in neuroscience and interdisciplinary science. I am currently interested in model architectures, instruction tuning, and the construction and optimization of reasoning capabilities, as well as applied AI in vertical domains such as agriculture.</p>
-        <p class="prose" data-i18n="about_p2">I am a member of the China Computer Federation (CCF). I presented my work as an Oral report at the 2026 6th International Conference on Artificial Intelligence, Big Data and Algorithms (CAIBDA), and I serve as a reviewer for Neural Computing and Applications.</p>
 
         <p class="sub-head" data-i18n="edu_label">Education</p>
         <div class="edu-item">
@@ -319,7 +318,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
           </p>
         </article>
 
-        <p class="sub-head" data-i18n="review_group">Reviewing</p>
+        <p class="sub-head" data-i18n="review_group">Academic Appointments</p>
         <article class="entry">
           <div class="tags">
             <span class="tag accent" data-i18n="review_badge">Reviewer</span>
@@ -355,7 +354,6 @@ var I18N = {
     info_loc_label: "Location", info_location: "Taiyuan, Shanxi",
     about_title: "About",
     about_p1: "I am an undergraduate student at the College of Software, Shanxi Agricultural University, on the Embedded Systems track. My research focuses on artificial intelligence and general large language models, with additional interests in neuroscience and interdisciplinary science. I am currently interested in model architectures, instruction tuning, and the construction and optimization of reasoning capabilities, as well as applied AI in vertical domains such as agriculture.",
-    about_p2: "I am a member of the China Computer Federation (CCF). I presented my work as an Oral report at the 2026 6th International Conference on Artificial Intelligence, Big Data and Algorithms (CAIBDA), and I serve as a reviewer for Neural Computing and Applications.",
     edu_label: "Education",
     edu_time: "2025 – Present",
     edu_body: "College of Software, Shanxi Agricultural University",
@@ -380,7 +378,7 @@ var I18N = {
     soft_tech_label: "Highlights",
     soft_tech: "Real-time retrieval · Meteorological fusion · Multi-agent reasoning · Metacognitive self-reflection · Domain knowledge graph · RAG-enhanced retrieval",
     soft_base: "Qwen3-8B + Large-scale SFT", soft_domain: "Smart Agriculture Domain",
-    review_group: "Reviewing",
+    review_group: "Academic Appointments",
     review_badge: "Reviewer",
     review_nca: "Reviewer for Neural Computing and Applications",
     review_note: "Reviewing manuscripts for the journal.",
@@ -401,7 +399,6 @@ var I18N = {
     info_loc_label: "所在地", info_location: "山西太原",
     about_title: "简介",
     about_p1: "我是山西农业大学软件学院本科生，本科方向为嵌入式系统。主要研究人工智能与通用大语言模型，同时关注神经科学与交叉科学方向的问题。目前的兴趣集中在模型架构、指令微调与推理能力的构建与优化，以及人工智能在农业等垂直领域的落地应用。",
-    about_p2: "学术身份方面，目前为中国计算机学会（CCF）会员；研究成果曾在 2026 年第六届人工智能、大数据与算法国际会议（CAIBDA）上进行 Oral 报告，并担任 Neural Computing and Applications 期刊审稿人。",
     edu_label: "教育经历",
     edu_time: "2025 年至今",
     edu_body: "山西农业大学 · 软件学院",
@@ -426,7 +423,7 @@ var I18N = {
     soft_tech_label: "技术要点",
     soft_tech: "实时信息检索 · 气象数据融合 · 多 Agent 协同推理 · 元认知自反思 · 领域知识图谱 · RAG 增强检索",
     soft_base: "Qwen3-8B + 大规模 SFT", soft_domain: "智慧农业垂直领域",
-    review_group: "审稿",
+    review_group: "学术兼职",
     review_badge: "审稿人",
     review_nca: "Neural Computing and Applications 期刊审稿人",
     review_note: "参与该期刊稿件评审工作。",
@@ -434,8 +431,7 @@ var I18N = {
   }
 };
 
-/* ============ 语言切换（默认英文） ============ */
-var LANG_KEY = "hou-lang";
+/* ============ 语言切换（每次打开默认英文，不做本地记忆） ============ */
 var currentLang = "en";
 function applyLang(lang) {
   currentLang = lang === "zh" ? "zh" : "en";
@@ -446,14 +442,13 @@ function applyLang(lang) {
   });
   document.documentElement.lang = currentLang === "zh" ? "zh" : "en";
   document.getElementById("langBtn").textContent = currentLang === "en" ? "中" : "EN";
-  try { localStorage.setItem(LANG_KEY, currentLang); } catch (e) {}
 }
 function initLang() {
-  var saved = null;
-  try { saved = localStorage.getItem(LANG_KEY); } catch (e) {}
+  /* 每次加载一律英文；只有地址栏带 #zh 时才进入中文（用于分享中文版）。
+     同时清掉旧版本写入的语言偏好，避免默认变成中文。 */
+  try { localStorage.removeItem("hou-lang"); } catch (e) {}
   var hash = (typeof location !== "undefined") ? location.hash : "";
-  var initial = (hash === "#zh" || saved === "zh") ? "zh" : "en";
-  applyLang(initial);
+  applyLang(hash === "#zh" ? "zh" : "en");
 }
 /* ============ 导航高亮（滚动监听） ============ */
 function initSpy() {
