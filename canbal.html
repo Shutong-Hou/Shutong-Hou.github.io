@@ -150,6 +150,35 @@ html.lang-zh .fig .fig-zh{display:block}
 .fig .hint{color:var(--accent);border-bottom:1px solid transparent;transition:border-color .18s ease}
 .fig .hint:hover{border-bottom-color:var(--accent)}
 
+/* ---------- 浮空大图预览（本页内放大，不跳转新页面） ---------- */
+.lightbox{
+  position:fixed;inset:0;z-index:300;
+  display:flex;align-items:center;justify-content:center;
+  padding:3vh 3vw;
+  background:rgba(10,12,16,.9);
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);
+  cursor:zoom-out;
+}
+.lightbox[hidden]{display:none}
+.lightbox img{
+  display:block;width:min(94vw,158vh);height:auto;
+  background:#fff;border-radius:8px;cursor:default;
+}
+/* 浮层里的图同样随语言切换 */
+.lightbox .lb-zh{display:none}
+html.lang-zh .lightbox .lb-en{display:none}
+html.lang-zh .lightbox .lb-zh{display:block}
+.lightbox-close{
+  position:absolute;top:16px;right:20px;
+  width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);
+  color:#fff;font-size:20px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .18s ease;
+}
+.lightbox-close:hover{background:rgba(255,255,255,.24)}
+body.lb-open{overflow:hidden}
+
 /* ---------- 架构概览 ---------- */
 .stages{list-style:none;display:flex;flex-direction:column;gap:14px;margin-top:6px}
 .stages .t{display:block;font-size:13.5px;font-weight:600;color:var(--ink)}
@@ -240,7 +269,7 @@ html.lang-zh .fig .fig-zh{display:block}
         <p class="note" data-i18n="report_note">This report currently contains the system architecture diagram. Detailed evaluation results are not yet available and will be updated here once released.</p>
 
         <figure class="fig">
-          <a class="fig-link" href="assets/canbal-flow-en.svg" target="_blank" rel="noopener noreferrer"
+          <a class="fig-link fig-open" href="assets/canbal-flow-en.svg" target="_blank" rel="noopener noreferrer"
              data-href-en="assets/canbal-flow-en.svg" data-href-zh="assets/canbal-flow-cn.svg">
             <img class="fig-en" src="assets/canbal-flow-en.svg"
                  alt="Canbal 1.0 system architecture: five-stage pipeline from data foundation and domain model to orchestration, world model and output"
@@ -251,9 +280,9 @@ html.lang-zh .fig .fig-zh{display:block}
           </a>
           <figcaption>
             <span data-i18n="fig_caption">Figure 1 · Canbal 1.0 system architecture</span>
-            <a class="hint" href="assets/canbal-flow-en.svg" target="_blank" rel="noopener noreferrer"
+            <a class="hint fig-open" href="assets/canbal-flow-en.svg" target="_blank" rel="noopener noreferrer"
                data-href-en="assets/canbal-flow-en.svg" data-href-zh="assets/canbal-flow-cn.svg"
-               data-i18n="fig_hint">Click to open full size</a>
+               data-i18n="fig_hint">Click to enlarge</a>
           </figcaption>
         </figure>
 
@@ -292,6 +321,15 @@ html.lang-zh .fig .fig-zh{display:block}
   </footer>
 </main>
 
+<!-- 浮空大图预览：点击架构图在本页内放大，不跳转新页面 -->
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lightbox-close" type="button" aria-label="Close">×</button>
+  <img class="lb-en" src="assets/canbal-flow-en.svg"
+       alt="Canbal 1.0 system architecture: five-stage pipeline from data foundation and domain model to orchestration, world model and output">
+  <img class="lb-zh" src="assets/canbal-flow-cn.svg"
+       alt="仓衡 1.0 系统架构：从数据底座、领域模型到编排工具、机理世界模型与输出反馈的五阶段流水线">
+</div>
+
 <script>
 /* ============ 英中文字典（默认英文） ============ */
 var I18N = {
@@ -312,7 +350,7 @@ var I18N = {
     report_title: "Technical Report",
     report_note: "This report currently contains the system architecture diagram. Detailed evaluation results are not yet available and will be updated here once released.",
     fig_caption: "Figure 1 · Canbal 1.0 system architecture",
-    fig_hint: "Click to open full size",
+    fig_hint: "Click to enlarge",
     arch_label: "Architecture Overview",
     s1_t: "S1 Data Foundation",
     s1_d: "SFT dataset of 15,002 samples across 36 sub-categories; agronomy corpus (cropping · disease · soil); 646 de-duplicated policy documents; 2,487 curated and sourced encyclopedia entries; crop–disease–pesticide knowledge-graph triples; Chroma vector store with bge + BM25 index.",
@@ -406,6 +444,32 @@ function showPanel(id) {
 }
 document.querySelectorAll(".v-btn").forEach(function (btn) {
   btn.addEventListener("click", function () { showPanel(btn.getAttribute("data-panel")); });
+});
+
+/* ============ 浮空大图预览 ============ */
+var lightbox = document.getElementById("lightbox");
+function openLightbox() {
+  lightbox.hidden = false;
+  document.body.classList.add("lb-open");
+}
+function closeLightbox() {
+  lightbox.hidden = true;
+  document.body.classList.remove("lb-open");
+}
+document.querySelectorAll(".fig-open").forEach(function (el) {
+  el.addEventListener("click", function (e) {
+    /* 按住 Ctrl / Cmd / Shift 或中键点击时，保留新标签页打开原图的能力 */
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) { return; }
+    e.preventDefault();
+    openLightbox();
+  });
+});
+lightbox.addEventListener("click", function (e) {
+  if (e.target === lightbox) { closeLightbox(); }
+});
+lightbox.querySelector(".lightbox-close").addEventListener("click", closeLightbox);
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape" && !lightbox.hidden) { closeLightbox(); }
 });
 
 document.getElementById("langBtn").addEventListener("click", function () {
