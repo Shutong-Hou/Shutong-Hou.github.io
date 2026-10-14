@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Canbal · 仓衡大模型</title>
+<meta name="description" content="Canbal (仓衡大模型) — an agricultural vertical-domain large language model. System architecture and technical report.">
+<script>document.documentElement.classList.add("js");</script>
+<!--
+  项目详情页：仓衡大模型 / Canbal。
+  - 布局：顶部项目信息 + 左侧版本栏 + 右侧内容面板；点左侧版本切换右侧内容（无需刷新）。
+  - 默认语言为英文，可用右上角按钮切换中文；地址栏带 #zh 进入中文版，带 #other 定位到「其他」版本。
+  - 架构图为矢量 SVG，随语言自动切换（assets/canbal-flow-en.svg / canbal-flow-cn.svg）。
+  - 无 JS 时左侧按钮无效，但所有版本内容会依次平铺显示，不会丢内容。
+  - 样式与 index.html 保持一致，各自独立内嵌；改配色请改本文件与 index.html 两处 :root。
+  改文案：改 HTML 英文文本 + 文件底部 I18N 字典。
+-->
+<style>
+:root{
+  --bg:#ffffff;
+  --bg-blur:rgba(255,255,255,.86);
+  --surface:#f7f8fa;
+  --ink:#17181c;
+  --ink-2:#4d525b;
+  --ink-3:#8a8f99;
+  --line:#e7e9ec;
+  --line-strong:#d5d9df;
+  --accent:#2563eb;
+  --accent-soft:#eef3fe;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Noto Sans CJK SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0f1115;
+    --bg-blur:rgba(15,17,21,.86);
+    --surface:#171a20;
+    --ink:#e8eaee;
+    --ink-2:#a7adb8;
+    --ink-3:#767c88;
+    --line:#252a32;
+    --line-strong:#333a44;
+    --accent:#7aa7ff;
+    --accent-soft:#172030;
+  }
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--ink);
+  font-size:15px;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+::selection{background:var(--accent-soft);color:var(--accent)}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+
+/* ---------- 顶栏 ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:var(--bg-blur);
+  -webkit-backdrop-filter:saturate(180%) blur(12px);
+  backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{
+  max-width:1000px;margin:0 auto;padding:0 24px;
+  height:56px;display:flex;align-items:center;justify-content:space-between;gap:20px;
+}
+.brand{font-size:14.5px;font-weight:600;color:var(--ink-2);white-space:nowrap;transition:color .18s ease}
+.brand:hover{color:var(--accent)}
+.lang-btn{
+  font-family:inherit;font-size:12.5px;color:var(--ink-2);
+  border:1px solid var(--line-strong);border-radius:6px;background:none;
+  padding:3px 11px;cursor:pointer;white-space:nowrap;transition:color .18s ease,border-color .18s ease;
+}
+.lang-btn:hover{color:var(--accent);border-color:var(--accent)}
+
+/* ---------- 页头 ---------- */
+.head{max-width:1000px;margin:0 auto;padding:48px 24px 30px;border-bottom:1px solid var(--line-strong)}
+.head .label{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.head h1{font-size:clamp(28px,4vw,38px);font-weight:700;letter-spacing:.01em;margin-top:11px;line-height:1.25}
+.head .sub{font-size:15px;color:var(--ink-2);margin-top:7px}
+.head .intro{font-size:14.5px;color:var(--ink-2);line-height:1.85;margin-top:16px;max-width:78ch}
+
+/* ---------- 骨架：左侧版本栏 + 右侧内容 ---------- */
+.layout{
+  max-width:1000px;margin:0 auto;padding:0 24px;
+  display:grid;grid-template-columns:212px minmax(0,1fr);gap:52px;align-items:start;
+}
+.versions{position:sticky;top:76px;padding:30px 0 56px}
+.versions .label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px}
+.v-btn{
+  display:block;width:100%;text-align:left;font:inherit;cursor:pointer;
+  background:none;border:1px solid var(--line);border-radius:8px;
+  padding:10px 13px;margin-bottom:8px;
+  transition:border-color .18s ease,background .18s ease;
+}
+.v-btn:hover{border-color:var(--line-strong)}
+.v-btn .n{display:block;font-size:14px;font-weight:600;color:var(--ink);transition:color .18s ease}
+.v-btn .s{display:block;font-size:11.5px;color:var(--ink-3);margin-top:2px;transition:color .18s ease}
+.v-btn.active{border-color:var(--accent);background:var(--accent-soft)}
+.v-btn.active .n,.v-btn.active .s{color:var(--accent)}
+
+.content{min-width:0;padding:30px 0 64px}
+.panel{display:block}
+html.js .panel{display:none}
+html.js .panel.active{display:block}
+.panel-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.panel-head h2{font-size:19px;font-weight:650;letter-spacing:.01em}
+.badge{font-size:11.5px;letter-spacing:.04em;border-radius:5px;padding:1px 8px;background:var(--accent-soft);color:var(--accent)}
+.badge.muted{background:var(--surface);color:var(--ink-3);border:1px solid var(--line-strong)}
+
+/* ---------- 正文元素 ---------- */
+.prose{font-size:14.5px;color:var(--ink-2);line-height:1.85}
+.prose strong{font-weight:600;color:var(--ink)}
+.soft-sub{font-size:12.5px;color:var(--ink-3);font-family:var(--mono);margin-bottom:14px}
+.kv-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin:18px 0 4px}
+.kv{font-size:13.5px;color:var(--ink-2);line-height:1.8}
+.meta{font-size:13px;color:var(--ink-2);margin-top:16px;display:flex;flex-wrap:wrap;column-gap:20px;row-gap:3px}
+.meta .sep{color:var(--ink-3)}
+.report-title{
+  font-size:15px;font-weight:650;letter-spacing:.01em;
+  margin:30px 0 0;padding-top:22px;border-top:1px solid var(--line-strong);
+}
+.note{font-size:13px;color:var(--ink-3);line-height:1.75;margin-top:10px}
+
+/* ---------- 架构图 ---------- */
+.fig{margin:20px 0 0}
+.fig a{display:block}
+.fig img{
+  display:block;width:100%;height:auto;
+  background:#fff;border:1px solid var(--line);border-radius:10px;
+}
+.fig a:hover img{border-color:var(--line-strong)}
+.fig figcaption{
+  margin-top:10px;font-size:12.5px;color:var(--ink-3);
+  display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;
+}
+.fig .hint{color:var(--accent)}
+
+/* ---------- 架构概览 ---------- */
+.stages{list-style:none;display:flex;flex-direction:column;gap:14px;margin-top:6px}
+.stages .t{display:block;font-size:13.5px;font-weight:600;color:var(--ink)}
+.stages .d{display:block;font-size:13.5px;color:var(--ink-2);line-height:1.75;margin-top:2px}
+.loop{
+  margin-top:22px;padding:14px 16px;border-radius:8px;
+  background:var(--surface);border:1px solid var(--line);
+  font-size:13.5px;color:var(--ink-2);line-height:1.75;
+}
+.loop .t{display:block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:4px}
+
+/* ---------- 页脚 ---------- */
+.footer{max-width:1000px;margin:0 auto;padding:26px 24px 44px;border-top:1px solid var(--line)}
+.footer p{font-size:12.5px;color:var(--ink-3)}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important}
+}
+@media (max-width:860px){
+  .layout{grid-template-columns:1fr;gap:0}
+  .versions{position:static;padding:26px 0 0}
+  .versions .label{margin-bottom:10px}
+  .v-btn{display:inline-block;width:auto;margin:0 8px 8px 0}
+  .content{padding:24px 0 48px}
+}
+@media (max-width:640px){
+  .head{padding:32px 18px 22px}
+  .topbar-inner,.layout,.footer{padding-left:18px;padding-right:18px}
+  .head .intro{margin-top:14px}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="index.html" data-i18n="back">← Shutong Hou</a>
+    <button class="lang-btn" id="langBtn" type="button" aria-label="Switch language">中</button>
+  </div>
+</header>
+
+<main>
+  <!-- 项目信息 -->
+  <div class="head">
+    <p class="label" data-i18n="page_label">Software Project</p>
+    <h1>仓衡大模型</h1>
+    <p class="sub" data-i18n="page_sub">Canbal · Agricultural Large Language Model</p>
+    <p class="intro" data-i18n="page_intro">Canbal (仓衡) is a vertical-domain large language model system for smart agriculture. Built on Qwen3-8B with large-scale agricultural instruction tuning, it combines multi-source retrieval, multi-agent collaborative reasoning and a mechanism-based world model to support agricultural production, research and management.</p>
+  </div>
+
+  <div class="layout">
+    <!-- 左侧：版本栏 -->
+    <aside class="versions">
+      <p class="label" data-i18n="versions_label">Versions</p>
+      <button class="v-btn active" type="button" data-panel="v1" aria-pressed="true">
+        <span class="n">仓衡 1.0</span>
+        <span class="s" data-i18n="v1_status">Released</span>
+      </button>
+      <button class="v-btn" type="button" data-panel="other" aria-pressed="false">
+        <span class="n" data-i18n="nav_other">Other Versions</span>
+        <span class="s" data-i18n="other_status">In Development</span>
+      </button>
+    </aside>
+
+    <!-- 右侧：内容面板 -->
+    <div class="content">
+
+      <!-- 仓衡 1.0 技术报告 -->
+      <section class="panel active" id="panel-v1" aria-label="仓衡 1.0">
+        <div class="panel-head">
+          <h2>仓衡 1.0</h2>
+          <span class="badge" data-i18n="v1_status">Released</span>
+        </div>
+        <p class="soft-sub">Canbal v1.0 · Agricultural Intelligence System</p>
+        <p class="prose" data-i18n="v1_desc">A vertical-domain large language model system designed for smart agriculture. Built upon Qwen3-8B with extensive agricultural instruction tuning, the system integrates multi-source perception with intelligent decision-making. Pioneering the introduction of metacognitive mechanisms, the model achieves self-reflection and strategy optimization capabilities. It incorporates real-time information retrieval, meteorological data fusion, multi-agent collaborative reasoning, domain knowledge graph, and RAG-enhanced retrieval modules, providing comprehensive intelligent support for agricultural production, research, and management.</p>
+
+        <p class="kv-label" data-i18n="v1_tech_label">Highlights</p>
+        <p class="kv" data-i18n="v1_tech">Real-time retrieval · Meteorological fusion · Multi-agent reasoning · Metacognitive self-reflection · Domain knowledge graph · RAG-enhanced retrieval</p>
+
+        <p class="meta">
+          <span data-i18n="v1_base">Qwen3-8B + Large-scale SFT</span>
+          <span class="sep">·</span>
+          <span data-i18n="v1_domain">Smart Agriculture Domain</span>
+        </p>
+
+        <h3 class="report-title" data-i18n="report_title">Technical Report</h3>
+        <p class="note" data-i18n="report_note">This report currently contains the system architecture diagram. Detailed evaluation results are not yet available and will be updated here once released.</p>
+
+        <figure class="fig">
+          <a href="assets/canbal-flow-en.svg" target="_blank" rel="noopener noreferrer"
+             data-href-en="assets/canbal-flow-en.svg" data-href-zh="assets/canbal-flow-cn.svg">
+            <img src="assets/canbal-flow-en.svg"
+                 data-src-en="assets/canbal-flow-en.svg" data-src-zh="assets/canbal-flow-cn.svg"
+                 data-alt-en="Canbal 1.0 system architecture: five-stage pipeline from data foundation and domain model to orchestration, world model and output"
+                 data-alt-zh="仓衡 1.0 系统架构：从数据底座、领域模型到编排工具、机理世界模型与输出反馈的五阶段流水线"
+                 alt="Canbal 1.0 system architecture"
+                 loading="lazy" decoding="async">
+          </a>
+          <figcaption>
+            <span data-i18n="fig_caption">Figure 1 · Canbal 1.0 system architecture</span>
+            <span class="hint" data-i18n="fig_hint">Click to open full size</span>
+          </figcaption>
+        </figure>
+
+        <p class="kv-label" data-i18n="arch_label">Architecture Overview</p>
+        <ul class="stages">
+          <li><span class="t" data-i18n="s1_t">S1 Data Foundation</span><span class="d" data-i18n="s1_d">SFT dataset of 15,002 samples across 36 sub-categories; agronomy corpus (cropping · disease · soil); 646 de-duplicated policy documents; 2,487 curated and sourced encyclopedia entries; crop–disease–pesticide knowledge-graph triples; Chroma vector store with bge + BM25 index.</span></li>
+          <li><span class="t" data-i18n="s2_t">S2 Domain Model</span><span class="d" data-i18n="s2_d">Qwen3-8B + LoRA (r16 / α32); 4-bit QLoRA loading, single-GPU trainable; 15,002 supervised samples with assistant-only loss; KV int8 quantization saving ~50% KV memory; low-temperature decoding (0.1, top_p 0.9); repeat stop and de-duplication.</span></li>
+          <li><span class="t" data-i18n="s3_t">S3 Orchestration &amp; Tools</span><span class="d" data-i18n="s3_d">Agent ReAct with at most 5 steps (tools before answer); intent routing (multi-hop → agent); hybrid retrieval (3-way recall · rerank); knowledge-graph multi-hop (networkx · 2–3 hops); deterministic routing with exact dosage and units; metacognition check (confidence + logit gap).</span></li>
+          <li><span class="t" data-i18n="s4_t">S4 World Model</span><span class="d" data-i18n="s4_d">GDD phenology (daily thermal-time accumulation); FAO-56 water balance (ET0 + crop coefficient); disease-risk index (weather × growth stage); spray window (suitable weather slot); locked default parameter layer (wm_params.json, read-only); calibration override (wm_calibrated.json).</span></li>
+          <li><span class="t" data-i18n="s5_t">S5 Output &amp; Feedback</span><span class="d" data-i18n="s5_d">Source citation [N] with source-level grading; confidence grading (low → clarification); pre-harvest interval safety notice shown once; expandable chain-of-thought (4-step reasoning); structured report generation; side-by-side crop table comparison.</span></li>
+        </ul>
+
+        <p class="kv-label" data-i18n="ext_label">External Interfaces</p>
+        <p class="kv" data-i18n="ext_text">Base model Qwen3-8B-Instruct · QWeather API · Tavily web search · institution CSV data</p>
+
+        <p class="loop">
+          <span class="t" data-i18n="loop_label">Calibration Loop</span>
+          <span data-i18n="loop_text">Institution field data (yield / phenology / disease / weather) → override layer hot-applied → the world model improves with use.</span>
+        </p>
+      </section>
+
+      <!-- 其他版本 -->
+      <section class="panel" id="panel-other" aria-label="Other versions">
+        <div class="panel-head">
+          <h2 data-i18n="nav_other">Other Versions</h2>
+          <span class="badge muted" data-i18n="other_status">In Development</span>
+        </div>
+        <p class="prose" data-i18n="other_text">Later versions are currently under development and have not been released. Technical reports and evaluation results will be published here once available.</p>
+      </section>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© <span id="year">2026</span> Shutong Hou（侯抒彤）· <span data-i18n="footer_rights">All rights reserved</span></p>
+  </footer>
+</main>
+
+<script>
+/* ============ 英中文字典（默认英文） ============ */
+var I18N = {
+  en: {
+    back: "← Shutong Hou",
+    page_label: "Software Project",
+    page_sub: "Canbal · Agricultural Large Language Model",
+    page_intro: "Canbal (仓衡) is a vertical-domain large language model system for smart agriculture. Built on Qwen3-8B with large-scale agricultural instruction tuning, it combines multi-source retrieval, multi-agent collaborative reasoning and a mechanism-based world model to support agricultural production, research and management.",
+    versions_label: "Versions",
+    nav_other: "Other Versions",
+    v1_status: "Released",
+    other_status: "In Development",
+    v1_desc: "A vertical-domain large language model system designed for smart agriculture. Built upon Qwen3-8B with extensive agricultural instruction tuning, the system integrates multi-source perception with intelligent decision-making. Pioneering the introduction of metacognitive mechanisms, the model achieves self-reflection and strategy optimization capabilities. It incorporates real-time information retrieval, meteorological data fusion, multi-agent collaborative reasoning, domain knowledge graph, and RAG-enhanced retrieval modules, providing comprehensive intelligent support for agricultural production, research, and management.",
+    v1_tech_label: "Highlights",
+    v1_tech: "Real-time retrieval · Meteorological fusion · Multi-agent reasoning · Metacognitive self-reflection · Domain knowledge graph · RAG-enhanced retrieval",
+    v1_base: "Qwen3-8B + Large-scale SFT",
+    v1_domain: "Smart Agriculture Domain",
+    report_title: "Technical Report",
+    report_note: "This report currently contains the system architecture diagram. Detailed evaluation results are not yet available and will be updated here once released.",
+    fig_caption: "Figure 1 · Canbal 1.0 system architecture",
+    fig_hint: "Click to open full size",
+    arch_label: "Architecture Overview",
+    s1_t: "S1 Data Foundation",
+    s1_d: "SFT dataset of 15,002 samples across 36 sub-categories; agronomy corpus (cropping · disease · soil); 646 de-duplicated policy documents; 2,487 curated and sourced encyclopedia entries; crop–disease–pesticide knowledge-graph triples; Chroma vector store with bge + BM25 index.",
+    s2_t: "S2 Domain Model",
+    s2_d: "Qwen3-8B + LoRA (r16 / α32); 4-bit QLoRA loading, single-GPU trainable; 15,002 supervised samples with assistant-only loss; KV int8 quantization saving ~50% KV memory; low-temperature decoding (0.1, top_p 0.9); repeat stop and de-duplication.",
+    s3_t: "S3 Orchestration & Tools",
+    s3_d: "Agent ReAct with at most 5 steps (tools before answer); intent routing (multi-hop → agent); hybrid retrieval (3-way recall · rerank); knowledge-graph multi-hop (networkx · 2–3 hops); deterministic routing with exact dosage and units; metacognition check (confidence + logit gap).",
+    s4_t: "S4 World Model",
+    s4_d: "GDD phenology (daily thermal-time accumulation); FAO-56 water balance (ET0 + crop coefficient); disease-risk index (weather × growth stage); spray window (suitable weather slot); locked default parameter layer (wm_params.json, read-only); calibration override (wm_calibrated.json).",
+    s5_t: "S5 Output & Feedback",
+    s5_d: "Source citation [N] with source-level grading; confidence grading (low → clarification); pre-harvest interval safety notice shown once; expandable chain-of-thought (4-step reasoning); structured report generation; side-by-side crop table comparison.",
+    ext_label: "External Interfaces",
+    ext_text: "Base model Qwen3-8B-Instruct · QWeather API · Tavily web search · institution CSV data",
+    loop_label: "Calibration Loop",
+    loop_text: "Institution field data (yield / phenology / disease / weather) → override layer hot-applied → the world model improves with use.",
+    other_text: "Later versions are currently under development and have not been released. Technical reports and evaluation results will be published here once available.",
+    footer_rights: "All rights reserved"
+  },
+  zh: {
+    back: "← 侯抒彤",
+    page_label: "软件项目",
+    page_sub: "Canbal · 农业垂直领域大语言模型",
+    page_intro: "仓衡（Canbal）是面向智慧农业的垂直领域大语言模型系统。以 Qwen3-8B 为基座，经过大规模农业领域指令数据深度优化，结合多源检索、多 Agent 协同推理与机理世界模型，为农业生产、科研与管理提供智能化支持。",
+    versions_label: "版本",
+    nav_other: "其他",
+    v1_status: "已发布",
+    other_status: "研发中",
+    v1_desc: "面向智慧农业的垂直领域大语言模型系统。以 Qwen3-8B 为基座模型，经过大规模农业领域指令数据深度优化，构建了多源感知与智能决策融合系统。创新性地引入元认知机制，使模型具备自我审视与策略调优能力，集成实时信息检索、气象数据融合、多 Agent 协同推理、领域知识图谱及 RAG 增强检索等技术模块，为农业生产、科研与管理提供全方位智能化支持。",
+    v1_tech_label: "技术要点",
+    v1_tech: "实时信息检索 · 气象数据融合 · 多 Agent 协同推理 · 元认知自反思 · 领域知识图谱 · RAG 增强检索",
+    v1_base: "Qwen3-8B + 大规模 SFT",
+    v1_domain: "智慧农业垂直领域",
+    report_title: "技术报告",
+    report_note: "本技术报告目前包含系统架构图；详细评测结果尚未发布，完成后将在此更新。",
+    fig_caption: "图 1 · 仓衡 1.0 系统架构",
+    fig_hint: "点击查看大图",
+    arch_label: "架构概览",
+    s1_t: "S1 数据底座",
+    s1_d: "SFT 数据 15,002 条，覆盖 36 个子类；农事专业语料（栽培 · 病害 · 土壤）；政策法规 646 份（去重后入库）；百科词条 2,487 条（保守过滤 + 来源标注）；作物—病害—农药知识图谱三元组；Chroma 向量库（bge-small-zh + BM25）。",
+    s2_t: "S2 领域模型",
+    s2_d: "Qwen3-8B + LoRA（r16 / α32）；4bit QLoRA 加载，单卡 24 GB 可训；监督微调 15,002 条，assistant_only_loss；KV int8 量化，省约 50% KV 显存；低温度解码 0.1，top_p 0.9；循环抑制与去重。",
+    s3_t: "S3 编排与工具",
+    s3_d: "Agent ReAct（≤5 步，先工具后回答）；意图分流（多跳 / 推演走 Agent）；混合检索（向量 + BM25 + HyDE，三路召回 · 可精排）；知识图谱多跳（networkx · 2–3 跳）；确定性硬路由（配药 / 换算 100%）；元认知校验（置信度 + 对数概率差）。",
+    s4_t: "S4 机理世界模型",
+    s4_d: "积温生育期 GDD（逐日积温累加）；水分平衡 FAO-56（ET0 + 作物系数）；病害风险指数（温湿阈值 × 生育期）；打药窗口（气象适宜时段）；默认参数层（锁死，wm_params.json · 只读）；校准覆盖层（可回退，wm_calibrated.json）。",
+    s5_t: "S5 输出与反馈",
+    s5_d: "来源标注 [N]（来源级可信度分级）；置信度分级（低置信转追问）；涉药安全间隔期（安全提示去重一次）；可展开思维链（需求→环境→知识→结论）；诊断与防治报告（结构化报告输出）；表格对比（多作物要点对照）。",
+    ext_label: "外部接入",
+    ext_text: "基座模型 Qwen3-8B-Instruct · 和风天气 API · Tavily 联网搜索 · 机构校准数据 CSV",
+    loop_label: "校准闭环",
+    loop_text: "机构实测数据（产量 / 生育期 / 病害 / 气象）→ 参数覆盖层热生效 → 世界模型越用越准。",
+    other_text: "后续版本正在研发中，尚未发布。相关技术报告与评测结果将在完成后更新于此。",
+    footer_rights: "保留所有权利"
+  }
+};
+
+/* ============ 语言切换（每次打开默认英文，不做本地记忆） ============ */
+var currentLang = "en";
+function applyLang(lang) {
+  currentLang = lang === "zh" ? "zh" : "en";
+  document.querySelectorAll("[data-i18n]").forEach(function (el) {
+    var val = I18N[currentLang][el.getAttribute("data-i18n")];
+    if (val == null) { return; }
+    el.textContent = val;
+  });
+  /* 架构图随语言切换：中英文各一版矢量图 */
+  document.querySelectorAll("[data-src-en]").forEach(function (el) {
+    el.src = currentLang === "zh" ? el.getAttribute("data-src-zh") : el.getAttribute("data-src-en");
+    el.alt = currentLang === "zh" ? el.getAttribute("data-alt-zh") : el.getAttribute("data-alt-en");
+  });
+  document.querySelectorAll("[data-href-en]").forEach(function (el) {
+    el.href = currentLang === "zh" ? el.getAttribute("data-href-zh") : el.getAttribute("data-href-en");
+  });
+  document.documentElement.lang = currentLang === "zh" ? "zh" : "en";
+  document.getElementById("langBtn").textContent = currentLang === "en" ? "中" : "EN";
+}
+function initLang() {
+  try { localStorage.removeItem("hou-lang"); } catch (e) {}
+  var hash = (typeof location !== "undefined") ? location.hash : "";
+  applyLang(hash === "#zh" ? "zh" : "en");
+}
+
+/* ============ 版本切换（左侧栏 → 右侧面板） ============ */
+var PANELS = ["v1", "other"];
+function showPanel(id) {
+  if (PANELS.indexOf(id) < 0) { id = PANELS[0]; }
+  PANELS.forEach(function (p) {
+    var panel = document.getElementById("panel-" + p);
+    var btn = document.querySelector('.v-btn[data-panel="' + p + '"]');
+    var on = (p === id);
+    if (panel) { panel.classList.toggle("active", on); }
+    if (btn) { btn.classList.toggle("active", on); btn.setAttribute("aria-pressed", on ? "true" : "false"); }
+  });
+}
+document.querySelectorAll(".v-btn").forEach(function (btn) {
+  btn.addEventListener("click", function () { showPanel(btn.getAttribute("data-panel")); });
+});
+
+document.getElementById("langBtn").addEventListener("click", function () {
+  applyLang(currentLang === "en" ? "zh" : "en");
+});
+document.getElementById("year").textContent = new Date().getFullYear();
+initLang();
+showPanel((typeof location !== "undefined" && location.hash === "#other") ? "other" : "v1");
+</script>
+</body>
+</html>

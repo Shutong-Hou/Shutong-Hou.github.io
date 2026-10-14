@@ -152,13 +152,14 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .ext::after{content:"↗";font-size:.78em;margin-left:3px;color:var(--accent)}
 
 /* 软件项目 */
-.soft-top{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
-.soft-top h3{font-size:15.5px;font-weight:650}
-.badge{font-size:11.5px;letter-spacing:.04em;border-radius:5px;padding:1px 8px;background:var(--accent-soft);color:var(--accent)}
-.soft-sub{font-size:12.5px;color:var(--ink-3);font-family:var(--mono);margin-top:4px}
-.soft-desc{font-size:14px;color:var(--ink-2);line-height:1.85;margin-top:12px}
-.soft-tech{font-size:13.5px;color:var(--ink-2);line-height:1.8;margin-top:12px}
-.soft-tech .k{display:block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+.soft-sub{font-size:12.5px;color:var(--ink-3);font-family:var(--mono);margin-top:5px}
+.soft-desc{font-size:14px;color:var(--ink-2);line-height:1.85;margin-top:11px}
+.more{
+  display:inline-block;font-size:13.5px;color:var(--accent);margin-top:11px;
+  border-bottom:1px solid transparent;transition:border-color .18s ease;
+}
+.more::after{content:" →"}
+.more:hover{border-bottom-color:var(--accent)}
 
 /* ---------- 页脚 ---------- */
 .footer{border-top:1px solid var(--line);margin-top:0;padding:22px 0 0}
@@ -301,21 +302,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
         <p class="sub-head" data-i18n="soft_group">Software</p>
         <article class="entry">
-          <div class="soft-top">
-            <h3>仓衡大模型 1.0</h3>
-            <span class="badge" data-i18n="soft_pioneer">Pioneering</span>
-          </div>
-          <p class="soft-sub">Canbal v1.0 · Agricultural Intelligence System</p>
-          <p class="soft-desc" data-i18n="soft_desc">A vertical-domain large language model system designed for smart agriculture. Built upon Qwen3-8B with extensive agricultural instruction tuning, the system integrates multi-source perception with intelligent decision-making. Pioneering the introduction of metacognitive mechanisms, the model achieves self-reflection and strategy optimization capabilities. It incorporates real-time information retrieval, meteorological data fusion, multi-agent collaborative reasoning, domain knowledge graph, and RAG-enhanced retrieval modules, providing comprehensive intelligent support for agricultural production, research, and management.</p>
-          <p class="soft-tech">
-            <span class="k" data-i18n="soft_tech_label">Highlights</span>
-            <span data-i18n="soft_tech">Real-time retrieval · Meteorological fusion · Multi-agent reasoning · Metacognitive self-reflection · Domain knowledge graph · RAG-enhanced retrieval</span>
-          </p>
-          <p class="meta">
-            <span data-i18n="soft_base">Qwen3-8B + Large-scale SFT</span>
-            <span class="sep">·</span>
-            <span data-i18n="soft_domain">Smart Agriculture Domain</span>
-          </p>
+          <h3><a href="canbal.html">仓衡大模型</a></h3>
+          <p class="soft-sub" data-i18n="soft_sub">Canbal · Agricultural Large Language Model</p>
+          <p class="soft-desc" data-i18n="soft_desc">A vertical-domain large language model for smart agriculture, built on Qwen3-8B with large-scale agricultural instruction tuning and multi-source retrieval.</p>
+          <p><a class="more" href="canbal.html" data-i18n="soft_more">Technical report and details</a></p>
         </article>
 
         <p class="sub-head" data-i18n="review_group">Academic Appointments</p>
@@ -373,11 +363,9 @@ var I18N = {
     venue_1: "2026 6th International Conference on Artificial Intelligence, Big Data and Algorithms (CAIBDA), Tianjin, China",
     year_1: "2026",
     soft_group: "Software",
-    soft_pioneer: "Pioneering",
-    soft_desc: "A vertical-domain large language model system designed for smart agriculture. Built upon Qwen3-8B with extensive agricultural instruction tuning, the system integrates multi-source perception with intelligent decision-making. Pioneering the introduction of metacognitive mechanisms, the model achieves self-reflection and strategy optimization capabilities. It incorporates real-time information retrieval, meteorological data fusion, multi-agent collaborative reasoning, domain knowledge graph, and RAG-enhanced retrieval modules, providing comprehensive intelligent support for agricultural production, research, and management.",
-    soft_tech_label: "Highlights",
-    soft_tech: "Real-time retrieval · Meteorological fusion · Multi-agent reasoning · Metacognitive self-reflection · Domain knowledge graph · RAG-enhanced retrieval",
-    soft_base: "Qwen3-8B + Large-scale SFT", soft_domain: "Smart Agriculture Domain",
+    soft_sub: "Canbal · Agricultural Large Language Model",
+    soft_desc: "A vertical-domain large language model for smart agriculture, built on Qwen3-8B with large-scale agricultural instruction tuning and multi-source retrieval.",
+    soft_more: "Technical report and details",
     review_group: "Academic Appointments",
     review_badge: "Reviewer",
     review_nca: "Reviewer for Neural Computing and Applications",
@@ -418,11 +406,9 @@ var I18N = {
     venue_1: "2026 第六届人工智能、大数据与算法国际会议（CAIBDA）· 天津",
     year_1: "2026 年",
     soft_group: "软件项目",
-    soft_pioneer: "首创",
-    soft_desc: "面向智慧农业的垂直领域大语言模型系统。以 Qwen3-8B 为基座模型，经过大规模农业领域指令数据深度优化，构建了多源感知与智能决策融合系统。创新性地引入元认知机制，使模型具备自我审视与策略调优能力，集成实时信息检索、气象数据融合、多 Agent 协同推理、领域知识图谱及 RAG 增强检索等技术模块，为农业生产、科研与管理提供全方位智能化支持。",
-    soft_tech_label: "技术要点",
-    soft_tech: "实时信息检索 · 气象数据融合 · 多 Agent 协同推理 · 元认知自反思 · 领域知识图谱 · RAG 增强检索",
-    soft_base: "Qwen3-8B + 大规模 SFT", soft_domain: "智慧农业垂直领域",
+    soft_sub: "Canbal · 农业垂直领域大语言模型",
+    soft_desc: "面向智慧农业的垂直领域大语言模型，以 Qwen3-8B 为基座，经过大规模农业领域指令数据深度优化，支持多源检索与气象数据融合。",
+    soft_more: "技术报告与详情",
     review_group: "学术兼职",
     review_badge: "审稿人",
     review_nca: "Neural Computing and Applications 期刊审稿人",
