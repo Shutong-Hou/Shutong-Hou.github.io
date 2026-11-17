@@ -11,18 +11,15 @@
   - JavaScript 只负责语言切换、明暗主题、导航高亮、页脚年份；语言不写入本地存储，每次打开都是英文，URL 带 #zh 可直接进入中文版。
   - 纯系统字体，不依赖任何外部资源（无 CDN、无 Web Font），离线可用。
   - data-i18n 只加在纯文本元素上，不要加在含子元素的标签上，否则切换会覆盖子元素。
-  - 明暗主题：首次访问跟随系统，点右上角按钮手动切换后记在 localStorage（键名 praxel-theme）。
+  - 明暗主题：默认白天模式；点右上角按钮切到深色后记在 localStorage（键名 praxel-theme），与仓衡页互通。
   改文案：改 HTML 英文文本 + 文件底部 I18N 字典；改配色：改 :root 变量（浅色）与 data-theme="dark" 变量（深色）。
 -->
 <script>
-/* 在首次绘制前确定明暗主题：优先用本地记忆，其次跟随系统，避免深色用户看到闪白 */
+/* 在首次绘制前确定明暗主题：默认白天模式，仅当用户手动选过深色才用深色 */
 (function () {
   var t = null;
   try { t = localStorage.getItem("praxel-theme"); } catch (e) {}
-  if (t !== "light" && t !== "dark") {
-    t = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
-  }
-  document.documentElement.setAttribute("data-theme", t);
+  document.documentElement.setAttribute("data-theme", t === "dark" ? "dark" : "light");
 })();
 </script>
 <style>
@@ -93,7 +90,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   border-bottom:1px solid var(--line);
 }
 .topbar-inner{
-  max-width:1120px;margin:0 auto;padding:0 24px;
+  max-width:1080px;margin:0 auto;padding:0 24px;
   height:56px;display:flex;align-items:center;justify-content:space-between;gap:20px;
 }
 .brand{font-size:15px;font-weight:600;letter-spacing:.01em;white-space:nowrap}
@@ -124,14 +121,14 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
 /* ---------- 双栏骨架 ---------- */
 .layout{
-  max-width:1120px;margin:0 auto;padding:0 24px;
+  max-width:1080px;margin:0 auto;padding:0 24px;
   display:grid;grid-template-columns:280px minmax(0,1fr);gap:64px;align-items:start;
 }
 .side{padding:44px 0 56px;position:sticky;top:56px}
 .main{min-width:0;padding:44px 0 72px}
 
 /* ---------- 左侧信息栏 ---------- */
-.side .name{font-size:23px;font-weight:700;letter-spacing:.01em;line-height:1.3}
+.side .name{font-size:25px;font-weight:700;letter-spacing:0;line-height:1.3}
 .side .name-en{font-size:13px;color:var(--ink-3);letter-spacing:.06em;margin-top:3px}
 .side .role{font-size:14px;color:var(--ink-2);margin-top:14px;line-height:1.65}
 .side .period{
@@ -150,13 +147,13 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .row a.v:hover{color:var(--accent)}
 
 /* ---------- 正文区块 ---------- */
-.sec{margin-bottom:52px;scroll-margin-top:76px}
+.sec{margin-bottom:58px;scroll-margin-top:76px}
 .sec-head{display:flex;align-items:baseline;gap:10px;padding-bottom:10px;border-bottom:1px solid var(--line-strong);margin-bottom:22px}
 .sec-head h2{font-size:17px;font-weight:650;letter-spacing:.01em}
 .sub-head{font-size:14px;font-weight:600;color:var(--ink);margin:26px 0 12px}
 .sub-head:first-of-type{margin-top:0}
 
-.prose{font-size:14.5px;color:var(--ink-2);line-height:1.85}
+.prose{font-size:15px;color:var(--ink-2);line-height:1.9;max-width:74ch}
 .prose + .prose{margin-top:12px}
 .prose strong{font-weight:600;color:var(--ink)}
 
@@ -274,7 +271,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
         <div class="sec-head">
           <h2 data-i18n="about_title">About</h2>
         </div>
-        <p class="prose" data-i18n="about_p1">I am an undergraduate student at the College of Software, Shanxi Agricultural University, on the Embedded Systems track. My research focuses on artificial intelligence and general large language models, with additional interests in neuroscience and interdisciplinary science. I am currently interested in model architectures, instruction tuning, and the construction and optimization of reasoning capabilities, as well as applied AI in vertical domains such as agriculture.</p>
+        <p class="prose" data-i18n="about_p1">I am an undergraduate student at the College of Software, Shanxi Agricultural University, on the Embedded Systems track. I first came to computing through self-study in cybersecurity and penetration testing (2019–2021). My research focuses on artificial intelligence and general large language models, with additional interests in neuroscience and interdisciplinary science. I am currently interested in model architectures, instruction tuning, and the construction and optimization of reasoning capabilities, as well as applied AI in vertical domains such as agriculture.</p>
 
         <p class="sub-head" data-i18n="edu_label">Education</p>
         <div class="edu-item">
@@ -388,7 +385,7 @@ var I18N = {
     side_period: "2025 – Present",
     side_contact: "Contact",
     about_title: "About",
-    about_p1: "I am an undergraduate student at the College of Software, Shanxi Agricultural University, on the Embedded Systems track. My research focuses on artificial intelligence and general large language models, with additional interests in neuroscience and interdisciplinary science. I am currently interested in model architectures, instruction tuning, and the construction and optimization of reasoning capabilities, as well as applied AI in vertical domains such as agriculture.",
+    about_p1: "I am an undergraduate student at the College of Software, Shanxi Agricultural University, on the Embedded Systems track. I first came to computing through self-study in cybersecurity and penetration testing (2019–2021). My research focuses on artificial intelligence and general large language models, with additional interests in neuroscience and interdisciplinary science. I am currently interested in model architectures, instruction tuning, and the construction and optimization of reasoning capabilities, as well as applied AI in vertical domains such as agriculture.",
     edu_label: "Education",
     edu_time: "2025 – Present",
     edu_body: "College of Software, Shanxi Agricultural University",
@@ -431,7 +428,7 @@ var I18N = {
     side_period: "2025 年至今",
     side_contact: "联系方式",
     about_title: "简介",
-    about_p1: "我是山西农业大学软件学院本科生，本科方向为嵌入式系统。主要研究人工智能与通用大语言模型，同时关注神经科学与交叉科学方向的问题。目前的兴趣集中在模型架构、指令微调与推理能力的构建与优化，以及人工智能在农业等垂直领域的落地应用。",
+    about_p1: "我是山西农业大学软件学院本科生，本科方向为嵌入式系统。与计算机的缘分始于 2019–2021 年间对网络安全与渗透测试的自学。主要研究人工智能与通用大语言模型，同时关注神经科学与交叉科学方向的问题。目前的兴趣集中在模型架构、指令微调与推理能力的构建与优化，以及人工智能在农业等垂直领域的落地应用。",
     edu_label: "教育经历",
     edu_time: "2025 年至今",
     edu_body: "山西农业大学 · 软件学院",

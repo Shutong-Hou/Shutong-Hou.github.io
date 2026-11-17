@@ -7,14 +7,11 @@
 <meta name="description" content="Canbal (仓衡大模型) — an agricultural vertical-domain large language model. System architecture and technical report.">
 <script>document.documentElement.classList.add("js");</script>
 <script>
-/* 首屏前确定明暗主题：本地记忆优先，其次跟随系统，避免闪白 */
+/* 首屏前确定明暗主题：默认白天模式，仅当用户手动选过深色才用深色 */
 (function () {
   var t = null;
   try { t = localStorage.getItem("praxel-theme"); } catch (e) {}
-  if (t !== "light" && t !== "dark") {
-    t = (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
-  }
-  document.documentElement.setAttribute("data-theme", t);
+  document.documentElement.setAttribute("data-theme", t === "dark" ? "dark" : "light");
 })();
 </script>
 <!--
