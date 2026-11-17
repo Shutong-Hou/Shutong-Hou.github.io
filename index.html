@@ -164,11 +164,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .edu-item .b em{font-style:normal;color:var(--ink-3);font-size:13px;margin-left:8px}
 
 /* 研究方向 */
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
-.card h3{font-size:14.5px;font-weight:600}
-.card .en{font-size:11.5px;color:var(--ink-3);letter-spacing:.05em;margin-top:3px}
-.card p{font-size:13.5px;color:var(--ink-2);margin-top:9px;line-height:1.75}
+.interests{display:grid;grid-template-columns:1fr 1fr;gap:20px 32px}
+.interests h3{font-size:14.5px;font-weight:600}
+.interests p{font-size:13.5px;color:var(--ink-2);margin-top:5px;line-height:1.75}
 
 /* 成果条目 */
 .entry{padding:16px 0;border-bottom:1px solid var(--line)}
@@ -214,7 +212,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 @media (max-width:640px){
   .topbar-inner{height:auto;padding-top:10px;padding-bottom:10px;flex-wrap:wrap}
   .nav{order:3;width:100%;gap:20px;padding-top:6px}
-  .grid-2{grid-template-columns:1fr}
+  .interests{grid-template-columns:1fr}
   .edu-item{flex-direction:column;gap:2px}
   .edu-item .t{flex:none}
   .sec{margin-bottom:40px}
@@ -286,25 +284,21 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
         <div class="sec-head">
           <h2 data-i18n="research_title">Research Interests</h2>
         </div>
-        <div class="grid-2">
-          <div class="card">
+        <div class="interests">
+          <div>
             <h3 data-i18n="research_ml">Machine Learning &amp; Neural Networks</h3>
-            <p class="en" data-i18n="research_ml_en">机器学习与神经网络</p>
             <p data-i18n="research_ml_desc">Foundations and practice of learning systems: representation learning, optimization, and neural network architectures.</p>
           </div>
-          <div class="card">
+          <div>
             <h3 data-i18n="research_llm">General Large Language Models</h3>
-            <p class="en" data-i18n="research_llm_en">通用大语言模型</p>
             <p data-i18n="research_llm_desc">Focusing on model architectures, instruction tuning, and the construction and optimization of reasoning capabilities.</p>
           </div>
-          <div class="card">
+          <div>
             <h3 data-i18n="research_cv">Computer Vision &amp; 3D</h3>
-            <p class="en" data-i18n="research_cv_en">计算机视觉与三维</p>
             <p data-i18n="research_cv_desc">Exploring visual representation and 3D perception, and how they meet learned models.</p>
           </div>
-          <div class="card">
+          <div>
             <h3 data-i18n="research_inter">Interdisciplinary Science</h3>
-            <p class="en" data-i18n="research_inter_en">交叉科学</p>
             <p data-i18n="research_inter_desc">Advancing the integration of AI with neuroscience, agriculture, life sciences, and other domains.</p>
           </div>
         </div>
@@ -393,13 +387,13 @@ var I18N = {
     edu_body: "College of Software, Shanxi Agricultural University",
     edu_note: "Embedded Systems",
     research_title: "Research Interests",
-    research_ml: "Machine Learning & Neural Networks", research_ml_en: "机器学习与神经网络",
+    research_ml: "Machine Learning & Neural Networks",
     research_ml_desc: "Foundations and practice of learning systems: representation learning, optimization, and neural network architectures.",
-    research_llm: "General Large Language Models", research_llm_en: "通用大语言模型",
+    research_llm: "General Large Language Models",
     research_llm_desc: "Focusing on model architectures, instruction tuning, and the construction and optimization of reasoning capabilities.",
-    research_cv: "Computer Vision & 3D", research_cv_en: "计算机视觉与三维",
+    research_cv: "Computer Vision & 3D",
     research_cv_desc: "Exploring visual representation and 3D perception, and how they meet learned models.",
-    research_inter: "Interdisciplinary Science", research_inter_en: "交叉科学",
+    research_inter: "Interdisciplinary Science",
     research_inter_desc: "Advancing the integration of AI with neuroscience, agriculture, life sciences, and other domains.",
     work_title: "Work",
     papers_group: "Papers",
@@ -437,13 +431,13 @@ var I18N = {
     edu_body: "山西农业大学 · 软件学院",
     edu_note: "嵌入式方向 · 本科在读",
     research_title: "研究方向",
-    research_ml: "机器学习与神经网络", research_ml_en: "Machine Learning & Neural Networks",
+    research_ml: "机器学习与神经网络",
     research_ml_desc: "关注学习系统的基础方法与工程实践：表示学习、优化与神经网络架构。",
-    research_llm: "通用大语言模型", research_llm_en: "General Large Language Models",
+    research_llm: "通用大语言模型",
     research_llm_desc: "关注模型架构、指令微调与推理能力的构建与优化。",
-    research_cv: "计算机视觉与三维", research_cv_en: "Computer Vision & 3D",
+    research_cv: "计算机视觉与三维",
     research_cv_desc: "探索视觉表征与三维感知，及其与学习模型的结合。",
-    research_inter: "交叉科学", research_inter_en: "Interdisciplinary Science",
+    research_inter: "交叉科学",
     research_inter_desc: "推动人工智能与神经科学、农业、生命科学等领域的交叉融合。",
     work_title: "成果",
     papers_group: "论文",
