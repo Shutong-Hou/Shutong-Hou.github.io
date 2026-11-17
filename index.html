@@ -5,6 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shutong Hou · 侯抒彤</title>
 <meta name="description" content="Personal homepage of Shutong Hou. Undergraduate at the College of Software, Shanxi Agricultural University (2025 – Present), Embedded Systems track. Research interests: machine learning, neural networks, and general large language models.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' font-family='Arial' font-weight='700' fill='%232563eb'%3EP%3C/text%3E%3C/svg%3E">
+<meta property="og:title" content="Shutong Hou · 侯抒彤">
+<meta property="og:description" content="Undergraduate in Embedded Systems, Shanxi Agricultural University. Research interests: machine learning, neural networks, and general large language models.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://shutong-hou.github.io/">
 <!--
   极简双栏版：左侧常驻个人信息栏 + 右侧内容正文。
   - 默认语言为英文：HTML 里的默认文本即英文，即使脚本被禁用也是英文页面，且不会出现中英闪烁。
@@ -153,6 +158,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .sub-head{font-size:14px;font-weight:600;color:var(--ink);margin:26px 0 12px}
 .sub-head:first-of-type{margin-top:0}
 
+/* 最新动态 */
+#news{margin-bottom:40px}
+.news-list{list-style:none}
+.news-list li{font-size:14px;color:var(--ink-2);line-height:1.7;padding:3px 0}
+.news-list .d{font-family:var(--mono);font-size:12.5px;color:var(--ink-3);margin-right:10px}
+
 .prose{font-size:15px;color:var(--ink-2);line-height:1.9;max-width:74ch}
 .prose + .prose{margin-top:12px}
 .prose strong{font-weight:600;color:var(--ink)}
@@ -263,6 +274,17 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
     <!-- ========== 右侧：正文 ========== -->
     <div class="main">
+
+      <!-- 最新动态 -->
+      <section class="sec" id="news">
+        <p class="sub-head" data-i18n="news_label">📰 News</p>
+        <ul class="news-list">
+          <li><span class="d">2026</span><span data-i18n="news_1">Ranked 240 of 5,073 teams (top 4.7%) in the Kaggle ARC Prize 2026 · ARC-AGI-3 competition.</span></li>
+          <li><span class="d">2026</span><span data-i18n="news_2">Paper accepted at CAIBDA 2026 with an Oral presentation.</span></li>
+          <li><span class="d">2026</span><span data-i18n="news_3">Released Canbal 1.0, an agricultural vertical-domain large language model.</span></li>
+          <li><span class="d">2026</span><span data-i18n="news_4">Joined Neural Computing and Applications as a reviewer.</span></li>
+        </ul>
+      </section>
 
       <!-- 简介 -->
       <section class="sec" id="about">
@@ -379,6 +401,11 @@ var I18N = {
     side_role: "Shanxi Agricultural University<br>College of Software · Embedded Systems",
     side_period: "2025 – Present",
     side_contact: "Contact",
+    news_label: "📰 News",
+    news_1: "Ranked 240 of 5,073 teams (top 4.7%) in the Kaggle ARC Prize 2026 · ARC-AGI-3 competition.",
+    news_2: "Paper accepted at CAIBDA 2026 with an Oral presentation.",
+    news_3: "Released Canbal 1.0, an agricultural vertical-domain large language model.",
+    news_4: "Joined Neural Computing and Applications as a reviewer.",
     about_title: "👋 About",
     about_p1: "I am an undergraduate student at the College of Software, Shanxi Agricultural University, on the Embedded Systems track. My research centers on machine learning and neural networks, with a particular focus on general large language models — model architectures, instruction tuning, and the construction and optimization of reasoning capabilities. I also explore computer vision and 3D perception, and take a broad interest in interdisciplinary science, including neuroscience and applied AI in vertical domains such as agriculture.",
     about_p2: "My earlier engagement with computing came through self-study in cybersecurity and penetration testing (2019–2021), during which I was active in China's security community.",
@@ -423,6 +450,11 @@ var I18N = {
     side_role: "山西农业大学<br>软件学院 · 嵌入式方向",
     side_period: "2025 年至今",
     side_contact: "联系方式",
+    news_label: "📰 最新动态",
+    news_1: "Kaggle ARC Prize 2026 · ARC-AGI-3 竞赛排名第 240 / 5,073 队（前 4.7%）。",
+    news_2: "论文被 CAIBDA 2026 接收，并作 Oral 报告。",
+    news_3: "发布农业垂直领域大语言模型「仓衡 1.0」。",
+    news_4: "受邀担任 Neural Computing and Applications 期刊审稿人。",
     about_title: "👋 简介",
     about_p1: "我是山西农业大学软件学院本科生，本科方向为嵌入式系统。研究以机器学习与神经网络为主，重点关注通用大语言模型——模型架构、指令微调与推理能力的构建与优化；同时探索计算机视觉与三维感知方向，并对交叉科学保持广泛兴趣，包括神经科学与人工智能在农业等垂直领域的落地应用。",
     about_p2: "在正式入学之前，我与计算机的缘分始于 2019–2021 年间对网络安全与渗透测试的自学，那几年也活跃于国内的网络安全社区。",
