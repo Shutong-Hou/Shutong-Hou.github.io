@@ -259,7 +259,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
       <div class="side-block">
         <p class="label" data-i18n="side_contact">Contact</p>
         <div class="rows">
-          <div class="row"><span class="k">Email</span><a class="v" href="mailto:praxel.cn@gmail.com">praxel.cn@gmail.com</a></div>
+          <div class="row"><span class="k">Email</span><a class="v" id="mailLink" href="#" data-u="praxel.cn" data-d="gmail.com">praxel.cn (at) gmail (dot) com</a></div>
           <div class="row"><span class="k">ORCID</span><a class="v ext" href="https://orcid.org/0009-0006-0643-1225" target="_blank" rel="noopener noreferrer">0009-0006-0643-1225</a></div>
           <div class="row"><span class="k">GitHub</span><a class="v ext" href="https://github.com/Shutong-Hou" target="_blank" rel="noopener noreferrer">Shutong-Hou</a></div>
         </div>
@@ -531,6 +531,11 @@ document.getElementById("themeBtn").addEventListener("click", function () {
 document.getElementById("langBtn").addEventListener("click", function () {
   applyLang(currentLang === "en" ? "zh" : "en");
 });
+/* 邮箱防爬：HTML 源码里不出现 mailto 明文，运行时由脚本拼出真实地址，点击照常可用 */
+(function () {
+  var m = document.getElementById("mailLink");
+  if (m) m.href = "mailto:" + m.getAttribute("data-u") + "@" + m.getAttribute("data-d");
+})();
 document.getElementById("year").textContent = new Date().getFullYear();
 initLang();
 initSpy();
